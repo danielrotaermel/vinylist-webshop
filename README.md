@@ -5,16 +5,35 @@
 Install:
 
 - [node](https://nodejs.org/en/download/)
+
 - [ASP.Net Core](https://www.microsoft.com/net/download/macos)
-- [Postgres](https://www.postgresql.org)
-  Mac `brew cask install postgres`
+
+- [Postgres](https://www.postgresql.org)  
+  Mac `brew cask install postgres`  
+
+  | Host           | localhost              |
+  | -------------- | ---------------------- |
+  | Port           | 5432                   |
+  | User           | your system username   |
+  | Database       | same as user           |
+  | Passwort       | none                   |
+  | Connection URL | postgresql://localhost |
 
 
 
 Start:
 
-- Set environmentvariable`export ASPNETCORE_ENVIRONMENT=Development`
+- Set environment variables
+
+  ```bash
+  # on Windows:
+  set ASPNETCORE_ENVIRONMENT=Development
+  # on Mac/Linux
+  export ASPNETCORE_ENVIRONMENT=Development 
+  ```
+
 - run the app `dotnet run`
+
 - open http://localhost:5000
 
 
@@ -46,3 +65,17 @@ Maxi `webspec65.mi.hdm-stuttgart.de`
 
 
 
+# Agenda
+
+- [ ] authetication
+- [ ] signin/up
+- [ ] userprofile/admin
+- [ ] shopping cart
+- [ ] wishlist
+- [ ] order history
+- [ ] checkout flow
+- [ ] search/filter/categories
+- [ ] product line
+- [ ] product detail
+- [ ] language switcher
+- [ ] logging
