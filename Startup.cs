@@ -1,12 +1,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using webspec3.Database;
 
 namespace webspec3
 {
-    public class Startup
+    public sealed class Startup
     {
         public Startup(IConfiguration configuration)
         {
@@ -18,6 +20,11 @@ namespace webspec3
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<WebSpecDbContext>(options =>
+            {
+                options.UseNpgsql(Configuration.GetConnectionString("General"));
+            });
+
             services.AddMvc();
 
             // In production, the Angular files will be served from this directory

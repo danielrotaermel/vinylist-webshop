@@ -1,3 +1,11 @@
+## Configuration
+
+### Database setup
+
+Copy the file `appsettings.example.json` to `appsettings.json` and adapt the database settings according to your setup.
+
+Create the [database schema](Doc/Schema.sql) within your database.
+
 ## Development Env
 
 **prerequisites**
