@@ -234,3 +234,6 @@ _Pvt_Extensions
 
 # Ignore configuration file
 appsettings.json
+
+# Ignore Idea files
+.idea/
