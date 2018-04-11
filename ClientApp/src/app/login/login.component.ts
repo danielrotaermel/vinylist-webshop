@@ -11,6 +11,6 @@ export class LoginComponent {
       
     }
     public login = () =>{
-      this.router.navigate(['home']);
+      //this.router.navigate(['home']);
     }
 }
