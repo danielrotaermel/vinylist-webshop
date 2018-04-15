@@ -10,6 +10,8 @@
         <input type="password" name="password" id="password" class="form-control" ng-model="password" required />
     </div>
     <div class="form-actions">
-        <button type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-danger">Login</button>
+        <a [routerLink]='["/"]' (click)='collapse()'>
+            <button type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-danger">Login</button>
+        </a>
     </div>
 </form>
