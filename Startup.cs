@@ -1,13 +1,17 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
 using Swashbuckle.AspNetCore.Swagger;
+using System;
 using System.IO;
 using webspec3.Database;
+using webspec3.Services;
+using webspec3.Services.Impl;
 
 namespace webspec3
 {
@@ -29,6 +33,19 @@ namespace webspec3
             });
 
             services.AddMvc();
+            services.AddCors();
+
+            services.AddDistributedMemoryCache();
+
+            // Add support for sessions, default session length is 60 seconds
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(60);
+                options.Cookie.HttpOnly = true;
+
+                // Should be considered for prodcution mode !!!
+                options.Cookie.SameSite = SameSiteMode.None;
+            });
 
             services.AddSwaggerGen(c =>
             {
@@ -47,6 +64,14 @@ namespace webspec3
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+
+            // Register custom services
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.AddTransient<ILoginService, SessionCookieLoginService>();
+
+            services.AddTransient<IUserService, UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,6 +88,15 @@ namespace webspec3
 
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+            // Consider for production mode !!!
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials());
+
+            app.UseSession();
 
             app.UseMvc(routes =>
             {

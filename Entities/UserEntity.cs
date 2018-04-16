@@ -1,21 +1,15 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace webspec3.Entities
 {
     /// <summary>
     /// This database entity represents an user within the webshop
+    /// 
     /// M. Narr
     /// </summary>
-    public sealed class UserEntity
+    public sealed class UserEntity : EntityBase
     {
-        /// <summary>
-        /// The user's id
-        /// </summary>
-        [Column("id")]
-        public Guid Id { get; set; }
-
         /// <summary>
         /// The user's first name
         /// </summary>
@@ -33,16 +27,16 @@ namespace webspec3.Entities
         /// <summary>
         /// The user's billing address' id
         /// </summary>
-        [Required]
-        [Column("billing_address_id")]
-        public Guid BillingAddressId { get; set; }
+        //[Required]
+        //[Column("billing_address_id")]
+        //public Guid BillingAddressId { get; set; }
 
         /// <summary>
         /// The users's address' id
         /// </summary>
-        [Required]
-        [Column("address_id")]
-        public Guid AddressId { get; set; }
+        //[Required]
+        //[Column("address_id")]
+        //public Guid AddressId { get; set; }
 
         /// <summary>
         /// The user's username
