@@ -69,6 +69,7 @@ namespace webspec3
             // Register custom services
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+            services.AddTransient<IPasswordService, HMACSHA512PasswordService>();
             services.AddTransient<ILoginService, SessionCookieLoginService>();
 
             services.AddTransient<IUserService, UserService>();
