@@ -21,8 +21,7 @@ CREATE TABLE users (
     ,last_name   		TEXT     		NOT NULL
 --    ,billing_address_id UUID		    NOT NULL REFERENCES addresses(id)
 --    ,address_id 		UUID    		NOT NULL REFERENCES addresses(id)
-    ,username   		TEXT     		NOT NULL UNIQUE
-    ,email      		TEXT    		NOT NULL
+    ,email      		TEXT    		NOT NULL UNIQUE
     ,password   		TEXT  			NOT NULL
 );
 

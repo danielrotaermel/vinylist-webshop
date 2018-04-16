@@ -39,13 +39,6 @@ namespace webspec3.Entities
         //public Guid AddressId { get; set; }
 
         /// <summary>
-        /// The user's username
-        /// </summary>
-        [Required]
-        [Column("username")]
-        public string Username { get; set; }
-
-        /// <summary>
         /// The user's email
         /// </summary>
         [Required]

@@ -11,27 +11,12 @@ namespace webspec3.Services
     public interface IUserService : IEntityService<UserEntity>
     {
         /// <summary>
-        /// Returns the user with the specified username
-        /// If no such user exists, null will be returned.
-        /// </summary>
-        /// <param name="username">Username</param>
-        /// <returns>The user with the specified username, if such an user exists, else null</returns>
-        Task<UserEntity> GetByUsernameAsync(string username);
-
-        /// <summary>
         /// Returns the user with the specified email.
         /// If no such user exists, null will be returned.
         /// </summary>
         /// <param name="email">Email address</param>
         /// <returns>The user with the specified email, if such an user exists, else null</returns>
         Task<UserEntity> GetByEMailAsync(string email);
-
-        /// <summary>
-        /// Checks whether a user with the provided username exists already
-        /// </summary>
-        /// <param name="username">Username to check</param>
-        /// <returns>True if a user with the provided username exists already, else false</returns>
-        Task<bool> DoesUsernameExistAsync(string username);
 
         /// <summary>
         /// Checks whether a user with the provided email address exists already

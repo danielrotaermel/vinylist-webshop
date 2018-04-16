@@ -25,15 +25,6 @@ namespace webspec3.Services.Impl
             this.logger = logger;
         }
 
-        public async Task<UserEntity> GetByUsernameAsync(string username)
-        {
-            logger.LogDebug($"Attempting to get user with username {username}.");
-
-            return await dbContext.Users
-                .Where(x => x.Username.ToLower() == username.ToLower())
-                .FirstOrDefaultAsync();
-        }
-
         public async Task<UserEntity> GetByEMailAsync(string email)
         {
             logger.LogDebug($"Attempting to get user with email {email}.");
@@ -41,15 +32,6 @@ namespace webspec3.Services.Impl
             return await dbContext.Users
                 .Where(x => x.Email.ToLower() == email.ToLower())
                 .FirstOrDefaultAsync();
-        }
-
-        public async Task<bool> DoesUsernameExistAsync(string username)
-        {
-            logger.LogDebug($"Checking if a user with username {username} exists already.");
-
-            return await dbContext.Users
-                .Where(x => x.Username.ToLower() == username.ToLower())
-                .CountAsync() > 0;
         }
 
         public async Task<bool> DoesEMailExistAsync(string email)

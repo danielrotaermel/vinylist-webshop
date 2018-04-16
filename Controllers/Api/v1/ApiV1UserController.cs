@@ -1,8 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
-using webspec3.Database;
+using webspec3.Controllers.Api.v1.Requests;
+using webspec3.Controllers.Api.v1.Responses;
+using webspec3.Entities;
+using webspec3.Extensions;
+using webspec3.Services;
 
 namespace webspec3.Controllers.Api.v1
 {
@@ -13,30 +17,71 @@ namespace webspec3.Controllers.Api.v1
     [Route("api/v1/users")]
     public sealed class ApiV1UserController : Controller
     {
-        private readonly WebSpecDbContext dbContext;
+        private readonly IPasswordService passwordService;
+        private readonly IUserService userService;
+
         private readonly ILogger logger;
 
-        public ApiV1UserController(WebSpecDbContext dbContext, ILogger<ApiV1UserController> logger)
+        public ApiV1UserController(IPasswordService passwordService, IUserService userService, ILogger<ApiV1UserController> logger)
         {
-            this.dbContext = dbContext;
+            this.passwordService = passwordService;
+            this.userService = userService;
+
             this.logger = logger;
         }
 
-        /// <summary>
-        /// Retrieves a list of all users from the database
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public async Task<IActionResult> GetAllUsers()
+        [HttpPost]
+        public async Task<IActionResult> CreateNew([FromBody]ApiV1UserCreateUpdateRequestModel model)
         {
-            logger.LogDebug("Attempting to get all users.");
+            // Check if model is valid
+            if (model != null && ModelState.IsValid)
+            {
+                logger.LogDebug($"Attempting to create a new user with email {model.Email}.");
 
-            var users = await dbContext.Users
-                .ToListAsync();
+                try
+                {
+                    // Check if a user with this email exists already
+                    if (await userService.DoesEMailExistAsync(model.Email))
+                    {
+                        logger.LogWarning($"Error while creating new user. A user with email {model.Email} exists already.");
 
-            logger.LogInformation($"Found {users.Count} users in the database.");
+                        return BadRequest(new ApiV1ErrorResponseModel($"A user with email {model.Email} exists already."));
+                    }
 
-            return Json(users);
+                    // Add new user to database
+                    var user = new UserEntity
+                    {
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        Email = model.Email,
+                        Password = passwordService.HashPassword(model.Password)
+                    };
+
+                    await userService.AddAsync(user);
+
+                    logger.LogInformation($"Successfully created new user with email {model.Email}.");
+
+
+                    return Ok(new
+                    {
+                        user.Id,
+                        user.FirstName,
+                        user.LastName,
+                        user.Email
+                    });
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, $"Error while handling request: {ex.Message}.");
+                    return StatusCode(500, new ApiV1ErrorResponseModel("Error while handling request."));
+                }
+            }
+            else
+            {
+                logger.LogWarning($"Error while creating new user. Validation failed.");
+
+                return BadRequest(ModelState.ToApiV1ErrorResponseModel());
+            }
         }
     }
 }
