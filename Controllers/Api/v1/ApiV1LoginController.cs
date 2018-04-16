@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using webspec3.Controllers.Api.v1.Requests;
 using webspec3.Controllers.Api.v1.Responses;
 using webspec3.Extensions;
+using webspec3.Filters;
 using webspec3.Services;
 
 namespace webspec3.Controllers.Api.v1
@@ -89,6 +90,7 @@ namespace webspec3.Controllers.Api.v1
         }
 
         [HttpGet("logout")]
+        [LoginRequired]
         public IActionResult Logout()
         {
             loginService.Logout();
