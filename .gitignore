@@ -237,3 +237,6 @@ appsettings.json
 
 # Ignore Idea files
 .idea/
+
+# Ignore Visual Studi Code files
+.vscode/
