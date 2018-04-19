@@ -9,7 +9,12 @@
     "build:ssr": "npm run build -- --app=ssr --output-hashing=media",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "ng:e2e": "ng e2e",
+    "e2e": "npm-run-all -p -r webdriver:start ng:e2e",
+    "postinstall": "npm run webdriver:update",
+    "webdriver-manager": "node ./node_modules/protractor/bin/webdriver-manager",
+    "webdriver:start": "webdriver-manager start",
+    "webdriver:update": "webdriver-manager update"
   },
   "private": true,
   "dependencies": {
@@ -50,6 +55,7 @@
     "karma-coverage-istanbul-reporter": "^1.2.1",
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "npm-run-all": "^4.1.2",
     "protractor": "~5.1.2",
     "ts-node": "~3.2.0",
     "tslint": "~5.7.0",
