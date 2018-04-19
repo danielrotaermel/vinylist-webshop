@@ -1,10 +1,10 @@
 <div>
-  <mat-form-field>
-    <mat-select placeholder="{{'NAVIGATION_BAR.LANG' | translate}}" [(value)]="selected">
-      <mat-option value="de" (click)="changeLang('de')">Deutsch</mat-option>
-      <mat-option value="en" (click)="changeLang('en')">English</mat-option>
-    </mat-select>
-  </mat-form-field>
+  <form>
+    <select (change)="langSelectHandler($event)" [(value)]="selectedLang">
+      <option value="de">Deutsch</option>
+      <option value="en">English</option>
+    </select>
+  </form>
 </div>
 
 
