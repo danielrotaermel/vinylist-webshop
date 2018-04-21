@@ -9,13 +9,11 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { AppComponent } from './app.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
+import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { LoginComponent } from './login/login.component';
-import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
-import { MaterialModule } from './material.module';
 import { LanguageSelectorComponent } from './language-selector/language-selector.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -25,12 +23,11 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
   declarations: [
     AppComponent,
-    NavMenuComponent,
+    NavBarComponent,
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
     LoginComponent,
-    NavigationBarComponent,
     LanguageSelectorComponent
   ],
   imports: [
@@ -50,8 +47,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         useFactory: (HttpLoaderFactory),
         deps: [HttpClient]
       }
-    }),
-    MaterialModule
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
