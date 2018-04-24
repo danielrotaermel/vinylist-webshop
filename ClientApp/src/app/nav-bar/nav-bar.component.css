@@ -1,5 +1,25 @@
-li .glyphicon {
+/* li .glyphicon {
     margin-right: 10px;
+} */
+
+li .navbar-form {
+    margin: 3px 0px 0px 0px;
+}
+
+.search-wrapper {
+    border-radius: 5px;
+    border-color: white;
+    border-width: 1px;
+    border-radius: 5px;
+    border: solid;
+}
+
+.search-element {
+    background-color: #222222;
+    margin: 0px;
+    padding: 0px;
+    box-shadow: none;
+    border-width: 0px;
 }
 
 /* Highlighting rules for nav menu items */
@@ -29,17 +49,17 @@ li.link-active a:focus {
         height: 100%;
     }
     .navbar-header {
-        float: none;
+        float: left;
     }
     .navbar-collapse {
         border-top: 1px solid #444;
         padding: 0px;
     }
     .navbar ul {
-        float: none;
+        float: left;
     }
     .navbar li {
-        float: none;
+        float: left;
         font-size: 15px;
         margin: 6px;
     }
