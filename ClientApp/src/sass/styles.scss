@@ -6,3 +6,13 @@ $fa-font-path: "~font-awesome/fonts/";
 @import './variables';
 @import './mixins';
 
+// resets focus borders
+:focus {
+    box-shadow:none !important;
+    // border:1px solid #ccc !important;
+    border: none !important;
+    outline: none !important;
+    -webkit-box-shadow: none!important;
+    box-shadow: none!important;
+    border-color: !important;
+}
