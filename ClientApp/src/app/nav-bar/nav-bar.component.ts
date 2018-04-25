@@ -7,12 +7,14 @@ import { Component } from '@angular/core';
 })
 export class NavBarComponent {
   isExpanded = false;
+  public isCollapsed = true;
+
 
   collapse() {
-    this.isExpanded = false;
+    this.isCollapsed = true;
   }
 
   toggle() {
-    this.isExpanded = !this.isExpanded;
+    this.isCollapsed = !this.isCollapsed;
   }
 }

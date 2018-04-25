@@ -10,7 +10,7 @@
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="navbar-collapse collapse w-100" [ngbCollapse]="isCollapsed">
+    <div class="navbar-collapse collapse w-100" [ngClass]='{ "show": !isCollapsed }'>
 
         <form class="form-inline w-100 justify-content-center" role="form">
             <div id="search-group" class="input-group">
