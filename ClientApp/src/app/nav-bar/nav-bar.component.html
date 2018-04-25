@@ -1,4 +1,4 @@
-<div class='main-nav'>
+<!-- <div class='main-nav'>
     <div class='navbar navbar-inverse'>
         <div class='navbar-header'>
             <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse' [attr.aria-expanded]='isExpanded' (click)='toggle()'>
@@ -44,4 +44,86 @@
             </ul>
         </div>
     </div>
-</div>
+</div> -->
+
+<nav class="navbar navbar-light navbar-expand-md bg-faded justify-content-center">
+    
+    <a class="navbar-brand d-flex w-50 mr-auto" [routerLink]="['/']" (click)="navbarCollapsed = true">
+        <img src="logo.png" alt="Vinylist">
+    </a>
+
+    <button class="navbar-toggler d-lg-none" type="button" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed"
+        aria-controls="navbarsExampleDefault" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="navbar-collapse collapse w-100" [ngbCollapse]="isCollapsed">
+        
+        <form class="form-inline w-100 justify-content-center" role="form">
+            <div class="form-group has-success has-feedback">
+                <label class="control-label" for="inputSuccess4"></label>
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                <i class="fa fa-search form-control-feedback"></i>
+            </div>
+        </form>
+
+        <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
+             <li class="nav-item" [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+                <a class="nav-link" [routerLink]='["/sign-in"]' (click)='collapse()'>
+                    Sign-in
+                </a>
+            </li>
+            <li class="nav-item" [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+                <a class="nav-link" [routerLink]='["/fetch-data"]' (click)='collapse()'>
+                    <i class="fa fa-heart"></i>
+                </a>
+            </li>
+            <li class="nav-item" [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+                <a class="nav-link" [routerLink]='["/counter"]' (click)='collapse()'>
+                    <i class="fa fa-shopping-cart"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+<!-- </nav>
+
+<nav class="navbar navbar-expand-md navbar-light fixed-top bg-light">
+
+    <a class="navbar-brand" [routerLink]="['/']" (click)="navbarCollapsed = true">
+        <img src="logo.png" alt="Vinylist">
+    </a>
+
+    <button class="navbar-toggler d-lg-none w-50 mr-auto" type="button" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed"
+        aria-controls="navbarsExampleDefault" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" [ngbCollapse]="isCollapsed">
+
+        <form class="form-inline w-100 justify-content-center" role="form">
+            <div class="form-group has-success has-feedback">
+                <label class="control-label" for="inputSuccess4"></label>
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                <i class="fa fa-search form-control-feedback"></i>
+            </div>
+        </form>
+
+        <ul class="navbar-nav ml-auto w-100 justify-content-end">
+            <li class="nav-item" [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+                <a class="nav-link" [routerLink]='["/sign-in"]' (click)='collapse()'>
+                    Sign-in
+                </a>
+            </li>
+            <li class="nav-item" [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+                <a class="nav-link" [routerLink]='["/fetch-data"]' (click)='collapse()'>
+                    <i class="fa fa-heart"></i>
+                </a>
+            </li>
+            <li class="nav-item" [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+                <a class="nav-link" [routerLink]='["/counter"]' (click)='collapse()'>
+                    <i class="fa fa-shopping-cart"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav> -->
