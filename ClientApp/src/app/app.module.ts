@@ -15,6 +15,7 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { LoginComponent } from './login/login.component';
 import { LanguageSelectorComponent } from './language-selector/language-selector.component';
+import { BootstrapThemeComponent } from './bootstrap-theme/bootstrap-theme.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -28,7 +29,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     CounterComponent,
     FetchDataComponent,
     LoginComponent,
-    LanguageSelectorComponent
+    LanguageSelectorComponent,
+    BootstrapThemeComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -39,7 +41,8 @@ export function HttpLoaderFactory(http: HttpClient) {
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'login', component: LoginComponent }
+      { path: 'login', component: LoginComponent },
+      { path: 'theme', component: BootstrapThemeComponent }
     ]),
     TranslateModule.forRoot({
       loader: {
