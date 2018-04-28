@@ -1,16 +1,32 @@
+/**
+ * @author J. Wachendorfer
+ */
+
 import { NgModule } from '@angular/core';
 
 // please put all your necessary modules from angular material in here!
 import {
-  MatSelectModule
+  MatSelectModule,
+  MatToolbarModule,
+  MatIconModule,
+  MatButtonModule,
+  MatInputModule
 } from '@angular/material';
 
 @NgModule({
   imports: [
-    MatSelectModule
+    MatSelectModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatButtonModule,
+    MatInputModule
   ],
   exports: [
-    MatSelectModule
+    MatSelectModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatButtonModule,
+    MatInputModule
   ],
   declarations: []
 })

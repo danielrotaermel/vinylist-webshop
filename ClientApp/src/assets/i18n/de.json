@@ -3,6 +3,10 @@
         "HEADING": "Hier könnten Sie Ihre Webseite sehen!"
     },
     "NAVIGATION_BAR": {
+        "SIGN_IN": "Anmelden",
+        "SEARCH": "Suche"
+    },
+    "LANGUAGE_SWITCHER": {
         "LANG": "Sprache"
     }
 }

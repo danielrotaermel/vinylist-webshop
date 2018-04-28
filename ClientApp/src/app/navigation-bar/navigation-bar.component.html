@@ -1,1 +1,16 @@
-<app-language-switcher></app-language-switcher>
+<mat-toolbar>
+    <img id="logo" src="../assets/vinylist-logo-white.svg" height="40px">
+    <span class="spacing"></span>
+    <span class="search-box">
+        <mat-form-field>
+            <input matInput aria-label="search" placeholder="{{'NAVIGATION_BAR.SEARCH' | translate}}" type="search">
+        </mat-form-field>
+        <button mat-icon-button><i class="material-icons white">search</i></button>
+    </span>
+    
+    <span class="spacing"></span>
+    <a mat-button routerLink="/login">{{'NAVIGATION_BAR.SIGN_IN' | translate}}</a>
+    <a mat-icon-button routerLink="/"><i class="material-icons white">favorite</i></a>
+    <a mat-icon-button routerLink="/"><i class="material-icons white">shopping_cart</i></a>
+    <app-language-switcher></app-language-switcher>
+</mat-toolbar>

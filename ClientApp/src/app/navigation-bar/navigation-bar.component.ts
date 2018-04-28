@@ -1,3 +1,7 @@
+/**
+ * @author J. Wachendorfer
+ */
+
 import { Component, OnInit } from '@angular/core';
 
 @Component({
