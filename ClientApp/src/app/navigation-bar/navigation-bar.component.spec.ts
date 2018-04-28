@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { MockComponent } from '../test-helper/mock.component';
 import { NavigationBarComponent } from './navigation-bar.component';
+
+
 
 describe('NavigationBarComponent', () => {
   let component: NavigationBarComponent;
@@ -8,7 +10,10 @@ describe('NavigationBarComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NavigationBarComponent ]
+      declarations: [ 
+        NavigationBarComponent,
+        MockComponent({ selector: 'app-language-switcher' })
+      ]
     })
     .compileComponents();
   }));
