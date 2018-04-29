@@ -30,9 +30,17 @@ To keep the .json-Files easily understandable and reproducable, please put your 
 
 ## Angular Material
 
-To get nice results quickly and without writing endless complicated css-Files, we can use [Angular Material](https://material.angular.io/). You can search the website for various [Components](https://material.angular.io/components/categories) and just add the needed imports in the `material.module.ts` file, which is imported into the `app.module.ts`.
+To get nice results quickly and without writing endless complicated css-Files, we can use [Angular Material](https://material.angular.io/). You can search the website for various [Components](https://material.angular.io/components/categories) and just add the needed imports in the `angular-material/material.module.ts` file, which is imported into the `app.module.ts`.
 
 Just take a look at the API-Section of each component to determine which module you need to import.
+
+As some material components aren't styleable within your component's scss-file, you may need to add some styling directly into `scss/styles.scss` and mark it with an important flag. 
+
+## Coloring
+
+For the main coloring you can use the custom theme (`scss/custom-theme.scss`), where the primary, accent and warn color is defined. For other fixed color variables, please use `scss/_variables.scss` to add your color. Also check this file before declaring another color randomly, as it may already exist a very similar color which you can use instead.
+
+If you want to use some of the color variables of the theme or `_variables.scss`, you have to import the `styles` file in your component's scss file via `@import '[...]/sass/styles';`
 
 ## Further help
 

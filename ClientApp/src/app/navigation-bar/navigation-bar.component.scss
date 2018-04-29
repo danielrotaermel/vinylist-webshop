@@ -1,3 +1,33 @@
-div {
-    margin: 20px;
+@import '../../sass/styles';
+
+mat-toolbar {
+    background: $background !important;
+}
+
+app-language-switcher {
+    font-size: 12pt;
+    padding-top: 10px;
+}
+
+mat-form-field {
+    font-size: 12pt;
+    padding-top: 10px;
+}
+
+.material-icons.white { 
+    color: white;
+}
+
+.spacing {
+    flex: 1 1 auto;
+}
+
+a {
+    text-decoration:none;
+    font-size: 12pt;
+    color: $font-grey;
+}
+
+.placeholder {
+    color:$font-grey;
 }

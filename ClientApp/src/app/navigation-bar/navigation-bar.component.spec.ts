@@ -1,41 +1,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Injector } from '@angular/core';
+import { MockComponent } from '../test-helper/mock.component';
 import { NavigationBarComponent } from './navigation-bar.component';
-import { TranslateService, TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { MatSelectModule } from '@angular/material';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
 
-let translations: any = {"TESTING": "Ich teste die Komponente"};
 
-class FakeLoader implements TranslateLoader {
-  getTranslation(lang: string): Observable<any> {
-    return Observable.of(translations);
-  }
-}
 
 describe('NavigationBarComponent', () => {
   let component: NavigationBarComponent;
-  let translate: TranslateService;
   let fixture: ComponentFixture<NavigationBarComponent>;
 
-  beforeEach(() => {
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NavigationBarComponent ],
-      imports: [
-        TranslateModule.forRoot({
-          loader: {provide: TranslateLoader, useClass: FakeLoader}
-        }),
-        MatSelectModule,
-        BrowserAnimationsModule
-      ],
-      providers: [ NavigationBarComponent ]
-    });
-    // inject both the component and the dependent service.
-    component = TestBed.get(NavigationBarComponent);
-    translate = TestBed.get(TranslateService);
-  });
+      declarations: [ 
+        NavigationBarComponent,
+        MockComponent({ selector: 'app-language-switcher' })
+      ]
+    })
+    .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(NavigationBarComponent);
@@ -45,16 +26,5 @@ describe('NavigationBarComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should use EN', () => {
-    translate.use('en');
-    expect(component.getLang()).toBe('en');
-  });
-
-  it('should change language to DE', () => {
-    translate.use('en');
-    component.changeLang('de');
-    expect(component.getLang()).toBe('de');
   });
 });

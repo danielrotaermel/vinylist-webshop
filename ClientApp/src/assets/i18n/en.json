@@ -3,6 +3,10 @@
         "HEADING": "It could also be an english website!"
     },
     "NAVIGATION_BAR": {
+        "SIGN_IN": "Sign in",
+        "SEARCH": "Search"
+    },
+    "LANGUAGE_SWITCHER": {
         "LANG": "Language"
     }
 }

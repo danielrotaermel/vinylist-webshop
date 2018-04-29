@@ -1,10 +1,24 @@
-<div>
-  <mat-form-field>
-    <mat-select placeholder="{{'NAVIGATION_BAR.LANG' | translate}}" [(value)]="selected">
-      <mat-option value="de" (click)="changeLang('de')">Deutsch</mat-option>
-      <mat-option value="en" (click)="changeLang('en')">English</mat-option>
-    </mat-select>
-  </mat-form-field>
-</div>
+<mat-toolbar>
+    <img id="logo" src="../assets/vinylist-logo-white.svg" height="40px">
 
+    <span class="spacing"></span>
 
+    <span class="search-box">
+        <mat-form-field>
+            <input matInput aria-label="search" type="search">
+            <mat-placeholder class="placeholder">{{'NAVIGATION_BAR.SEARCH' | translate}}</mat-placeholder>
+        </mat-form-field>
+        <button mat-icon-button><i class="material-icons white">search</i></button>
+    </span>
+    
+    <span class="spacing"></span>
+
+    <a mat-button routerLink="/login">{{'NAVIGATION_BAR.SIGN_IN' | translate}}</a>
+
+    <!-- routerLink default set to /, as long there isn't a defined route for it -->
+    <a mat-icon-button routerLink="/"><i class="material-icons white">favorite</i></a>
+    <a mat-icon-button routerLink="/"><i class="material-icons white">shopping_cart</i></a>
+
+    <!-- language-switcher can be moved to some other place if wished so -->
+    <app-language-switcher></app-language-switcher>
+</mat-toolbar>
