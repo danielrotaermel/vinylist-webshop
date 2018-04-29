@@ -2,5 +2,36 @@
 @import './variables';
 @import './mixins';
 
-// material theme
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+html, 
+body {
+    height: 100%;
+}
+
+body {
+    background: -moz-linear-gradient(top, $background 75%, $background-dark 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, $background 75%, $background-dark 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, $background 75%,$background-dark 100%);
+    color: $font;
+    font-size: 12pt;
+    font-family: Arial, Helvetica, sans-serif;
+    width:75%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+// some styling has to be done here, as it isn't changeable in the component's scss file
+.mat-select-content {
+    background: $dark-grey !important;
+}
+
+mat-option {
+    color: $font-grey !important;
+
+    .mat-selected {
+        color: $font !important;
+    }
+}
+
+.mat-select-value {
+    color:$font-grey !important;
+}

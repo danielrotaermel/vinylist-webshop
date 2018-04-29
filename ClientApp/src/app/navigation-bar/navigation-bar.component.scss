@@ -1,14 +1,16 @@
+@import '../../sass/styles';
+
 mat-toolbar {
-    padding: 20px;
+    background: $background !important;
 }
 
 app-language-switcher {
-    font-size: 10pt;
+    font-size: 12pt;
     padding-top: 10px;
 }
 
 mat-form-field {
-    font-size: 10pt;
+    font-size: 12pt;
     padding-top: 10px;
 }
 
@@ -22,4 +24,10 @@ mat-form-field {
 
 a {
     text-decoration:none;
+    font-size: 12pt;
+    color: $font-grey;
+}
+
+.placeholder {
+    color:$font-grey;
 }
