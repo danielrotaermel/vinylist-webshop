@@ -1,3 +1,6 @@
+// Import theming functions
+@import '~@angular/material/theming';
+
 $background-dark: #646464;
 $background: #747474;
 
@@ -6,3 +9,6 @@ $font-grey: #ccc;
 
 $dark-grey: #555;
 $darker-grey: #484848;
+
+// focus color 
+$focus: mat-color($mat-yellow, 500);

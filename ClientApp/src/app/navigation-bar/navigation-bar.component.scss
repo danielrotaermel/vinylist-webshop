@@ -4,18 +4,8 @@ mat-toolbar {
     background: $background !important;
 }
 
-app-language-switcher {
-    font-size: 12pt;
-    padding-top: 10px;
-}
-
-mat-form-field {
-    font-size: 12pt;
-    padding-top: 10px;
-}
-
 .material-icons.white { 
-    color: white;
+    color: $font;
 }
 
 .spacing {
@@ -28,6 +18,53 @@ a {
     color: $font-grey;
 }
 
-.placeholder {
-    color:$font-grey;
+svg-icon {
+    fill: $font !important;
+    transition: 300ms;
+    transition-timing-function: ease-in-out;
+    -webkit-transition: 300ms;
+    -webkit-transition-timing-function: ease-in-out;
+}
+
+svg-icon:hover#logo {
+    fill: $focus !important;
+    // background-color: red !important;
+}
+
+.search-box>input[type="search"] {
+    // reset appearance
+    margin: none !important;
+    appearance: none;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    font-size: 16px;
+    
+    // styling
+    border: 1px solid $font;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0);
+    padding: .5em;
+    color: $font;
+    caret-color: $focus;
+    transition: 300ms;
+    transition-timing-function: ease-in-out;
+    -webkit-transition: 300ms;
+    -webkit-transition-timing-function: ease-in-out;
+}
+
+input::placeholder {
+    margin: 0px;
+    padding-left: 0px;
+    color: $font;
+}
+
+// focus styling
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+    border: 1px solid;
+    border-color: $focus !important;
 }
