@@ -90,7 +90,7 @@ Maxi `webspec65.mi.hdm-stuttgart.de`
 
 # Agenda
 
-- [ ] authetication
+- [ ] authentication
 - [ ] signin/up
 - [ ] userprofile/admin
 - [ ] shopping cart
