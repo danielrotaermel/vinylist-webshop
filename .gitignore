@@ -240,3 +240,4 @@ appsettings.json
 
 # Ignore Visual Studi Code files
 .vscode/
+appsettings.json
