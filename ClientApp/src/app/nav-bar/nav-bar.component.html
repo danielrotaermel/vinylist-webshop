@@ -14,7 +14,7 @@
 
         <form class="form-inline w-100 justify-content-center" role="form">
             <div id="search-group" class="input-group">
-                <input class="form-control border-right-0" type="text" placeholder="Search" aria-label="Search">
+                <input class="form-control border-right-0" type="text" placeholder="{{'NAVIGATION_BAR.SEARCH' | translate}}" aria-label="Search">
                 <div class="input-group-append">
                     <span class="input-group-text bg-white border-left-0">
                             <i class="fa fa-search form-control-feedback"></i>
@@ -26,7 +26,7 @@
         <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
             <li class="nav-item ml-4" [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
                 <a class="nav-link" [routerLink]='["/sign-in"]' (click)='collapse()'>
-                    Sign-in
+                    {{'NAVIGATION_BAR.SIGN_IN' | translate}}
                 </a>
             </li>
             
