@@ -1,6 +1,8 @@
 <mat-toolbar>
     <img id="logo" src="../assets/vinylist-logo-white.svg" height="40px">
+
     <span class="spacing"></span>
+
     <span class="search-box">
         <mat-form-field>
             <input matInput aria-label="search" type="search">
@@ -10,8 +12,13 @@
     </span>
     
     <span class="spacing"></span>
+
     <a mat-button routerLink="/login">{{'NAVIGATION_BAR.SIGN_IN' | translate}}</a>
+
+    <!-- routerLink default set to /, as long there isn't a defined route for it -->
     <a mat-icon-button routerLink="/"><i class="material-icons white">favorite</i></a>
     <a mat-icon-button routerLink="/"><i class="material-icons white">shopping_cart</i></a>
+
+    <!-- language-switcher can be moved to some other place if wished so -->
     <app-language-switcher></app-language-switcher>
 </mat-toolbar>
