@@ -1,7 +1,8 @@
 @import '../../sass/styles';
 
-mat-toolbar {
+.navbar {
     background: $background !important;
+    padding-top: 10px;
 }
 
 .material-icons.white { 
@@ -31,7 +32,14 @@ svg-icon:hover#logo {
     // background-color: red !important;
 }
 
-.search-box>input[type="search"] {
+.search-box {
+}
+
+#search-input {
+}
+
+// .search-box>input[type="search"] 
+#search-input {
     // reset appearance
     margin: none !important;
     appearance: none;
