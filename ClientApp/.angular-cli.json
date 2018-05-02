@@ -19,7 +19,9 @@
       "prefix": "app",
       "styles": [
         "sass/styles.scss",
-        "sass/custom-theme.scss"
+        "sass/custom-theme.scss",
+        "../node_modules/flexboxgrid/css/flexboxgrid.min.css",
+        "../node_modules/flexboxgrid-helpers/dist/flexboxgrid-helpers.min.css"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",

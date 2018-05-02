@@ -1,24 +1,34 @@
-<mat-toolbar>
-    <img id="logo" src="../assets/vinylist-logo-white.svg" height="40px">
+<div class="navbar row between-xs">
 
-    <span class="spacing"></span>
+    <a class="col-lg-4 col-xs-12 start-lg center-xs" id="home" routerLink="/">
+        <svg-icon id="logo" src="../assets/vinylist-logo.svg" [stretch]="true" [stretch]="true" [svgStyle]="{'width.px':170,'padding.px':1,'margin.px':3}">
+        </svg-icon>
+    </a>
 
-    <span class="search-box">
-        <mat-form-field>
-            <input matInput aria-label="search" type="search">
-            <mat-placeholder class="placeholder">{{'NAVIGATION_BAR.SEARCH' | translate}}</mat-placeholder>
-        </mat-form-field>
-        <button mat-icon-button><i class="material-icons white">search</i></button>
-    </span>
-    
-    <span class="spacing"></span>
+    <div class="search-box col-lg-4 col-xs-12 start-xs center-lg">
+        <input class="col-xs-12 col-sm-12 col-lg-10" style='width:100%' id="search-input" aria-label="search" type="search" placeholder="{{'NAVIGATION_BAR.SEARCH' | translate}}">
+        <button class="hidden-xs hidden-sm hidden-md col-sm-1" mat-icon-button>
+            <i class="material-icons white">search</i>
+        </button>
+    </div>
 
-    <a mat-button routerLink="/login">{{'NAVIGATION_BAR.SIGN_IN' | translate}}</a>
+    <div class="col-lg-4 col-xs-12 end-lg start-xs">
+        <div class="row between-xs end-lg">
+            <div class="col-xs-6 col-sm-6 col-lg-6 end-lg">
+                <a mat-button routerLink="/login">{{'NAVIGATION_BAR.SIGN_IN' | translate}}</a>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-lg-6 end-xs end-lg">
+                <!-- routerLink default set to /, as long there isn't a defined route for it -->
+                <a mat-icon-button routerLink="/">
+                    <i class="material-icons white">favorite</i>
+                </a>
+                <a mat-icon-button routerLink="/">
+                    <i class="material-icons white">shopping_cart</i>
+                </a>
+            </div>
+        </div>
 
-    <!-- routerLink default set to /, as long there isn't a defined route for it -->
-    <a mat-icon-button routerLink="/"><i class="material-icons white">favorite</i></a>
-    <a mat-icon-button routerLink="/"><i class="material-icons white">shopping_cart</i></a>
-
-    <!-- language-switcher can be moved to some other place if wished so -->
-    <app-language-switcher></app-language-switcher>
-</mat-toolbar>
+        <!-- language-switcher can be moved to some other place if wished so -->
+        <!-- <app-language-switcher></app-language-switcher> -->
+    </div>
+</div>

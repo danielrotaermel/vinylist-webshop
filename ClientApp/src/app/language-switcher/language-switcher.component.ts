@@ -12,6 +12,12 @@ import { TranslateService } from '@ngx-translate/core';
 export class LanguageSwitcherComponent implements OnInit {
   constructor(private translate: TranslateService) { }
 
+    /**
+   * currently selected language
+   * needed as placeholder of the select view
+   */
+  selected = this.getLang();
+
   // function to change the language
   changeLang(lang: string) {
     this.translate.use(lang);
@@ -20,12 +26,6 @@ export class LanguageSwitcherComponent implements OnInit {
   getLang() {
     return this.translate.currentLang;
   }
-  
-  /**
-   * currently selected language
-   * needed as placeholder of the select view
-   */
-  selected = this.getLang();
 
   ngOnInit() {
   }
