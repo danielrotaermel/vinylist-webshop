@@ -2,6 +2,10 @@
 @import './variables';
 @import './mixins';
 
+// local icon fonts
+$material-icons-font-path: '~material-icons/iconfont/';
+@import '~material-icons/iconfont/material-icons.scss';
+
 html, 
 body {
     height: 100%;

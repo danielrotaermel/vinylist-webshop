@@ -5,8 +5,8 @@
     padding-top: 10px;
 }
 
-.material-icons.white { 
-    color: $font;
+.mat-icon { 
+    color: $font !important;
 }
 
 .spacing {
@@ -76,3 +76,14 @@ button:focus {
     border: 1px solid;
     border-color: $focus !important;
 }
+
+@media (max-width: 1200px) {
+    /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
+    .navbar > div {
+      margin-bottom: 10px;
+    }
+    
+    .navbar>div:last-child {
+      margin-bottom: 0px !important;
+    }
+  }

@@ -1,9 +1,11 @@
 <div class="navbar row between-xs">
 
-    <a class="col-lg-4 col-xs-12 start-lg center-xs" id="home" routerLink="/">
-        <svg-icon id="logo" src="../assets/vinylist-logo.svg" [stretch]="true" [stretch]="true" [svgStyle]="{'width.px':170,'padding.px':1,'margin.px':3}">
-        </svg-icon>
-    </a>
+    <div class="col-lg-4 col-xs-12 start-lg center-xs">
+        <a id="home" routerLink="/">
+            <svg-icon id="logo" src="../assets/vinylist-logo.svg" [stretch]="true" [stretch]="true" [svgStyle]="{'width.px':170,'padding.px':1,'margin.px':3}">
+            </svg-icon>
+        </a>
+    </div>
 
     <div class="search-box col-lg-4 col-xs-12 start-xs center-lg">
         <input class="col-xs-12 col-sm-12 col-lg-10" style='width:100%' id="search-input" aria-label="search" type="search" placeholder="{{'NAVIGATION_BAR.SEARCH' | translate}}">
@@ -20,10 +22,10 @@
             <div class="col-xs-6 col-sm-6 col-lg-6 end-xs end-lg">
                 <!-- routerLink default set to /, as long there isn't a defined route for it -->
                 <a mat-icon-button routerLink="/">
-                    <i class="material-icons white">favorite</i>
+                    <mat-icon aria-label="favorite">favorite</mat-icon>
                 </a>
                 <a mat-icon-button routerLink="/">
-                    <i class="material-icons white">shopping_cart</i>
+                    <mat-icon aria-label="shopping_cart">shopping_cart</mat-icon>
                 </a>
             </div>
         </div>
