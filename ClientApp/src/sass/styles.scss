@@ -1,10 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
+
+
+/* global imports */
+
 @import './variables';
 @import './mixins';
+@import './custom-theme';
 
 // local icon fonts
 $material-icons-font-path: '~material-icons/iconfont/';
 @import '~material-icons/iconfont/material-icons.scss';
+
+// flexbox
+@import '~flexboxgrid-helpers/dist/flexboxgrid-helpers.min.css';
+@import '~flexboxgrid/css/flexboxgrid.min.css';
+
+
+/* global styles */
 
 html, 
 body {
