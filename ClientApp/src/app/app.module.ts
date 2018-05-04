@@ -14,6 +14,7 @@ import { LoginComponent } from './login/login.component';
 import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
 import { MaterialModule } from './angular-material/material.module';
 import { LanguageSwitcherComponent } from './language-switcher/language-switcher.component';
+import { FooterComponent } from './footer/footer.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -25,6 +26,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     LoginComponent,
     NavigationBarComponent,
     LanguageSwitcherComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

@@ -1,6 +1,55 @@
-@media (max-width: 767px) {
-  /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
-  .body-content {
-    padding-top: 50px;
+// @media (max-width: 767px) {
+//   /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
+//   .body-content {
+//     padding-top: 50px;
+//   }
+// }
+
+$footer-height: 100px;
+
+// .page-wrap {
+//   min-height: 100%;
+//   /* equal to footer height */
+//   margin-bottom: -$footer-height; 
+// }
+// .page-wrap:after {
+//   content: "";
+//   display: block;
+// }
+// .site-footer, .page-wrap:after {
+//   height: $footer-height; 
+// }
+
+
+footer {
+  height: $footer-height; 
+}
+
+/*
+ * Sticky Footer Styles
+ */
+ .all-wrap {
+  min-height: 100vh;
+}
+ 
+.page-wrap {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content {
+  flex: 1;
+}
+ 
+/*
+ * Make the Component injected by Router Outlet full height:
+ */
+main {
+  display: flex;
+  flex-direction: column;
+  > *:not(router-outlet) {
+    flex: 1;
+    display: block;
   }
 }

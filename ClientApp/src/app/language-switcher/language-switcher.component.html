@@ -1,7 +1,7 @@
 <mat-form-field>
-  <mat-select [(value)]="selected">
+  <mat-select [(value)]="selected" disableOptionsCentering>
     <mat-option value="de" (click)="changeLang('de')">Deutsch</mat-option>
     <mat-option value="en" (click)="changeLang('en')">English</mat-option>
   </mat-select>
-  <mat-placeholder class="placeholder">{{'LANGUAGE_SWITCHER.LANG' | translate}}</mat-placeholder>
+  <!-- <mat-placeholder class="placeholder">{{'LANGUAGE_SWITCHER.LANG' | translate}}</mat-placeholder> -->
 </mat-form-field>
