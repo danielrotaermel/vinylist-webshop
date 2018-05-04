@@ -19,7 +19,7 @@ namespace webspec3.Filters
 
         /// <summary>
         /// Additional helper class.
-        /// We need this to get access to DI
+        /// We need this to get access to DI.
         /// 
         /// M. Narr
         /// </summary>

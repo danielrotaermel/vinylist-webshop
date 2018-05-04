@@ -30,7 +30,16 @@ namespace webspec3.Controllers.Api.v1
             this.logger = logger;
         }
 
+        /// <summary>
+        /// Creates/registers a new user
+        /// </summary>
+        /// <response code="200">User successfully created</response>
+        /// <response code="400">An user with the provided data exists already/Invalid model</response>
+        /// <response code="500">An internal error occurred</response>
         [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 400)]
+        [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
         public async Task<IActionResult> CreateNew([FromBody]ApiV1UserCreateUpdateRequestModel model)
         {
             // Check if model is valid

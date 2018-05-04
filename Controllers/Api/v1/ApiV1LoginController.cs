@@ -34,7 +34,18 @@ namespace webspec3.Controllers.Api.v1
             this.logger = logger;
         }
 
+        /// <summary>
+        /// Logs in the specified user
+        /// </summary>
+        /// <response code="200">Successfully logged in</response>
+        /// <response code="400">Invalid request model</response>
+        /// <response code="403">Password and/or username was incorrect</response>
+        /// <response code="500">An internal error occurred</response>
         [HttpPost("login")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 400)]
+        [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 403)]
+        [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
         public async Task<IActionResult> Login([FromBody]ApiV1LoginRequestModel model)
         {
             if (model != null && ModelState.IsValid)
@@ -89,8 +100,13 @@ namespace webspec3.Controllers.Api.v1
             }
         }
 
+        /// <summary>
+        /// Logs out the current user
+        /// </summary>
+        /// <response code="200">Successfully logged out</response>
         [HttpGet("logout")]
         [LoginRequired]
+        [ProducesResponseType(200)]
         public IActionResult Logout()
         {
             loginService.Logout();
