@@ -5,7 +5,6 @@ import { TranslateService, TranslateLoader, TranslateModule } from '@ngx-transla
 import { MatSelectModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
 
 let translations: any = {"TESTING": "Ich teste die Komponente"};
 
