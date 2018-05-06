@@ -8,6 +8,7 @@ using Microsoft.Extensions.PlatformAbstractions;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.IO;
+using webspec3.Core.I18n;
 using webspec3.Database;
 using webspec3.Services;
 using webspec3.Services.Impl;
@@ -71,6 +72,39 @@ namespace webspec3
             services.AddTransient<IPasswordService, HMACSHA512PasswordService>();
             services.AddTransient<ILoginService, SessionCookieLoginService>();
 
+            services.AddTransient<II18nService, I18nService>(serviceProvider =>
+            {
+                var service = new I18nService();
+
+                service.SupportedCurrencies.Add(new SupportedCurrency
+                {
+                    Code = "EUR",
+                    Title = "Euros"
+                });
+
+                service.SupportedCurrencies.Add(new SupportedCurrency
+                {
+                    Code = "USD",
+                    Title = "US Dollars"
+                });
+
+                service.SupportedLanguages.Add(new SupportedLanguage
+                {
+                    Code = "de_DE",
+                    Title = "German"
+                });
+
+                service.SupportedLanguages.Add(new SupportedLanguage
+                {
+                    Code = "en_US",
+                    Title = "English"
+                });
+
+                return service;
+            });
+
+
+            services.AddTransient<IProductService, ProductService>();
             services.AddTransient<IUserService, UserService>();
         }
 
