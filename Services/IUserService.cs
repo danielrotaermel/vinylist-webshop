@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using webspec3.Entities;
 
 namespace webspec3.Services
@@ -24,5 +25,13 @@ namespace webspec3.Services
         /// <param name="email">Email address to check</param>
         /// <returns>True if a user with the provided email exists already, else false</returns>
         Task<bool> DoesEMailExistAsync(string email);
+
+        /// <summary>
+        /// Returns if the current user has Admin rights or not
+        /// </summary>
+        /// <param name="userEntity">The User</param>
+        /// <returns>Boolean indicating if the user has admin rights</returns>
+        /// 
+        bool IsUserAdmin(UserEntity userEntity);
     }
 }

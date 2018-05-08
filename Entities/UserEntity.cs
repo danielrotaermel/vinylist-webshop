@@ -51,5 +51,12 @@ namespace webspec3.Entities
         [Required]
         [Column("password")]
         public string Password { get; set; }
+
+        /// <summary>
+        /// Indicates if the user is admin
+        /// </summary>
+        [Required]
+        [Column("is_admin")]
+        public bool IsAdmin { get; set; }
     }
 }

@@ -19,7 +19,8 @@ namespace webspec3.Services.Impl
         private readonly WebSpecDbContext dbContext;
         private readonly ILogger logger;
 
-        public UserService(WebSpecDbContext dbContext, ILogger<UserService> logger) : base(dbContext, dbContext.Users, logger, entityName)
+        public UserService(WebSpecDbContext dbContext, ILogger<UserService> logger) : base(dbContext, dbContext.Users,
+            logger, entityName)
         {
             this.dbContext = dbContext;
             this.logger = logger;
@@ -39,8 +40,15 @@ namespace webspec3.Services.Impl
             logger.LogDebug($"Checking if a user with email {email} exists already.");
 
             return await dbContext.Users
-                .Where(x => x.Email.ToLower() == email.ToLower())
-                .CountAsync() > 0;
+                       .Where(x => x.Email.ToLower() == email.ToLower())
+                       .CountAsync() > 0;
+        }
+
+        public bool IsUserAdmin(UserEntity userEntity)
+        {
+            logger.LogDebug($"Checking if the user with id {userEntity.Id} has admin rights");
+
+            return userEntity.IsAdmin;
         }
     }
 }
