@@ -13,7 +13,7 @@ namespace webspec3.Controllers.Api.v1
     /// <summary>
     /// Controller providing api access to products
     /// 
-    /// M. Narr
+    /// M. Narr, J. Mauthe
     /// </summary>
     [Route("api/v1/products")]
     public sealed class ApiV1ProductController : Controller
@@ -52,7 +52,7 @@ namespace webspec3.Controllers.Api.v1
         /// <response code="404">Product with the specified id not found</response>
         /// <response code="500">An internal error occurred</response>
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById([FromRoute]Guid id)
+        public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             logger.LogDebug($"Attempting to get consolidated product with id {id}.");
 
@@ -76,11 +76,12 @@ namespace webspec3.Controllers.Api.v1
         /// <response code="400">Invalid model</response>
         /// <response code="500">An internal error occurred</response>
         [HttpPost]
-        public async Task<IActionResult> CreateNew([FromBody]ApiV1ProductCreateUpdateRequestModel model)
+        public async Task<IActionResult> CreateNew([FromBody] ApiV1ProductCreateUpdateRequestModel model)
         {
             if (model != null && ModelState.IsValid)
             {
-                logger.LogDebug($"Attempting to add new product with {model.Prices.Count} prices and {model.Translations.Count} translations.");
+                logger.LogDebug(
+                    $"Attempting to add new product with {model.Prices.Count} prices and {model.Translations.Count} translations.");
 
                 var productEntity = new ProductEntity
                 {
@@ -117,6 +118,54 @@ namespace webspec3.Controllers.Api.v1
             else
             {
                 logger.LogWarning($"Erorr while adding product. Validation failed");
+
+                return BadRequest(ModelState.ToApiV1ErrorResponseModel());
+            }
+        }
+        
+        //TODO only as admin
+        /// <summary>
+        /// Updates an existing product
+        /// </summary>
+        /// <param name="productId">Id of the product to update</param>
+        /// <param name="model">Product to update</param>
+        [HttpPut("{productId}")]
+        public async Task<IActionResult> Update([FromRoute] Guid productId,
+            [FromBody] ApiV1ProductCreateUpdateRequestModel model)
+        {
+            // Check if model is valid
+            if (model != null && ModelState.IsValid)
+            {
+                logger.LogDebug($"Attempting to update product with id {productId}.");
+
+                try
+                {
+                    // Get product
+                    var product = await productService.GetByIdAsync(productId);
+
+                    if (product == null)
+                    {
+                        logger.LogWarning($"A product with id {productId} doesnt exist.");
+                        return BadRequest(ModelState.ToApiV1ErrorResponseModel());
+                    }
+
+                    product.Artist = model.Artist;
+                    
+                    await productService.UpdateAsync(product);
+
+                    logger.LogInformation($"Successfully updated product with id {model.Id}.");
+
+                    return Ok();
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, $"Error while handling request: {ex.Message}.");
+                    return BadRequest(ModelState.ToApiV1ErrorResponseModel());
+                }
+            }
+            else
+            {
+                logger.LogWarning($"Error while updating the product. Validation failed.");
 
                 return BadRequest(ModelState.ToApiV1ErrorResponseModel());
             }

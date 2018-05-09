@@ -12,7 +12,7 @@ namespace webspec3.Services.Impl
     /// <summary>
     /// Implementation of <see cref="IProductService"/>
     /// 
-    /// M. Narr
+    /// M. Narr, J. Mauthe
     /// </summary>
     public sealed class ProductService : IProductService
     {
