@@ -87,14 +87,14 @@ namespace webspec3.Controllers.Api.v1
                     Artist = model.Artist,
                     CategoryId = model.CategoryId,
                     Label = model.Label,
-                    ReleaseDate = model.ReleaseDate,
+                    ReleaseDate = model.ReleaseDate
                 };
 
                 var productPriceEntities = model.Prices
                     .Select(x => new ProductPriceEntity
                     {
                         CurrencyId = x.CurrencyId,
-                        Price = x.Price,
+                        Price = x.Price
                     })
                     .ToList();
 

@@ -32,7 +32,8 @@ namespace webspec3.Services.Impl
             throw new NotSupportedException($"Method AddAsync(ProductEntity) is not supported in ProductService.");
         }
 
-        public async Task AddAsync(ProductEntity entity, List<ProductPriceEntity> priceEntities, List<ProductTranslationEntity> translationEntities)
+        public async Task AddAsync(ProductEntity entity, List<ProductPriceEntity> priceEntities,
+            List<ProductTranslationEntity> translationEntities)
         {
             logger.LogDebug($"Attempting to add new product");
 
@@ -74,7 +75,6 @@ namespace webspec3.Services.Impl
                 await dbContext.SaveChangesAsync();
 
                 transaction.Commit();
-                await dbContext.SaveChangesAsync();
             }
         }
 
@@ -90,7 +90,8 @@ namespace webspec3.Services.Impl
             using (var transaction = await dbContext.Database.BeginTransactionAsync())
             {
                 dbContext.ProductPrices.RemoveRange(dbContext.ProductPrices.Where(x => x.ProductId == entityId));
-                dbContext.ProductTranslations.RemoveRange(dbContext.ProductTranslations.Where(x => x.ProductId == entityId));
+                dbContext.ProductTranslations.RemoveRange(
+                    dbContext.ProductTranslations.Where(x => x.ProductId == entityId));
 
                 dbContext.Products.Remove(await dbContext.Products.FindAsync(entityId));
 
@@ -102,15 +103,38 @@ namespace webspec3.Services.Impl
             logger.LogInformation($"Sucessfully removed product with id {entityId}");
         }
 
-        public Task<ProductEntity> GetByIdAsync(Guid entityId)
+        public async Task<ProductEntity> GetByIdAsync(Guid entityId)
         {
-            throw new NotImplementedException();
+            logger.LogDebug($"Attempting to retrieve the product with the id {entityId}");
+
+            var product = await dbContext.Products
+                .Where(x => x.Id == entityId)
+                .FirstOrDefaultAsync();
+
+            return product;
         }
 
 
-        public Task UpdateAsync(ProductEntity entity)
+        public async Task UpdateAsync(ProductEntity entity)
         {
-            throw new NotImplementedException();
+            logger.LogDebug($"Attempting to update product with id {entity.Id}");
+
+            var products = await dbContext.Products
+                .Where(x => x.Id == entity.Id)
+                .ToListAsync();
+
+            if (products.Count == 0)
+            {
+                throw new ArgumentException($"Product with id {entity.Id} is not available");
+            }
+            
+            using (var transaction = await dbContext.Database.BeginTransactionAsync())
+            {
+                dbContext.Products.Update(entity);
+                await dbContext.SaveChangesAsync();
+
+                transaction.Commit();
+            }
         }
 
         public async Task<List<ConsolidatedProductEntity>> GetAllConsolidated()
