@@ -9,7 +9,15 @@
     "build:ssr": "npm run build -- --app=ssr --output-hashing=media",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "ng:e2e": "ng e2e",
+    "e2e": "npm-run-all -p -r webdriver:start ng:e2e",
+    "clean:dist": "rm -rf dist",
+    "clean:tmp": "rm -rf tmp",
+    "clean": "npm run clean:dist && npm run clean:tmp",
+    "postinstall": "npm run webdriver:update",
+    "webdriver-manager": "node ./node_modules/protractor/bin/webdriver-manager",
+    "webdriver:start": "webdriver-manager start",
+    "webdriver:update": "webdriver-manager update"
   },
   "private": true,
   "dependencies": {
@@ -38,6 +46,7 @@
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
+    "@angular-devkit/build-angular": "^0.6.0",
     "@angular/cli": "6.0.0",
     "@angular/compiler-cli": "6.0.0",
     "@angular/language-service": "6.0.0",
@@ -53,10 +62,10 @@
     "karma-firefox-launcher": "^1.1.0",
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "npm-run-all": "^4.1.3",
     "protractor": "~5.1.2",
     "ts-node": "~3.2.0",
     "tslint": "~5.7.0",
-    "typescript": "2.7.2",
-    "@angular-devkit/build-angular": "^0.6.0"
+    "typescript": "2.7.2"
   }
 }
