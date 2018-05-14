@@ -4,8 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using webspec3.Core.HelperClasses;
 using webspec3.Database;
 using webspec3.Entities;
+using webspec3.Extensions;
 
 namespace webspec3.Services.Impl
 {
@@ -127,7 +129,7 @@ namespace webspec3.Services.Impl
             {
                 throw new ArgumentException($"Product with id {entity.Id} is not available");
             }
-            
+
             using (var transaction = await dbContext.Database.BeginTransactionAsync())
             {
                 dbContext.Products.Update(entity);
@@ -144,6 +146,20 @@ namespace webspec3.Services.Impl
             var products = await dbContext.ProductsConsolidated
                 .Where(x => x.Language == i18nService.GetCurrentLanguage().Code && x.Currency == i18nService.GetCurrentCurrency().Code)
                 .OrderBy(x => x.Title)
+                .ToListAsync();
+
+            logger.LogInformation($"Retrieved {products.Count} products from the database.");
+
+            return products;
+        }
+
+        public async Task<List<ConsolidatedProductEntity>> GetConsolidatedPaged(PagingSortingParams options)
+        {
+            logger.LogDebug($"Attempting to retrieve products consolidated from database: Page: {options.Page}, items per page: {options.ItemsPerPage}, sort by: {options.SortBy}, sort direction: {options.SortDirection}.");
+
+            var products = await dbContext.ProductsConsolidated
+                .Where(x => x.Language == i18nService.GetCurrentLanguage().Code && x.Currency == i18nService.GetCurrentCurrency().Code)
+                .PagedAndSorted(options)
                 .ToListAsync();
 
             logger.LogInformation($"Retrieved {products.Count} products from the database.");

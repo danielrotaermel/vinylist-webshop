@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using webspec3.Controllers.Api.v1.Requests;
+using webspec3.Core.HelperClasses;
 using webspec3.Entities;
 using webspec3.Extensions;
 using webspec3.Services;
@@ -42,6 +43,42 @@ namespace webspec3.Controllers.Api.v1
             logger.LogInformation($"Received {products.Count} products from the database.");
 
             return Json(products);
+        }
+
+        /// <summary>
+        /// Returns all products in a consolidated manner (i18n/l10n is considered) with paging
+        /// </summary>
+        /// <param name="page">Page to retrieve</param>
+        /// <param name="model">Paging and sorting options</param>
+        /// <response code="200">Products returned successfully</response>
+        /// <response code="400">Invalid model</response>
+        /// <response code="500">An internal error occurred</response>
+        [HttpGet("paged/{page:int}")]
+        public async Task<IActionResult> GetPaged([FromQuery]ApiV1ProductPagingSortingRequestModel model, [FromRoute]int page = 1)
+        {
+            logger.LogDebug($"Attempting to get paged consolidated products: Page: {page}, items per page: {model.ItemsPerPage}.");
+
+            if (ModelState.IsValid)
+            {
+                var options = new PagingSortingParams
+                {
+                    ItemsPerPage = model.ItemsPerPage,
+                    Page = page,
+                    SortBy = model.SortBy,
+                    SortDirection = model.SortDirection
+                };
+
+                var products = await productService.GetConsolidatedPaged(options);
+
+                logger.LogInformation($"Received {products.Count} products from the database.");
+
+                return Json(products);
+            }
+            else
+            {
+                logger.LogWarning($"Error while performing paged request. Validation failed.");
+                return BadRequest(ModelState.ToApiV1ErrorResponseModel());
+            }
         }
 
         /// <summary>
@@ -122,7 +159,7 @@ namespace webspec3.Controllers.Api.v1
                 return BadRequest(ModelState.ToApiV1ErrorResponseModel());
             }
         }
-        
+
         //TODO only as admin
         /// <summary>
         /// Updates an existing product
@@ -150,7 +187,7 @@ namespace webspec3.Controllers.Api.v1
                     }
 
                     product.Artist = model.Artist;
-                    
+
                     await productService.UpdateAsync(product);
 
                     logger.LogInformation($"Successfully updated product with id {model.Id}.");
