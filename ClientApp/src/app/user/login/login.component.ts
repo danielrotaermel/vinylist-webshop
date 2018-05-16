@@ -1,14 +1,37 @@
-import { Component } from '@angular/core';
-import { AppModule } from '../../app.module';
+import { Component, Input } from '@angular/core';
+import { LoginService } from './login.service';
 
 @Component({
-  selector: 'login-home',
+  selector: 'app-login',
   templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss'],
+  providers: [LoginService]
 })
-export class LoginComponent {
 
-    public login = () =>{
-      
-      //this.router.navigate(['home']);
-    }
+/**
+ * @author Alexander Merker
+ */
+export class LoginComponent{
+  @Input() name: string;
+  private isVisible = false;
+
+  constructor(private loginService : LoginService) {
+
+  }
+
+  show(){
+    //TODO: Fill with life
+  }
+
+  hide() {
+    //TODO: Fill with life
+  }
+
+  //TODO: LOG ERRORS
+  OnSubmit(email,password){
+     this.loginService.signin(email,password).subscribe((data : any)=>{
+     localStorage.setItem('userToken',data.access_token);
+     //this.router.navigate(['/home']);
+   });
+  }
 }

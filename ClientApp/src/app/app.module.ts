@@ -18,8 +18,9 @@ import { LanguageSwitcherComponent } from "./language-switcher/language-switcher
 import { FooterComponent } from "./footer/footer.component";
 import { SplashscreenComponent } from "./splashscreen/splashscreen.component";
 import { HeaderModule } from "./header/header.module";
-import { LoginComponent } from './login/login.component';
-import { LoginService } from './login/login.service';
+
+// import { LoginComponent } from './user/login/login.component';
+import { LoginService } from './user/login/login.service';
 import { ApiService } from "./api.service";
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -32,7 +33,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     LanguageSwitcherComponent,
     FooterComponent,
     SplashscreenComponent,
-    LoginComponent
+    //LoginComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),

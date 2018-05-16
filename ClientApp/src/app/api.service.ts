@@ -18,10 +18,17 @@ export class ApiService {
 
   //POST: /api/v1/login
   public login(data: Credentials): Observable<Credentials>{
-      console.log("call login");
       return this.http.post(this.apiUrl + '/login', data)
       .map(response => {
-        console.log("api resp");
+        return response.json();
+      })
+      .catch(this.handleError);
+  }
+  
+  //POST: /api/v1/user
+  public create_user(data: User): Observable<User>{
+      return this.http.post(this.apiUrl + '/users', data)
+      .map(response => {
         return response.json();
       })
       .catch(this.handleError);
@@ -35,7 +42,14 @@ export class ApiService {
   }
 }
 
+//TODO: Rework this into UserService
 interface Credentials {
   email:string;
   password:string;
+}
+interface User {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
 }
