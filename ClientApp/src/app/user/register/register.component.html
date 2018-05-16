@@ -1,34 +1,48 @@
-<!-- Author: Alexander Merker -->
+<!-- Authors: Alexander Merker, Janina Wachendorfer -->
 
-<form #loginForm="ngForm" class="col s12 white" (ngSubmit)="OnSubmit(firstName.value, lastName.value, email.value,password.value)">
+<form #registrationForm="ngForm">
     <div class="row">
-        <div class="input-field col s12">
-            <i class="material-icons prefix">account_circle</i>
-            <input id="register_firstName" type="firstName" #firstName ngModel name="firstName" placeholder="First Name" required>
+        <div class="col-md-6">
+            <div class="row">
+                <span class="base-icon">
+                    <i class="material-icons md-light">account_circle</i>
+                </span>
+                <mat-form-field>
+                    <input matInput type="text" name="firstName" [(ngModel)]="firstName" placeholder="{{'USER.FIRST_NAME' | translate}}" required>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <span class="base-icon">
+                    <i class="material-icons md-light">perm_identity</i>
+                </span>
+                <mat-form-field>
+                    <input matInput type="text" name="lastName" [(ngModel)]="lastName" placeholder="{{'USER.LAST_NAME' | translate}}" required>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <span class="base-icon">
+                    <i class="material-icons md-light">email</i>
+                </span>
+                <mat-form-field>
+                    <input matInput type="email" name="email" [(ngModel)]="email" placeholder="{{'USER.EMAIL' | translate}}" required>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <span class="base-icon">
+                    <i class="material-icons md-light">vpn_key</i>
+                </span>
+                <mat-form-field>
+                    <input matInput type="password" name="password" [(ngModel)]="password" placeholder="{{'USER.PASSWORD' | translate}}" required
+                        ng-maxlength="255" ng-minlength="4">
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <button [disabled]="!registrationForm.valid" mat-button (click)="performRegistration()">{{'USER.REGISTER' | translate}}</button>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="input-field col s12">
-            <i class="material-icons prefix">account_circle</i>
-            <input id="register_lastName" type="text" #lastName ngModel name="lastName" placeholder="Last Name" required>
-        </div>
-    </div>
-    <div class="row">
-        <div class="input-field col s12">
-            <i class="material-icons prefix">email</i>
-            <input id="register_email" type="text" #email ngModel name="email" placeholder="Email" required>
-        </div>
-    </div>
-    <div class="row">
-        <div class="input-field col s12">
-            <i class="material-icons prefix">vpn_key</i>
-            <input id="register_password" type="password" #password ngModel name="password" placeholder="Password" required>
-        </div>
-    </div>
-    <div class="row">
-        <div class="input-field col s12">
-        <button id="submit" [disabled]="!loginForm.valid" class="btn-large btn-submit" type="submit">Register</button>
-        </div>
-    </div>
-    <a mat-button routerLink="/login">{{'USER.REGISTER_SWITCH' | translate}}</a>
+
+
 </form>
