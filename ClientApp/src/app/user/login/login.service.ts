@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+
 import { LoginComponent } from './login.component';
 
 import { ApiService } from '../../api.service';
@@ -35,12 +36,4 @@ export class LoginService {
       delete this.instances[name];
     }
  }
-
-  public hide(name: string) {
-    this.instances[name].hide();
-  }
-
-  public show(name: string) {
-    this.instances[name].show();
-  }
 }

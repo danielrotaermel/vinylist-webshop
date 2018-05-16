@@ -11,5 +11,9 @@
     },
     "FOOTER": {
         "IMPRINT": "Imprint"
+    },
+    "USER": {
+        "REGISTER_SWITCH": "Already have an account? Login",
+        "LOGIN_SWITCH": "Don't have an account? Register"
     }
 }

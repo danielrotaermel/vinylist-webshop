@@ -11,5 +11,9 @@
     },
     "FOOTER": {
         "IMPRINT": "Impressum"
+    },
+    "USER": {
+        "REGISTER_SWITCH": "Bereits einen Account? Einloggen",
+        "LOGIN_SWITCH": "Noch keinen Account? Registrieren"
     }
 }

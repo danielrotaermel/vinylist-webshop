@@ -1,37 +1,40 @@
 import { Component, Input } from '@angular/core';
-import { LoginService } from './login.service';
+import { RegisterService } from './register.service';
+import { TranslateService } from "@ngx-translate/core";
+import { Router } from "@angular/router";
+
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
-  providers: [LoginService]
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.scss'],
+  providers: [RegisterService]
 })
 
 /**
  * @author Alexander Merker
  */
-export class LoginComponent{
+export class RegisterComponent{
   @Input() name: string;
   private isVisible = false;
 
-  constructor(private loginService : LoginService) {
+  constructor(private snackBar : MatSnackBar, private registerService : RegisterService, private router : Router) {
 
   }
 
-  show(){
-    //TODO: Fill with life
-  }
-
-  hide() {
-    //TODO: Fill with life
+  openSnackBar() {
+    this.snackBar.open("Registered successfully", '', {
+      duration: 1500
+    });
   }
 
   //TODO: LOG ERRORS
-  OnSubmit(email,password){
-     this.loginService.signin(email,password).subscribe((data : any)=>{
+  OnSubmit(firstName, lastName, email,password){
+     this.registerService.signup(firstName, lastName, email,password).subscribe((data : any)=>{
      localStorage.setItem('userToken',data.access_token);
-     //this.router.navigate(['/home']);
+     this.router.navigate(['/']);
+     this.openSnackBar();
    });
   }
 }

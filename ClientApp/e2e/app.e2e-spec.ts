@@ -1,6 +1,9 @@
 import { AppPage } from './app.po';
 import {browser, element, by, By, $, $$, ExpectedConditions} from 'protractor';
 
+/**
+ * @author Alexander Merker
+ */
 describe('App', () => {
   let page: AppPage;
 
@@ -12,16 +15,10 @@ describe('App', () => {
     page = new AppPage();
   });
 
-  it('should display welcome message', () => {
+  //TODO: Configure protractor.conf so the testing doesnt crash when this is missing or implement a suitable global test
+  it('dummy test', () => {
     page.navigateTo();
     expect(page.getMainHeading()).toEqual('Hello, world!');
-    console.log("it works lol");
   });
 
-  // it('demo test 1', () => {
-  //   const list = element(By.id("navlist")).all(By.tagName("li"));
-  //   list.count().then((val) => {
-  //     list.last().click();
-  //   });
-  // });
 });

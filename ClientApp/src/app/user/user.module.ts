@@ -5,23 +5,30 @@ import { FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { UserDataComponent } from "./user-data/user-data.component";
 import { RouterModule } from "@angular/router";
-import { LoginComponent } from "./login/login.component";
 
+import { TranslateModule } from "@ngx-translate/core";
+
+import { LoginComponent } from "./login/login.component";
+import { RegisterComponent } from "./register/register.component";
+
+import { RegisterService } from './register/register.service';
 import { LoginService } from './login/login.service';
 import { ApiService } from "../api.service";
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forRoot([{ path: "login", component: LoginComponent }]),
+    RouterModule.forRoot([{ path: "login", component: LoginComponent }, { path: "register", component: RegisterComponent}]),
     AngularSvgIconModule,
     MaterialModule,
+    TranslateModule,
     FormsModule
   ],
-  declarations: [UserDataComponent, LoginComponent],
-  exports:[LoginComponent],
+  declarations: [UserDataComponent, LoginComponent, RegisterComponent],
+  exports:[LoginComponent, RegisterComponent],
   providers: [
     LoginService,
+    RegisterService,
     ApiService
   ],
 })
