@@ -1,18 +1,20 @@
 <div class="all-wrap" fullscreen>
-    <div class="page-wrap">
-        <header role="banner">
-            <app-navigation-bar></app-navigation-bar>
-        </header>
-        <main class="content">
-            <div class="row start-xs">
-                <div class="col-xs-12 col-lg-6">
-                    <h1>{{ 'APP.HEADING' | translate }}</h1>
+    <div class="row center-xs">
+        <div class="page-wrap col-xs-10">
+            <header role="banner">
+                <app-navigation-bar></app-navigation-bar>
+            </header>
+            <main class="content">
+                <div class="row start-xs">
+                    <div class="col-xs-12 col-lg-6">
+                        <h1>{{ 'APP.HEADING' | translate }}</h1>
+                    </div>
+                    <router-outlet></router-outlet>
                 </div>
-                <router-outlet></router-outlet>
-            </div>
-        </main>
-        <footer>
-            <app-footer class="site-footer"></app-footer>
-        </footer>
+            </main>
+            <footer>
+                <app-footer class="site-footer"></app-footer>
+            </footer>
+        </div>
     </div>
 </div>

@@ -6,6 +6,7 @@ import { AngularSvgIconModule } from "angular-svg-icon";
 import { TranslateModule } from "@ngx-translate/core";
 import { MaterialModule } from "../core/material.module";
 import { RouterModule } from "@angular/router";
+import { CartOverlayComponent } from './cart-overlay/cart-overlay.component';
 
 @NgModule({
   imports: [
@@ -15,7 +16,7 @@ import { RouterModule } from "@angular/router";
     TranslateModule,
     RouterModule
   ],
-  declarations: [CategoriesComponent, NavigationBarComponent],
+  declarations: [CategoriesComponent, NavigationBarComponent, CartOverlayComponent],
   exports: [NavigationBarComponent]
 })
 export class HeaderModule {}

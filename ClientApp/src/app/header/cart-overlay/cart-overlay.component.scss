@@ -1,0 +1,38 @@
+.cart-overlay {
+    // z-index: 10 !important;
+    margin-top: -40px;
+    // margin-left: -35px;
+    // width: 200px;
+    // background-color: rgba($color: #000000, $alpha: 0.5);
+    // position: fixed !important; 
+    // width: 100%; 
+    // height: 100%; 
+    // left: 0; 
+    // top: 0;
+    
+}
+
+.mat-card {
+    // background-color: rgba($color: #000000, $alpha: 0.5);
+    background-color: #08AEEA;
+    background-image: linear-gradient(0deg, #08AEEA 0%, #2af1f5 100%);
+    border-radius: 10px;
+}
+
+.overlay {
+    // margin-left: auto;
+    // margin-right: auto;
+    // position: fixed;
+    // width: 75%;
+    // height: 100%;
+    // left: 0;
+    // top: 0;
+    // height: 300px !important;
+    box-sizing: content-box;
+    margin-top: -40px;
+    margin-bottom: calc(-40px - 100%);
+}
+
+.mat-card-actions {
+    // padding-bottom: 5px !important;
+}
