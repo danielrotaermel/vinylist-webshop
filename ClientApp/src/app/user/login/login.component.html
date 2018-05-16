@@ -1,21 +1,31 @@
-<!-- Author: Alexander Merker -->
+<!-- Authors: Alexander Merker, Janina Wachendorfer -->
+<form #loginForm="ngForm">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row">
+                <span class="base-icon">
+                    <i class="material-icons md-light">email</i>
+                </span>
+                <mat-form-field>
+                    <input matInput type="email" name="email" [(ngModel)]="email" placeholder="{{'USER.EMAIL' | translate}}" required>
+                </mat-form-field>
+            </div>
 
-<form #loginForm="ngForm" class="col s12 white" (ngSubmit)="OnSubmit(email.value,Password.value)">
-    <div class="row">
-    <div class="input-field col s12">
-        <i class="material-icons prefix">account_circle</i>
-        <input type="text" #email ngModel name="email" placeholder="Email" required>
-    </div>
-    </div>
-    <div class="row">
-    <div class="input-field col s12">
-        <i class="material-icons prefix">vpn_key</i>
-        <input type="password" #Password ngModel name="Password" placeholder="Password" required>
-    </div>
-    </div>
-    <div class="row">
-        <div class="input-field col s12">
-        <button [disabled]="!loginForm.valid" class="btn-large btn-submit" type="submit">Login</button>
+            <div class="row">
+                <span class="base-icon">
+                    <i class="material-icons md-light">vpn_key</i>
+                </span>
+                <mat-form-field>
+                    <input matInput type="password" name="password" [(ngModel)]="password" placeholder="{{'USER.PASSWORD' | translate}}" required
+                        ng-maxlength="255" ng-minlength="4">
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <button [disabled]="!loginForm.valid" mat-button (click)="performLogin()">{{'USER.LOGIN' | translate}}</button>
+                </div>
+            </div>
+            <a mat-button routerLink="/register">{{'USER.LOGIN_SWITCH' | translate}}</a>
         </div>
     </div>
 </form>

@@ -1,15 +1,25 @@
 {
-    "APP": {
-        "HEADING": "It could also be an english website!"
-    },
-    "NAVIGATION_BAR": {
-        "SIGN_IN": "Sign in",
-        "SEARCH": "Search"
-    },
-    "LANGUAGE_SWITCHER": {
-        "LANG": "Language"
-    },
-    "FOOTER": {
-        "IMPRINT": "Imprint"
-    }
+  "APP": {
+    "HEADING": "It could also be an english website!"
+  },
+  "NAVIGATION_BAR": {
+    "SIGN_IN": "Sign in",
+    "SEARCH": "Search"
+  },
+  "LANGUAGE_SWITCHER": {
+    "LANG": "Language"
+  },
+  "FOOTER": {
+    "IMPRINT": "Imprint"
+  },
+  "USER": {
+    "REGISTER_SWITCH": "Already have an account? Login",
+    "LOGIN_SWITCH": "Don't have an account? Register",
+    "LOGIN": "Login",
+    "REGISTER": "Register",
+    "PASSWORD": "Password",
+    "EMAIL": "E-Mail",
+    "LAST_NAME": "Last name",
+    "FIRST_NAME": "First name"
+  }
 }

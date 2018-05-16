@@ -1,15 +1,25 @@
 {
-    "APP": {
-        "HEADING": "Hier könnten Sie Ihre Webseite sehen!"
-    },
-    "NAVIGATION_BAR": {
-        "SIGN_IN": "Anmelden",
-        "SEARCH": "Suche"
-    },
-    "LANGUAGE_SWITCHER": {
-        "LANG": "Sprache"
-    },
-    "FOOTER": {
-        "IMPRINT": "Impressum"
-    }
+  "APP": {
+    "HEADING": "Hier könnten Sie Ihre Webseite sehen!"
+  },
+  "NAVIGATION_BAR": {
+    "SIGN_IN": "Anmelden",
+    "SEARCH": "Suche"
+  },
+  "LANGUAGE_SWITCHER": {
+    "LANG": "Sprache"
+  },
+  "FOOTER": {
+    "IMPRINT": "Impressum"
+  },
+  "USER": {
+    "REGISTER_SWITCH": "Bereits einen Account? Einloggen",
+    "LOGIN_SWITCH": "Noch keinen Account? Registrieren",
+    "LOGIN": "Anmelden",
+    "REGISTER": "Registrieren",
+    "PASSWORD": "Passwort",
+    "EMAIL": "E-Mail",
+    "LAST_NAME": "Nachname",
+    "FIRST_NAME": "Vorname"
+  }
 }

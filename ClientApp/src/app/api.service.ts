@@ -16,6 +16,10 @@ export class ApiService {
         this.apiUrl = baseUrl + 'api/v1'
   }
 
+/** -----------------------------------------------------------------
+ *                   LOGIN AND REGISTER
+ *------------------------------------------------------------------*/
+
   //POST: /api/v1/login
   public login(data: Credentials): Observable<Credentials>{
       return this.http.post(this.apiUrl + '/login', data)
@@ -26,8 +30,17 @@ export class ApiService {
   }
   
   //POST: /api/v1/user
-  public create_user(data: User): Observable<User>{
+  public register(data: User): Observable<User>{
       return this.http.post(this.apiUrl + '/users', data)
+      .map(response => {
+        return response.json();
+      })
+      .catch(this.handleError);
+  }
+  
+  //GET: /api/v1/logout
+  public logout(): Observable<void>{
+      return this.http.get(this.apiUrl + '/logout')
       .map(response => {
         return response.json();
       })
