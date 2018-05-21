@@ -36,7 +36,7 @@ export class LoginComponent {
       (data: any) => {
         localStorage.setItem("userToken", data.access_token);
         this.router.navigate(["/"]);
-        this.openSnackBar("Login successfully", 1500);
+        this.openSnackBar("Login successful", 1500);
       },
       (error: any) => {
         this.openSnackBar(error, 5000);
