@@ -21,15 +21,68 @@
       </div>
       <div class="col-xs-6 col-sm-6 col-lg-6 end-xs end-lg">
         <!-- routerLink default set to /, as long there isn't a defined route for it -->
-        <a mat-icon-button routerLink="/">
-          <mat-icon aria-label="favorite">favorite</mat-icon>
-        </a>
-        <button mat-icon-button>
-          <mat-icon aria-label="shopping_cart">shopping_cart</mat-icon>
+
+        <button mat-icon-button (click)="favsPopover.open()">
+          <mat-icon [satPopoverAnchorFor]="favsPopover" mat-icon-button aria-label="likes" mat-icon-button matBadge="8" matBadgePosition="after"
+            matBadgeColor="warn" aria-label="shopping_cart">favorite</mat-icon>
         </button>
-        <app-cart-overlay></app-cart-overlay>
+
+        <button mat-icon-button (click)="cartPopover.open()">
+          <mat-icon [satPopoverAnchorFor]="cartPopover" mat-icon-button matBadge="8" matBadgePosition="after" matBadgeColor="warn"
+            aria-label="shopping_cart">shopping_cart</mat-icon>
+        </button>
+
+
       </div>
     </div>
+
+    <!-- cart popver -->
+    <sat-popover #cartPopover hasBackdrop lockAlignment verticalAlign="start" horizontalAlign="end">
+      <div class="overlay">
+        <mat-card class="cart-overlay">
+          <mat-card-header class="between-xs stupid-overwrite-2">
+            <mat-card-title class="stupid-overwrite-1">
+              <h2>Cart</h2>
+            </mat-card-title>
+            <mat-card-subtitle class="stupid-overwrite-1">View Cart</mat-card-subtitle>
+            <button mat-icon-button class="close-overlay-button">
+              <mat-icon mat-icon-button (click)="cartPopover.close()" aria-label="shopping_cart" mat-icon-button matBadge="8" matBadgePosition="after"
+                matBadgeColor="warn" aria-label="shopping_cart">shopping_cart</mat-icon>
+            </button>
+          </mat-card-header>
+          <mat-card-content class="start-xs">
+            <p>
+              products here!
+            </p>
+            <button mat-raised-button color="primary">PROCEED TO CHECKOUT</button>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </sat-popover>
+
+    <!-- favs popver -->
+    <sat-popover #favsPopover hasBackdrop lockAlignment verticalAlign="start" horizontalAlign="end">
+      <div class="overlay">
+        <mat-card class="cart-overlay">
+          <mat-card-header class="between-xs stupid-overwrite-2">
+            <mat-card-title class="stupid-overwrite-1">
+              <h2>Favorites</h2>
+            </mat-card-title>
+            <mat-card-subtitle class="stupid-overwrite-1">view favorites</mat-card-subtitle>
+            <button mat-icon-button class="close-overlay-button">
+              <mat-icon mat-icon-button (click)="favsPopover.close()" aria-label="likes" mat-icon-button matBadge="8" matBadgePosition="after"
+                matBadgeColor="warn" aria-label="shopping_cart">favorite</mat-icon>
+            </button>
+          </mat-card-header>
+          <mat-card-content class="start-xs">
+            <p>
+              favorites here!
+            </p>
+            <button mat-raised-button color="primary">PROCEED TO CHECKOUT</button>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </sat-popover>
 
     <!-- language-switcher can be moved to some other place if wished so -->
     <!-- <app-language-switcher></app-language-switcher> -->

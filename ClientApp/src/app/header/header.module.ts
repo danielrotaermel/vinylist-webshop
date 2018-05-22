@@ -1,22 +1,30 @@
-import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { CategoriesComponent } from "./categories/categories.component";
-import { NavigationBarComponent } from "./navigation-bar/navigation-bar.component";
-import { AngularSvgIconModule } from "angular-svg-icon";
-import { TranslateModule } from "@ngx-translate/core";
-import { MaterialModule } from "../core/material.module";
-import { RouterModule } from "@angular/router";
-import { CartOverlayComponent } from './cart-overlay/cart-overlay.component';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { CategoriesComponent } from './categories/categories.component';
+import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
+import { AngularSvgIconModule } from 'angular-svg-icon';
+import { TranslateModule } from '@ngx-translate/core';
+import { MaterialModule } from '../core/material.module';
+import { RouterModule } from '@angular/router';
+import { NavOverlayComponent } from './nav-overlay/nav-overlay.component';
+import { SatPopoverModule } from '@ncstate/sat-popover';
 
 @NgModule({
   imports: [
+    SatPopoverModule,
     CommonModule,
     AngularSvgIconModule,
     MaterialModule,
     TranslateModule,
-    RouterModule
+    RouterModule,
+    FormsModule
   ],
-  declarations: [CategoriesComponent, NavigationBarComponent, CartOverlayComponent],
-  exports: [NavigationBarComponent]
+  declarations: [
+    CategoriesComponent,
+    NavigationBarComponent,
+    NavOverlayComponent
+  ],
+  exports: [NavigationBarComponent, NavOverlayComponent]
 })
 export class HeaderModule {}
