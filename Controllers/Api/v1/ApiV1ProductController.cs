@@ -165,7 +165,7 @@ namespace webspec3.Controllers.Api.v1
         /// <response code="200">Products returned successfully</response>
         /// <response code="404">Product with the specified id not found</response>
         /// <response code="500">An internal error occurred</response>
-        [HttpGet("consolidated/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             logger.LogDebug($"Attempting to get product with id {id}.");

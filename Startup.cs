@@ -8,6 +8,7 @@ using Microsoft.Extensions.PlatformAbstractions;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.IO;
+using Newtonsoft.Json;
 using webspec3.Core.I18n;
 using webspec3.Database;
 using webspec3.Services;
@@ -106,6 +107,10 @@ namespace webspec3
 
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<IUserService, UserService>();
+            
+            services.AddMvc().AddJsonOptions(options => {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
