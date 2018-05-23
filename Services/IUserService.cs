@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using webspec3.Entities;
 
@@ -11,6 +12,12 @@ namespace webspec3.Services
     /// </summary>
     public interface IUserService : IEntityService<UserEntity>
     {
+        /// <summary>
+        /// Returns a list of all users
+        /// </summary>
+        /// <returns>List of all users</returns>
+        Task<List<UserEntity>> GetAll();
+
         /// <summary>
         /// Returns the user with the specified email.
         /// If no such user exists, null will be returned.
