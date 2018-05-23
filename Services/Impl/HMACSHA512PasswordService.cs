@@ -7,6 +7,8 @@ namespace webspec3.Services.Impl
     /// <summary>
     /// HMACSHA512-based implementation of <see cref="IPasswordService"/>
     /// See https://docs.microsoft.com/en-us/aspnet/core/security/data-protection/consumer-apis/password-hashing?view=aspnetcore-2.1
+    /// 
+    /// M. Narr
     /// </summary>
     public class HMACSHA512PasswordService : IPasswordService
     {
