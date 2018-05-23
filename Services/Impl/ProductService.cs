@@ -107,6 +107,19 @@ namespace webspec3.Services.Impl
             logger.LogInformation($"Sucessfully removed product with id {entityId}");
         }
 
+        public async Task<List<ProductEntity>> GetPagedAsync(PagingSortingParams options)
+        {
+            logger.LogDebug($"Attempting to retrieve products from database: Page: {options.Page}, items per page: {options.ItemsPerPage}, sort by: {options.SortBy}, sort direction: {options.SortDirection}.");
+
+            var products = await dbContext.Products
+                .PagedAndSorted(options)
+                .ToListAsync();
+
+            logger.LogInformation($"Retrieved {products.Count} products from the database.");
+
+            return products;
+        }
+        
         public async Task<ProductEntity> GetByIdAsync(Guid entityId)
         {
             logger.LogDebug($"Attempting to retrieve the product with the id {entityId}");
@@ -204,6 +217,19 @@ namespace webspec3.Services.Impl
                 .FirstOrDefaultAsync();
 
             return product;
+        }
+
+        public async Task<List<ProductEntity>> GetAllAsync()
+        {
+            logger.LogDebug($"Attempting to retrieve all available products from the database.");
+
+            var products = await dbContext.Products
+                .OrderBy(x => x.Artist)
+                .ToListAsync();
+
+            logger.LogInformation($"Retrieved {products.Count} products from the database.");
+
+            return products;
         }
     }
 }

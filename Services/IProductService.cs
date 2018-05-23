@@ -9,7 +9,7 @@ namespace webspec3.Services
     /// <summary>
     /// Interface regaring products
     /// 
-    /// M. Narr
+    /// M. Narr, J.Mauthe
     /// </summary>
     public interface IProductService : IEntityService<ProductEntity>
     {
@@ -43,5 +43,25 @@ namespace webspec3.Services
         /// <param name="id">Product id</param>
         /// <returns>Product with the specified id consolidated into an instance of <see cref="ConsolidatedProductEntity"/></returns>
         Task<ConsolidatedProductEntity> GetConsolidatedByIdAsync(Guid id);
+        
+        /// <summary>
+        /// Returns the product with the specified id/>
+        /// </summary>
+        /// <param name="id">Product id</param>
+        /// <returns>Product with the specified id/></returns>
+        Task<ProductEntity> GetByIdAsync(Guid id);
+
+        /// <summary>
+        /// Returns a list of all available products/>/>
+        /// </summary>
+        /// <returns>List of all available products/></returns>
+        Task<List<ProductEntity>> GetAllAsync();
+
+        /// <summary>
+        /// Returns a paged list of all available products/>
+        /// </summary>
+        /// <param name="options">Instance of <see cref="PagingSortingParams"/></param>
+        /// <returns>Paged list of available products/></returns>
+        Task<List<ProductEntity>> GetPagedAsync(PagingSortingParams options);
     }
 }

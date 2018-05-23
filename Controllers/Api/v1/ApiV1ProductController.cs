@@ -104,6 +104,83 @@ namespace webspec3.Controllers.Api.v1
 
             return Json(product);
         }
+        
+         /// <summary>
+        /// Returns all products
+        /// </summary>
+        /// <response code="200">Products returned successfully</response>
+        /// <response code="500">An internal error occurred</response>
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            logger.LogDebug($"Attempting to get all products.");
+
+            var products = await productService.GetAllAsync();
+
+            logger.LogInformation($"Received {products.Count} products from the database.");
+
+            return Json(products);
+        }
+
+        /// <summary>
+        /// Returns all products with paging
+        /// </summary>
+        /// <param name="page">Page to retrieve</param>
+        /// <param name="model">Paging and sorting options</param>
+        /// <response code="200">Products returned successfully</response>
+        /// <response code="400">Invalid model</response>
+        /// <response code="500">An internal error occurred</response>
+        [HttpGet("paged/{page:int}")]
+        public async Task<IActionResult> GetPaged([FromQuery]ApiV1ProductPagingSortingRequestModel model, [FromRoute]int page = 1)
+        {
+            logger.LogDebug($"Attempting to get paged products: Page: {page}, items per page: {model.ItemsPerPage}.");
+
+            if (ModelState.IsValid)
+            {
+                var options = new PagingSortingParams
+                {
+                    ItemsPerPage = model.ItemsPerPage,
+                    Page = page,
+                    SortBy = model.SortBy,
+                    SortDirection = model.SortDirection
+                };
+
+                var products = await productService.GetPagedAsync(options);
+
+                logger.LogInformation($"Received {products.Count} products from the database.");
+
+                return Json(products);
+            }
+            else
+            {
+                logger.LogWarning($"Error while performing paged request. Validation failed.");
+                return BadRequest(ModelState.ToApiV1ErrorResponseModel());
+            }
+        }
+
+        /// <summary>
+        /// Returns the product with the specified id
+        /// </summary>
+        /// <param name="id">Product id</param>
+        /// <response code="200">Products returned successfully</response>
+        /// <response code="404">Product with the specified id not found</response>
+        /// <response code="500">An internal error occurred</response>
+        [HttpGet("consolidated/{id}")]
+        public async Task<IActionResult> GetById([FromRoute] Guid id)
+        {
+            logger.LogDebug($"Attempting to get product with id {id}.");
+
+            var product = await productService.GetByIdAsync(id);
+
+            if (product == null)
+            {
+                logger.LogWarning($"Product with id {id} could not be found.");
+
+                return NotFound();
+            }
+
+            return Json(product);
+        }
 
         /// <summary>
         /// Creates a new product
