@@ -104,8 +104,8 @@ namespace webspec3.Controllers.Api.v1
 
             return Json(product);
         }
-        
-         /// <summary>
+
+        /// <summary>
         /// Returns all products
         /// </summary>
         /// <response code="200">Products returned successfully</response>
@@ -250,7 +250,7 @@ namespace webspec3.Controllers.Api.v1
         public async Task<IActionResult> Update([FromRoute] Guid productId, [FromBody] ApiV1ProductCreateUpdateRequestModel model)
         {
             // Check if model is valid
-            if (model != null && ModelState.IsValid)
+            if (model != null && ModelState.IsValid && productId == model.Id)
             {
                 logger.LogDebug($"Attempting to update product with id {productId}.");
 
