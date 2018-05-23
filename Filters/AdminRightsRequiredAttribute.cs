@@ -27,7 +27,7 @@ namespace webspec3.Filters
                 this.loginService = loginService;
             }
 
-            public override async void OnActionExecuting(ActionExecutingContext context)
+            public override void OnActionExecuting(ActionExecutingContext context)
             {
                 if (!loginService.IsLoggedIn())
                 {
@@ -35,11 +35,13 @@ namespace webspec3.Filters
                     context.Result = new ContentResult
                     {
                         StatusCode = 403
+                       
                     };
+                    return;
                 }
 
                 var userGuid = loginService.GetLoggedInUserId();
-                var userEntity = await userService.GetByIdAsync(userGuid);
+                var userEntity = userService.GetByIdAsync(userGuid).Result;
 
                 if (userEntity == null)
                 {
@@ -48,11 +50,10 @@ namespace webspec3.Filters
                     {
                         StatusCode = 403
                     };
+                    return;
                 }
 
-                var isAdmin = loginService.IsAdmin();
-
-                if (!isAdmin)
+                if (!userEntity.IsAdmin)
                 {
                     // Return access denied(403) if the user is no admin
                     context.Result = new ContentResult
