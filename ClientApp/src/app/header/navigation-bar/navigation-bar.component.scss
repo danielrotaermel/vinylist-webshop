@@ -153,3 +153,10 @@ h2 {
 .stupid-overwrite-2 {
   padding-bottom: 5px;
 }
+
+#{'/deep/'} .mat-badge-active {
+  border: 2px solid #e26260 !important;
+  width: 18px !important;
+  height: 18px !important;
+  line-height: 18px !important;
+}
