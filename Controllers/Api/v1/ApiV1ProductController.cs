@@ -112,6 +112,7 @@ namespace webspec3.Controllers.Api.v1
         /// <response code="200">Products returned successfully</response>
         /// <response code="500">An internal error occurred</response>
         [HttpGet]
+        [AdminRightsRequired]
         public async Task<IActionResult> Get()
         {
             logger.LogDebug($"Attempting to get all products.");
@@ -132,6 +133,7 @@ namespace webspec3.Controllers.Api.v1
         /// <response code="400">Invalid model</response>
         /// <response code="500">An internal error occurred</response>
         [HttpGet("paged/{page:int}")]
+        [AdminRightsRequired]
         public async Task<IActionResult> GetPaged([FromQuery]ApiV1ProductPagingSortingRequestModel model, [FromRoute]int page = 1)
         {
             logger.LogDebug($"Attempting to get paged products: Page: {page}, items per page: {model.ItemsPerPage}.");
@@ -167,6 +169,7 @@ namespace webspec3.Controllers.Api.v1
         /// <response code="404">Product with the specified id not found</response>
         /// <response code="500">An internal error occurred</response>
         [HttpGet("{id}")]
+        [AdminRightsRequired]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             logger.LogDebug($"Attempting to get product with id {id}.");
@@ -191,6 +194,7 @@ namespace webspec3.Controllers.Api.v1
         /// <response code="400">Invalid model</response>
         /// <response code="500">An internal error occurred</response>
         [HttpPost]
+        [AdminRightsRequired]
         public async Task<IActionResult> CreateNew([FromBody] ApiV1ProductCreateUpdateRequestModel model)
         {
             if (model != null && ModelState.IsValid)
@@ -314,6 +318,7 @@ namespace webspec3.Controllers.Api.v1
         /// <response code="400">Invalid model</response>
         /// <response code="500">An internal error occurred</response>
         [HttpDelete("{productId}")]
+        [AdminRightsRequired]
         public async Task<IActionResult> Delete([FromRoute] Guid productId)
         {
             if (ModelState.IsValid)
