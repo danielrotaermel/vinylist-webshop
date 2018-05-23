@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using webspec3.Controllers.Api.v1.Requests;
 using webspec3.Controllers.Api.v1.Responses;
 using webspec3.Entities;
 using webspec3.Extensions;
+using webspec3.Filters;
 using webspec3.Services;
 
 namespace webspec3.Controllers.Api.v1
@@ -19,15 +21,46 @@ namespace webspec3.Controllers.Api.v1
     {
         private readonly IPasswordService passwordService;
         private readonly IUserService userService;
+        private readonly ILoginService loginService;
 
         private readonly ILogger logger;
 
-        public ApiV1UserController(IPasswordService passwordService, IUserService userService, ILogger<ApiV1UserController> logger)
+        public ApiV1UserController(IPasswordService passwordService, IUserService userService, ILoginService loginService, ILogger<ApiV1UserController> logger)
         {
             this.passwordService = passwordService;
             this.userService = userService;
+            this.loginService = loginService;
 
             this.logger = logger;
+        }
+
+        /// <summary>
+        /// Returns a list of all users
+        /// </summary>
+        /// <response code="200">List of users returned</response>
+        /// <response code="403">No permission to get all users</response>
+        /// <response code="500">An internal error occurred</response>
+        [HttpGet]
+        [AdminRightsRequired]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(403)]
+        [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
+        public async Task<IActionResult> Get()
+        {
+            logger.LogDebug($"Attempting to get a list of all users");
+
+            var users = await userService.GetAll();
+
+            logger.LogInformation($"Got {users.Count} users from the database.");
+
+            return Json(users.Select(x => new
+            {
+                x.Id,
+                x.FirstName,
+                x.LastName,
+                x.Email,
+                x.IsAdmin
+            }));
         }
 
         /// <summary>
@@ -40,7 +73,7 @@ namespace webspec3.Controllers.Api.v1
         [ProducesResponseType(200)]
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 400)]
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
-        public async Task<IActionResult> CreateNew([FromBody]ApiV1UserCreateUpdateRequestModel model)
+        public async Task<IActionResult> CreateNew([FromBody]ApiV1UserCreateRequestModel model)
         {
             // Check if model is valid
             if (model != null && ModelState.IsValid)
@@ -90,6 +123,160 @@ namespace webspec3.Controllers.Api.v1
             else
             {
                 logger.LogWarning($"Error while creating new user. Validation failed.");
+
+                return BadRequest(ModelState.ToApiV1ErrorResponseModel());
+            }
+        }
+
+        /// <summary>
+        /// Updates the specified user.
+        /// Generally the currently logged in user is allowed to update himself.
+        /// Admins are allowed to update all users.
+        /// 
+        /// If the password field within the model is left blank, the password will not be updated.
+        /// </summary>
+        /// <response code="200">User successfully updated</response>
+        /// <response code="400">Invalid model</response>
+        /// <response code="403">The user does not exist, or no permission to update the user</response>
+        /// <response code="500">An internal error occurred</response>
+        [HttpPut("{userId}")]
+        [LoginRequired]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 400)]
+        [ProducesResponseType(403)]
+        [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
+        public async Task<IActionResult> Update([FromRoute]Guid userId, [FromBody]ApiV1UserUpdateRequestModel model)
+        {
+            // Check if model is valid
+            if (model != null && userId != null && ModelState.IsValid)
+            {
+                logger.LogDebug($"Attempting to update user with email {model.Email}.");
+
+                try
+                {
+                    // Check if the user exists
+                    var user = await userService.GetByIdAsync(userId);
+
+                    if (user == null)
+                    {
+                        return Forbid();
+                    }
+
+                    // Check if user updates himself or admin is updating
+                    if (!loginService.IsAdmin() && loginService.GetLoggedInUserId() != user.Id)
+                    {
+                        logger.LogWarning($"Only an admin can update arbitrary users. A user can only update himself.");
+
+                        return Forbid();
+                    }
+
+                    // Update the user
+                    user.FirstName = model.FirstName;
+                    user.LastName = model.LastName;
+                    user.Email = model.Email;
+
+
+                    // Set new password, if provided
+                    if (!string.IsNullOrEmpty(model.Password))
+                    {
+                        user.Password = passwordService.HashPassword(model.Password);
+                    }
+
+                    // Set new admin status, if the current user is admin
+                    if (loginService.IsAdmin())
+                    {
+                        user.IsAdmin = model.IsAdmin;
+                    }
+
+                    await userService.UpdateAsync(user);
+
+                    logger.LogInformation($"Successfully updated user with email {model.Email}.");
+
+
+                    return Ok(new
+                    {
+                        user.Id,
+                        user.FirstName,
+                        user.LastName,
+                        user.Email,
+                        user.IsAdmin
+                    });
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, $"Error while handling request: {ex.Message}.");
+                    return StatusCode(500, new ApiV1ErrorResponseModel("Error while handling request."));
+                }
+            }
+            else
+            {
+                logger.LogWarning($"Error while updating user. Validation failed.");
+
+                return BadRequest(ModelState.ToApiV1ErrorResponseModel());
+            }
+        }
+
+        /// <summary>
+        /// Deletes the specified user and all corresponding data.
+        /// Generally the currently logged in user is allowed to delete himself.
+        /// Admins are allowed to delete all users.
+        /// </summary>
+        /// <response code="200">User successfully deleted</response>
+        /// <response code="400">Invalid model</response>
+        /// <response code="403">The user does not exist, or no permission to delete the user</response>
+        /// <response code="500">An internal error occurred</response>
+        [HttpDelete("{userId}")]
+        [LoginRequired]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 400)]
+        [ProducesResponseType(403)]
+        [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
+        public async Task<IActionResult> Delete([FromRoute]Guid userId)
+        {
+            // Check if model is valid
+            if (userId != null)
+            {
+                logger.LogDebug($"Attempting to delete user with id {userId}");
+
+                try
+                {
+                    // Check if the user exists
+                    var user = await userService.GetByIdAsync(userId);
+
+                    if (user == null)
+                    {
+                        return Forbid();
+                    }
+
+                    // Check if user updates himself or admin is updating
+                    if (!loginService.IsAdmin() && loginService.GetLoggedInUserId() != user.Id)
+                    {
+                        logger.LogWarning($"Only an admin can delete arbitrary users. A user can only delete himself.");
+
+                        return Forbid();
+                    }
+
+                    await userService.DeleteAsync(user);
+
+                    logger.LogInformation($"Successfully deleted user with id {userId}.");
+
+                    // Logout current user deleted himself
+                    if (loginService.GetLoggedInUserId() == userId)
+                    {
+                        loginService.Logout();
+                    }
+
+                    return Ok();
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, $"Error while handling request: {ex.Message}.");
+                    return StatusCode(500, new ApiV1ErrorResponseModel("Error while handling request."));
+                }
+            }
+            else
+            {
+                logger.LogWarning($"Error while deleting user. Validation failed.");
 
                 return BadRequest(ModelState.ToApiV1ErrorResponseModel());
             }
