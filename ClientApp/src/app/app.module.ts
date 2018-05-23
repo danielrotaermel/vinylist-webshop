@@ -1,29 +1,28 @@
-import { BrowserModule } from "@angular/platform-browser";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { NgModule } from "@angular/core";
-import { FormsModule } from "@angular/forms";
-import { HttpClientModule, HttpClient } from "@angular/common/http";
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 //HttpModule is deprecated but still required somehow
-import { HttpModule } from '@angular/http'
-import { RouterModule } from "@angular/router";
-import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
-import { TranslateHttpLoader } from "@ngx-translate/http-loader";
-import { AngularSvgIconModule } from "angular-svg-icon";
+import { HttpModule } from '@angular/http';
+import { RouterModule } from '@angular/router';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { AngularSvgIconModule } from 'angular-svg-icon';
 
-import { AppComponent } from "./app.component";
-import { UserModule } from "./user/user.module";
-import { MaterialModule } from "./core/material.module";
-import { MatSnackBarModule } from "@angular/material/snack-bar"
-import { LanguageSwitcherComponent } from "./language-switcher/language-switcher.component";
-import { FooterComponent } from "./footer/footer.component";
-import { SplashscreenComponent } from "./splashscreen/splashscreen.component";
-import { HeaderModule } from "./header/header.module";
+import { AppComponent } from './app.component';
+import { UserModule } from './user/user.module';
+import { MaterialModule } from './core/material.module';
+import { LanguageSwitcherComponent } from './language-switcher/language-switcher.component';
+import { FooterComponent } from './footer/footer.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { SplashscreenComponent } from './splashscreen/splashscreen.component';
+import { HeaderModule } from './header/header.module';
 
-// import { LoginComponent } from './user/login/login.component';
 import { LoginService } from './user/login/login.service';
 import { RegisterService } from './user/register/register.service';
-import { ApiService } from "./api.service";
+import { ApiService } from './api.service';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -34,16 +33,15 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppComponent,
     LanguageSwitcherComponent,
     FooterComponent,
-    SplashscreenComponent,
-    //LoginComponent
+    SplashscreenComponent
   ],
   imports: [
-    BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
+    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    FormsModule,
     HttpClientModule,
     //HttpModule is deprecated but still required somehow
     HttpModule,
     BrowserAnimationsModule,
-    FormsModule,
     RouterModule,
     MatSnackBarModule,
     TranslateModule.forRoot({
@@ -58,8 +56,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     HeaderModule,
     UserModule
   ],
-  providers: [
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

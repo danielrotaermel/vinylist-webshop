@@ -9,9 +9,9 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class AppComponent {
   constructor(private translate: TranslateService) {
-    translate.addLangs(['de','en']);
+    translate.addLangs(['de', 'en']);
     translate.setDefaultLang('en');
-    
+
     /*
     * determines the browser language to use it automatically
     * If the browser language isn't available in the i18n files, the default language is used

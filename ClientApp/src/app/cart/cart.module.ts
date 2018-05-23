@@ -4,9 +4,8 @@ import { CartListComponent } from './cart-list/cart-list.component';
 import { CartListItemComponent } from './cart-list-item/cart-list-item.component';
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
-  declarations: [CartListComponent, CartListItemComponent]
+  imports: [CommonModule],
+  declarations: [CartListComponent, CartListItemComponent],
+  exports: []
 })
-export class CartModule { }
+export class CartModule {}
