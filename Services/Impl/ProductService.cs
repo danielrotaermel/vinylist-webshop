@@ -142,23 +142,31 @@ namespace webspec3.Services.Impl
 
             using (var transaction = await dbContext.Database.BeginTransactionAsync())
             {
+                // Update product entity itself
+                var productPrices = entity.Prices;
+                var productTranslations = entity.Translations;
+
+                entity.Prices = null;
+                entity.Translations = null;
+
+                dbContext.Products.Update(entity);
+
+                await dbContext.SaveChangesAsync();
+
                 // Remove all previous prices and translations
                 dbContext.ProductPrices.RemoveRange(dbContext.ProductPrices.Where(x => x.ProductId == entity.Id));
                 dbContext.ProductTranslations.RemoveRange(dbContext.ProductTranslations.Where(x => x.ProductId == entity.Id));
 
+                await dbContext.SaveChangesAsync();
+
                 // Add new prices
-                entity.Prices.ForEach(x =>
-                {
-                    x.ProductId = entity.Id;
-                    dbContext.ProductPrices.Add(x);
-                });
+                productPrices.ForEach(x => { x.ProductId = entity.Id; });
 
                 // Add new translations
-                entity.Translations.ForEach(x =>
-                {
-                    x.ProductId = entity.Id;
-                    dbContext.ProductTranslations.Add(x);
-                });
+                productTranslations.ForEach(x => { x.ProductId = entity.Id; });
+
+                await dbContext.ProductPrices.AddRangeAsync(productPrices);
+                await dbContext.ProductTranslations.AddRangeAsync(productTranslations);
 
                 await dbContext.SaveChangesAsync();
 

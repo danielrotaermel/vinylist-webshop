@@ -166,6 +166,9 @@ namespace webspec3.Controllers.Api.v1
         /// </summary>
         /// <param name="productId">Id of the product to update</param>
         /// <param name="model">Product to update</param>
+        /// <response code="200">Product updated successfully</response>
+        /// <response code="400">Invalid model</response>
+        /// <response code="500">An internal error occurred</response>
         [HttpPut("{productId}")]
         public async Task<IActionResult> Update([FromRoute] Guid productId, [FromBody] ApiV1ProductCreateUpdateRequestModel model)
         {
@@ -174,55 +177,88 @@ namespace webspec3.Controllers.Api.v1
             {
                 logger.LogDebug($"Attempting to update product with id {productId}.");
 
-                try
+                // Get product
+                var product = await productService.GetByIdAsync(productId);
+
+                if (product == null)
                 {
-                    // Get product
-                    var product = await productService.GetByIdAsync(productId);
-
-                    if (product == null)
-                    {
-                        logger.LogWarning($"A product with id {productId} does not exist.");
-                        return BadRequest(ModelState.ToApiV1ErrorResponseModel());
-                    }
-
-                    product.Artist = model.Artist;
-                    product.CategoryId = model.CategoryId;
-                    product.Label = model.Label;
-                    product.ReleaseDate = model.ReleaseDate;
-
-                    var productPriceEntities = model.Prices
-                       .Select(x => new ProductPriceEntity
-                       {
-                           CurrencyId = x.CurrencyId,
-                           Price = x.Price
-                       })
-                       .ToList();
-
-                    var productTranslationEntities = model.Translations
-                        .Select(x => new ProductTranslationEntity
-                        {
-                            Description = x.Description,
-                            DescriptionShort = x.DescriptionShort,
-                            LanguageId = x.LanguageId,
-                            Title = x.Title
-                        })
-                        .ToList();
-
-                    await productService.UpdateAsync(product);
-
-                    logger.LogInformation($"Successfully updated product with id {model.Id}.");
-
-                    return Ok();
-                }
-                catch (Exception ex)
-                {
-                    logger.LogError(ex, $"Error while handling request: {ex.Message}.");
+                    logger.LogWarning($"A product with id {productId} does not exist.");
                     return BadRequest(ModelState.ToApiV1ErrorResponseModel());
                 }
+
+                product.Artist = model.Artist;
+                product.CategoryId = model.CategoryId;
+                product.Label = model.Label;
+                product.ReleaseDate = model.ReleaseDate;
+
+                var productPriceEntities = model.Prices
+                   .Select(x => new ProductPriceEntity
+                   {
+                       CurrencyId = x.CurrencyId,
+                       Price = x.Price
+                   })
+                   .ToList();
+
+                var productTranslationEntities = model.Translations
+                    .Select(x => new ProductTranslationEntity
+                    {
+                        Description = x.Description,
+                        DescriptionShort = x.DescriptionShort,
+                        LanguageId = x.LanguageId,
+                        Title = x.Title
+                    })
+                    .ToList();
+
+                product.Prices = productPriceEntities;
+                product.Translations = productTranslationEntities;
+
+                await productService.UpdateAsync(product);
+
+                logger.LogInformation($"Successfully updated product with id {model.Id}.");
+
+                return Ok();
             }
             else
             {
                 logger.LogWarning($"Error while updating the product. Validation failed.");
+
+                return BadRequest(ModelState.ToApiV1ErrorResponseModel());
+            }
+        }
+
+        /// <summary>
+        /// Deletes the product with the specified id including all related prices and translations
+        /// </summary>
+        /// <param name="productId">Id of the product to delete</param>
+        /// <response code="200">Product deleted successfully</response>
+        /// <response code="400">Invalid model</response>
+        /// <response code="500">An internal error occurred</response>
+        [HttpDelete("{productId}")]
+        public async Task<IActionResult> Delete([FromRoute] Guid productId)
+        {
+            if (ModelState.IsValid)
+            {
+                logger.LogDebug($"Attempting to delete product with id {productId}.");
+
+                // Check if product exists
+                var product = await productService.GetByIdAsync(productId);
+
+                if (product == null)
+                {
+                    logger.LogWarning($"Error while deleting the product with id {productId}. The product does not exist.");
+
+                    return NotFound();
+                }
+
+                await productService.DeleteAsync(product);
+
+                logger.LogInformation($"Product with id {productId} has been deleted successfully.");
+
+                return Ok();
+            }
+            else
+            {
+                logger.LogWarning($"Error while deleting product with id {productId}.");
 
                 return BadRequest(ModelState.ToApiV1ErrorResponseModel());
             }
