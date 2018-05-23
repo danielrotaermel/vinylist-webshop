@@ -7,7 +7,6 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
 import { TranslateModule } from '@ngx-translate/core';
 import { MaterialModule } from '../core/material.module';
 import { RouterModule } from '@angular/router';
-import { NavOverlayComponent } from './nav-overlay/nav-overlay.component';
 import { SatPopoverModule } from '@ncstate/sat-popover';
 
 @NgModule({
@@ -20,11 +19,7 @@ import { SatPopoverModule } from '@ncstate/sat-popover';
     RouterModule,
     FormsModule
   ],
-  declarations: [
-    CategoriesComponent,
-    NavigationBarComponent,
-    NavOverlayComponent
-  ],
-  exports: [NavigationBarComponent, NavOverlayComponent]
+  declarations: [CategoriesComponent, NavigationBarComponent],
+  exports: [NavigationBarComponent]
 })
 export class HeaderModule {}
