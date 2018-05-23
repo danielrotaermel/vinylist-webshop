@@ -27,7 +27,7 @@ namespace webspec3.Services
         /// While consolidation, the currently selected currency and language is provided by an instance of <see cref="II18nService"/>
         /// </summary>
         /// <returns>List of all available products consolidated into an instance of <see cref="ConsolidatedProductEntity"/></returns>
-        Task<List<ConsolidatedProductEntity>> GetAllConsolidated();
+        Task<List<ConsolidatedProductEntity>> GetAllConsolidatedAsync();
 
         /// <summary>
         /// Returns a paged list of all available products consolidated into an instance of <see cref="ConsolidatedProductEntity"/> while respecting the provided options
@@ -35,13 +35,13 @@ namespace webspec3.Services
         /// </summary>
         /// <param name="options">Instance of <see cref="PagingSortingParams"/></param>
         /// <returns>Paged list of available products consolidated into an instance of <see cref="ConsolidatedProductEntity"/></returns>
-        Task<List<ConsolidatedProductEntity>> GetConsolidatedPaged(PagingSortingParams options);
+        Task<List<ConsolidatedProductEntity>> GetConsolidatedPagedAsync(PagingSortingParams options);
 
         /// <summary>
         /// Returns the product with the specified id consolidated into an instance of <see cref="ConsolidatedProductEntity"/>
         /// </summary>
         /// <param name="id">Product id</param>
         /// <returns>Product with the specified id consolidated into an instance of <see cref="ConsolidatedProductEntity"/></returns>
-        Task<ConsolidatedProductEntity> GetConsolidatedById(Guid id);
+        Task<ConsolidatedProductEntity> GetConsolidatedByIdAsync(Guid id);
     }
 }

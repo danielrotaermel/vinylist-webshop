@@ -91,9 +91,11 @@ namespace webspec3.Services.Impl
 
             using (var transaction = await dbContext.Database.BeginTransactionAsync())
             {
+                // Remove all prices
                 dbContext.ProductPrices.RemoveRange(dbContext.ProductPrices.Where(x => x.ProductId == entityId));
-                dbContext.ProductTranslations.RemoveRange(
-                    dbContext.ProductTranslations.Where(x => x.ProductId == entityId));
+
+                // Remove all translations
+                dbContext.ProductTranslations.RemoveRange(dbContext.ProductTranslations.Where(x => x.ProductId == entityId));
 
                 dbContext.Products.Remove(await dbContext.Products.FindAsync(entityId));
 
@@ -116,30 +118,55 @@ namespace webspec3.Services.Impl
             return product;
         }
 
-
         public async Task UpdateAsync(ProductEntity entity)
         {
             logger.LogDebug($"Attempting to update product with id {entity.Id}");
 
-            var products = await dbContext.Products
-                .Where(x => x.Id == entity.Id)
-                .ToListAsync();
-
-            if (products.Count == 0)
+            foreach (var priceEntity in entity.Prices)
             {
-                throw new ArgumentException($"Product with id {entity.Id} is not available");
+                // Check if currency is supported
+                if (!i18nService.SupportedCurrencies.Any(x => x.Code == priceEntity.CurrencyId))
+                {
+                    throw new ArgumentException($"Currency {priceEntity.CurrencyId} is not supported.");
+                }
+            }
+
+            foreach (var translationEntity in entity.Translations)
+            {
+                // Check if language is supported
+                if (!i18nService.SupportedLanguages.Any(x => x.Code == translationEntity.LanguageId))
+                {
+                    throw new ArgumentException($"Language {translationEntity.LanguageId} is not supported.");
+                }
             }
 
             using (var transaction = await dbContext.Database.BeginTransactionAsync())
             {
-                dbContext.Products.Update(entity);
+                // Remove all previous prices and translations
+                dbContext.ProductPrices.RemoveRange(dbContext.ProductPrices.Where(x => x.ProductId == entity.Id));
+                dbContext.ProductTranslations.RemoveRange(dbContext.ProductTranslations.Where(x => x.ProductId == entity.Id));
+
+                // Add new prices
+                entity.Prices.ForEach(x =>
+                {
+                    x.ProductId = entity.Id;
+                    dbContext.ProductPrices.Add(x);
+                });
+
+                // Add new translations
+                entity.Translations.ForEach(x =>
+                {
+                    x.ProductId = entity.Id;
+                    dbContext.ProductTranslations.Add(x);
+                });
+
                 await dbContext.SaveChangesAsync();
 
                 transaction.Commit();
             }
         }
 
-        public async Task<List<ConsolidatedProductEntity>> GetAllConsolidated()
+        public async Task<List<ConsolidatedProductEntity>> GetAllConsolidatedAsync()
         {
             logger.LogDebug($"Attempting to retrieve all available products consolidated from the database.");
 
@@ -153,7 +180,7 @@ namespace webspec3.Services.Impl
             return products;
         }
 
-        public async Task<List<ConsolidatedProductEntity>> GetConsolidatedPaged(PagingSortingParams options)
+        public async Task<List<ConsolidatedProductEntity>> GetConsolidatedPagedAsync(PagingSortingParams options)
         {
             logger.LogDebug($"Attempting to retrieve products consolidated from database: Page: {options.Page}, items per page: {options.ItemsPerPage}, sort by: {options.SortBy}, sort direction: {options.SortDirection}.");
 
@@ -167,7 +194,7 @@ namespace webspec3.Services.Impl
             return products;
         }
 
-        public async Task<ConsolidatedProductEntity> GetConsolidatedById(Guid id)
+        public async Task<ConsolidatedProductEntity> GetConsolidatedByIdAsync(Guid id)
         {
             logger.LogDebug($"Attempting to retrieve the consolidated product with id {id}.");
 

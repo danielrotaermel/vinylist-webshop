@@ -33,12 +33,12 @@ namespace webspec3.Controllers.Api.v1
         /// </summary>
         /// <response code="200">Products returned successfully</response>
         /// <response code="500">An internal error occurred</response>
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        [HttpGet("consolidated")]
+        public async Task<IActionResult> GetConsolidated()
         {
             logger.LogDebug($"Attempting to get all consolidated products.");
 
-            var products = await productService.GetAllConsolidated();
+            var products = await productService.GetAllConsolidatedAsync();
 
             logger.LogInformation($"Received {products.Count} products from the database.");
 
@@ -53,8 +53,8 @@ namespace webspec3.Controllers.Api.v1
         /// <response code="200">Products returned successfully</response>
         /// <response code="400">Invalid model</response>
         /// <response code="500">An internal error occurred</response>
-        [HttpGet("paged/{page:int}")]
-        public async Task<IActionResult> GetPaged([FromQuery]ApiV1ProductPagingSortingRequestModel model, [FromRoute]int page = 1)
+        [HttpGet("consolidated/paged/{page:int}")]
+        public async Task<IActionResult> GetConsolidatedPaged([FromQuery]ApiV1ProductPagingSortingRequestModel model, [FromRoute]int page = 1)
         {
             logger.LogDebug($"Attempting to get paged consolidated products: Page: {page}, items per page: {model.ItemsPerPage}.");
 
@@ -68,7 +68,7 @@ namespace webspec3.Controllers.Api.v1
                     SortDirection = model.SortDirection
                 };
 
-                var products = await productService.GetConsolidatedPaged(options);
+                var products = await productService.GetConsolidatedPagedAsync(options);
 
                 logger.LogInformation($"Received {products.Count} products from the database.");
 
@@ -88,12 +88,12 @@ namespace webspec3.Controllers.Api.v1
         /// <response code="200">Products returned successfully</response>
         /// <response code="404">Product with the specified id not found</response>
         /// <response code="500">An internal error occurred</response>
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById([FromRoute] Guid id)
+        [HttpGet("consolidated/{id}")]
+        public async Task<IActionResult> GetConsolidatedById([FromRoute] Guid id)
         {
             logger.LogDebug($"Attempting to get consolidated product with id {id}.");
 
-            var product = await productService.GetConsolidatedById(id);
+            var product = await productService.GetConsolidatedByIdAsync(id);
 
             if (product == null)
             {
@@ -167,8 +167,7 @@ namespace webspec3.Controllers.Api.v1
         /// <param name="productId">Id of the product to update</param>
         /// <param name="model">Product to update</param>
         [HttpPut("{productId}")]
-        public async Task<IActionResult> Update([FromRoute] Guid productId,
-            [FromBody] ApiV1ProductCreateUpdateRequestModel model)
+        public async Task<IActionResult> Update([FromRoute] Guid productId, [FromBody] ApiV1ProductCreateUpdateRequestModel model)
         {
             // Check if model is valid
             if (model != null && ModelState.IsValid)
@@ -182,11 +181,32 @@ namespace webspec3.Controllers.Api.v1
 
                     if (product == null)
                     {
-                        logger.LogWarning($"A product with id {productId} doesnt exist.");
+                        logger.LogWarning($"A product with id {productId} does not exist.");
                         return BadRequest(ModelState.ToApiV1ErrorResponseModel());
                     }
 
                     product.Artist = model.Artist;
+                    product.CategoryId = model.CategoryId;
+                    product.Label = model.Label;
+                    product.ReleaseDate = model.ReleaseDate;
+
+                    var productPriceEntities = model.Prices
+                       .Select(x => new ProductPriceEntity
+                       {
+                           CurrencyId = x.CurrencyId,
+                           Price = x.Price
+                       })
+                       .ToList();
+
+                    var productTranslationEntities = model.Translations
+                        .Select(x => new ProductTranslationEntity
+                        {
+                            Description = x.Description,
+                            DescriptionShort = x.DescriptionShort,
+                            LanguageId = x.LanguageId,
+                            Title = x.Title
+                        })
+                        .ToList();
 
                     await productService.UpdateAsync(product);
 
