@@ -31,5 +31,11 @@ namespace webspec3.Services
         /// Log out the user
         /// </summary>
         void Logout();
+
+        /// <summary>
+        /// Weather a juser is admin or not
+        /// </summary>
+        /// <returns>True if a user is admin, else flase</returns>
+        bool IsAdmin();
     }
 }

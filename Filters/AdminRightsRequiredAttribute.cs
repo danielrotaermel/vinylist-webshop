@@ -50,7 +50,7 @@ namespace webspec3.Filters
                     };
                 }
 
-                var isAdmin = userService.IsUserAdmin(userEntity);
+                var isAdmin = loginService.IsAdmin();
 
                 if (!isAdmin)
                 {

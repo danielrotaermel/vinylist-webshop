@@ -29,9 +29,9 @@ namespace webspec3.Services
         /// <summary>
         /// Returns if the current user has Admin rights or not
         /// </summary>
-        /// <param name="userEntity">The User</param>
+        /// <param name="userId">The User Id</param>
         /// <returns>Boolean indicating if the user has admin rights</returns>
         /// 
-        bool IsUserAdmin(UserEntity userEntity);
+        Task<bool> IsUserAdmin(Guid userId);
     }
 }

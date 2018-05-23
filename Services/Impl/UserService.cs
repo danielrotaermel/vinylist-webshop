@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -44,11 +45,15 @@ namespace webspec3.Services.Impl
                        .CountAsync() > 0;
         }
 
-        public bool IsUserAdmin(UserEntity userEntity)
+        public async Task<bool> IsUserAdmin(Guid userId)
         {
-            logger.LogDebug($"Checking if the user with id {userEntity.Id} has admin rights");
+            logger.LogDebug($"Checking if the user with id {userId} has admin rights");
 
-            return userEntity.IsAdmin;
+            var user = await dbContext.Users
+                .Where(x => x.Id == userId)
+                .FirstOrDefaultAsync();
+
+            return user.IsAdmin;
         }
     }
 }
