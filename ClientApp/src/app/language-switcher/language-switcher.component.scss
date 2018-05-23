@@ -1,11 +1,26 @@
 @import '../../sass/styles';
 
 .placeholder {
-    color: $font;
+  color: $font;
 }
 
 //. fix materials fixed width for input fields
 .mat-form-field-infix {
-    width: 100% !important;
-    max-width: 180px !important;
+  width: 100% !important;
+  max-width: 180px !important;
+}
+
+#{'/deep/'} .mat-select-content {
+  background: $dark-grey !important;
+}
+
+#{'/deep/'} mat-option {
+  color: $font-grey !important;
+  .mat-selected {
+    color: $font !important;
+  }
+}
+
+#{'/deep/'} .mat-select-value {
+  color: $font-grey !important;
 }

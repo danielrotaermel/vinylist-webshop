@@ -1,6 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 
-
 /* global imports */
 
 @import './variables';
@@ -15,42 +14,36 @@ $material-icons-font-path: '~material-icons/iconfont/';
 @import '~flexboxgrid-helpers/dist/flexboxgrid-helpers.min.css';
 @import '~flexboxgrid/css/flexboxgrid.min.css';
 
-
 /* global styles */
 
-html, 
+html,
 body {
-    height: 100%;
+  height: 100%;
 }
 
 body {
-    background: -moz-linear-gradient(top, $background 75%, $background-dark 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, $background 75%, $background-dark 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, $background 75%,$background-dark 100%);
-    color: $font;
-    font-size: 12pt;
-    font-family: Arial, Helvetica, sans-serif;
-    // width:75%;
-    // margin-left: auto;
-    // margin-right: auto;
+  background: -moz-linear-gradient(
+    top,
+    $background 75%,
+    $background-dark 100%
+  ); /* FF3.6-15 */
+  background: -webkit-linear-gradient(
+    top,
+    $background 75%,
+    $background-dark 100%
+  ); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(
+    to bottom,
+    $background 75%,
+    $background-dark 100%
+  );
+  color: $font;
+  font-size: 12pt;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-// some styling has to be done here, as it isn't changeable in the component's scss file
-.mat-select-content {
-    background: $dark-grey !important;
-}
-
-mat-option {
-    color: $font-grey !important;
-
-    .mat-selected {
-        color: $font !important;
-    }
-}
-
-.mat-select-value {
-    color:$font-grey !important;
-}
-
+/* global fix */
 // fix for border radius not beeing inherited on ripple effects (only works on chrome + firefox)
-::ng-deep .mat-button-ripple { border-radius: inherit !important}
+::ng-deep .mat-button-ripple {
+  border-radius: inherit !important;
+}
