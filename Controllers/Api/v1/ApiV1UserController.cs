@@ -63,7 +63,8 @@ namespace webspec3.Controllers.Api.v1
                         FirstName = model.FirstName,
                         LastName = model.LastName,
                         Email = model.Email,
-                        Password = passwordService.HashPassword(model.Password)
+                        Password = passwordService.HashPassword(model.Password),
+                        IsAdmin = model.IsAdmin
                     };
 
                     await userService.AddAsync(user);
@@ -76,7 +77,8 @@ namespace webspec3.Controllers.Api.v1
                         user.Id,
                         user.FirstName,
                         user.LastName,
-                        user.Email
+                        user.Email,
+                        user.IsAdmin
                     });
                 }
                 catch (Exception ex)

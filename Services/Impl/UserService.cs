@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -19,7 +20,8 @@ namespace webspec3.Services.Impl
         private readonly WebSpecDbContext dbContext;
         private readonly ILogger logger;
 
-        public UserService(WebSpecDbContext dbContext, ILogger<UserService> logger) : base(dbContext, dbContext.Users, logger, entityName)
+        public UserService(WebSpecDbContext dbContext, ILogger<UserService> logger) : base(dbContext, dbContext.Users,
+            logger, entityName)
         {
             this.dbContext = dbContext;
             this.logger = logger;
@@ -39,8 +41,19 @@ namespace webspec3.Services.Impl
             logger.LogDebug($"Checking if a user with email {email} exists already.");
 
             return await dbContext.Users
-                .Where(x => x.Email.ToLower() == email.ToLower())
-                .CountAsync() > 0;
+                       .Where(x => x.Email.ToLower() == email.ToLower())
+                       .CountAsync() > 0;
+        }
+
+        public async Task<bool> IsUserAdmin(Guid userId)
+        {
+            logger.LogDebug($"Checking if the user with id {userId} has admin rights");
+
+            var user = await dbContext.Users
+                .Where(x => x.Id == userId)
+                .FirstOrDefaultAsync();
+
+            return user.IsAdmin;
         }
     }
 }

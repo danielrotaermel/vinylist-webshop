@@ -23,6 +23,7 @@ CREATE TABLE users (
 --    ,address_id 		UUID    		NOT NULL REFERENCES addresses(id)
     ,email      		TEXT    		NOT NULL UNIQUE
     ,password   		TEXT  			NOT NULL
+    ,is_admin       BOOLEAN         NOT NULL
 );
 
 CREATE TABLE product_categories (

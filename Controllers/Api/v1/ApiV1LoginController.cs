@@ -78,7 +78,8 @@ namespace webspec3.Controllers.Api.v1
                             user.Id,
                             user.FirstName,
                             user.LastName,
-                            user.Email
+                            user.Email,
+                            user.IsAdmin
                         });
                     }
                     else
