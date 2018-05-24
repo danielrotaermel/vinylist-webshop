@@ -30,12 +30,12 @@ namespace webspec3.Services
         /// <param name="entity">The image entity</param>
         /// <returns></returns>
         Task DeleteAsync(ImageEntity entity);
-
+        
         /// <summary>
-        /// Returns the image of a given productId 
+        /// Returns whether a an image id already exists or not
         /// </summary>
-        /// <param name="productId">Id of the corresponding product</param>
+        /// <param name="id">id to check</param>
         /// <returns></returns>
-        Task<ImageEntity> GetByProductIdAsync(Guid productId);
+        Task<bool> ImageIdExistsAsync(Guid id);
     }
 }

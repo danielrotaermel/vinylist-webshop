@@ -37,10 +37,10 @@ namespace webspec3.Entities
         public Guid CategoryId { get; set; }
 
         /// <summary>
-        /// Product image
+        /// Product image id. 
         /// </summary>
-        [Column("image")]
-        public ImageEntity Image { get; set; }
+        [Column("image_id")]
+        public Guid ImageId { get; set; }
 
         public ProductCategory Category { get; set; }
 

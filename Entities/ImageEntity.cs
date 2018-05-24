@@ -14,13 +14,15 @@ namespace webspec3.Entities
         /// <summary>
         /// Image id
         /// </summary>
+        [Column("id")]
         public Guid Id { get; set; }
 
         /// <summary>
         /// Description of the image
         /// </summary>
         [Column("description")]
-        [Required] public string Description { get; set; }
+        [Required] 
+        public string Description { get; set; }
 
         /// <summary>
         /// Base64 representation of the image
@@ -36,11 +38,5 @@ namespace webspec3.Entities
         [RegularExpression("(png|jpg)")]
         [Column("image_type")]
         public string ImageType { get; set; }
-
-        /// <summary>
-        /// Product id
-        /// </summary>
-        [Required]
-        [Column("product_id")] public Guid ProductId { get; set; }
     }
 }

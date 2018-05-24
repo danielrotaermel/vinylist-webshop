@@ -44,6 +44,7 @@ namespace webspec3.Controllers.Api.v1.Requests
         /// <summary>
         /// Product image
         /// </summary>
+        [Required]
         public ImageEntity Image{ get; set; }
 
         /// <summary>

@@ -3,7 +3,9 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using webspec3.Controllers.Api.v1.Requests;
+using webspec3.Controllers.Api.v1.Responses;
 using webspec3.Core.HelperClasses;
 using webspec3.Entities;
 using webspec3.Extensions;
@@ -208,10 +210,17 @@ namespace webspec3.Controllers.Api.v1
                 {
                     Artist = model.Artist,
                     CategoryId = model.CategoryId,
+                    ImageId = model.Image.Id,
                     Label = model.Label,
-                    Image = model.Image,
                     ReleaseDate = model.ReleaseDate
                 };
+
+                if (await imageService.ImageIdExistsAsync(model.Image.Id))
+                {
+                    return StatusCode(403, new ApiV1ErrorResponseModel("Image with this id already exists!"));
+                }
+                
+                await imageService.AddAsync(model.Image);
 
                 var productPriceEntities = model.Prices
                     .Select(x => new ProductPriceEntity
@@ -230,11 +239,6 @@ namespace webspec3.Controllers.Api.v1
                         Title = x.Title
                     })
                     .ToList();
-
-                if (model.Image != null)
-                {
-                    await imageService.AddAsync(model.Image);
-                }
 
                 await productService.AddAsync(productEntity, productPriceEntities, productTranslationEntities);
 
@@ -282,6 +286,7 @@ namespace webspec3.Controllers.Api.v1
                 product.CategoryId = model.CategoryId;
                 product.Label = model.Label;
                 product.ReleaseDate = model.ReleaseDate;
+                product.ImageId = model.Image.Id;
 
                 var productPriceEntities = model.Prices
                     .Select(x => new ProductPriceEntity
@@ -304,20 +309,17 @@ namespace webspec3.Controllers.Api.v1
                 product.Prices = productPriceEntities;
                 product.Translations = productTranslationEntities;
 
-                // Delete old imageEntity
-                if (product.Image == null)
+                //Image got updated
+                if (product.ImageId != model.Image.Id)
                 {
-                    var oldImageEntity = await imageService.GetByProductIdAsync(productId);
+                    var oldImageEntity = await imageService.GetByIdAsync(product.ImageId);
                     await imageService.DeleteAsync(oldImageEntity);
+                    await imageService.AddAsync(model.Image);
                 }
-                else
+                
+                if (!await imageService.ImageIdExistsAsync(model.Image.Id))
                 {
-                    //Image got updated
-                    if (product.Image != model.Image)
-                    {
-                        await imageService.DeleteAsync(product.Image);
-                        await imageService.AddAsync(model.Image);
-                    }
+                    await imageService.AddAsync(model.Image);
                 }
 
                 await productService.UpdateAsync(product);

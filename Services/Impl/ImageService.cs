@@ -8,6 +8,8 @@ using webspec3.Entities;
 namespace webspec3.Services.Impl
 {
     /// <summary>
+    /// Image Service providing access to the images in the database
+    /// 
     /// J. Mauthe
     /// </summary>
     public sealed class ImageService : IImageService
@@ -51,11 +53,11 @@ namespace webspec3.Services.Impl
             }
         }
 
-        public async Task<ImageEntity> GetByProductIdAsync(Guid productId)
+        public async Task<bool> ImageIdExistsAsync(Guid id)
         {
             return await dbContext.Images
-                .Where(x => x.ProductId == productId)
-                .FirstOrDefaultAsync();
+                       .Where(x => x.Id.Equals(id))
+                       .CountAsync() > 0;
         }
     }
 }

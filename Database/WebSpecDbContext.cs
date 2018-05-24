@@ -62,7 +62,7 @@ namespace webspec3.Database
 
             modelBuilder
                 .Entity<ImageEntity>()
-                .ToTable("products_images");
+                .ToTable("product_images");
 
             // Users
             modelBuilder
