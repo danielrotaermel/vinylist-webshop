@@ -3,10 +3,10 @@
 DROP TABLE IF EXISTS wishlist_products;
 DROP TABLE IF EXISTS orders_products;
 DROP TABLE IF EXISTS orders;
-DROP TABLE IF EXISTS product_images;
 DROP TABLE IF EXISTS product_prices;
 DROP TABLE IF EXISTS product_translations;
 DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS product_images;
 DROP TABLE IF EXISTS product_categories;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS addresses;
@@ -55,11 +55,19 @@ CREATE TABLE product_categories (
     ,title  TEXT        NOT NULL
 );
 
+CREATE TABLE product_images (
+    id          	UUID            PRIMARY KEY
+    ,description	TEXT			NOT NULL
+    ,base_64_string      TEXT            NOT NULL
+    ,image_type     TEXT    NOT NULL
+);
+
 CREATE TABLE products (
     id              UUID        PRIMARY KEY
     ,artist			TEXT		NOT NULL
     ,label			TEXT		NOT NULL
     ,release_date	DATE		NOT NULL
+    ,image_id      UUID       REFERENCES product_images(id)
     ,category_id    UUID    	NOT NULL REFERENCES product_categories(id) 			
 );
 
@@ -77,13 +85,6 @@ CREATE TABLE product_translations (
     ,language_id		CHAR(5)		NOT NULL REFERENCES languages(id)
     ,product_id			UUID		NOT NULL REFERENCES products(id)
     ,title				TEXT		NOT NULL
-);
-
-CREATE TABLE product_images (
-    id          	UUID            PRIMARY KEY
-    ,description	TEXT			NOT NULL
-    ,file_name      TEXT            NOT NULL
-    ,product_id 	UUID		    NOT NULL REFERENCES products(id)
 );
 
 CREATE TABLE orders (
@@ -105,4 +106,4 @@ CREATE TABLE wishlist_products (
     ,PRIMARY KEY(product_id, user_id)
 );
 
-CREATE OR REPLACE VIEW products_consolidated AS SELECT p.id, p.artist, p.category_id, p.label, p.release_date, pp.price, pt.description, pt.description_short, pt.title, pp.currency_id as currency, pt.language_id as language FROM products p, product_prices pp, product_translations pt WHERE pp.product_id = p.id AND pt.product_id = p.id;
+CREATE OR REPLACE VIEW products_consolidated AS SELECT p.id, p.artist, p.category_id, p.label, p.release_date, password.image_id, pp.price, pt.description, pt.description_short, pt.title, pp.currency_id as currency, pt.language_id as language FROM products p, product_prices pp, product_translations pt WHERE pp.product_id = p.id AND pt.product_id = p.id;

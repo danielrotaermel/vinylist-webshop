@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using webspec3.Controllers.Api.v1.Requests;
 using webspec3.Controllers.Api.v1.Responses;
 using webspec3.Core.HelperClasses;
@@ -24,11 +25,14 @@ namespace webspec3.Controllers.Api.v1
     {
         private readonly IProductService productService;
         private readonly ILogger logger;
+        private readonly IImageService imageService;
 
-        public ApiV1ProductController(IProductService productService, ILogger<ApiV1ProductController> logger)
+        public ApiV1ProductController(IProductService productService, ILogger<ApiV1ProductController> logger,
+            IImageService imageService)
         {
             this.productService = productService;
             this.logger = logger;
+            this.imageService = imageService;
         }
 
         /// <summary>
@@ -64,7 +68,8 @@ namespace webspec3.Controllers.Api.v1
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
         public async Task<IActionResult> GetConsolidatedPaged([FromQuery]ApiV1ProductPagingSortingRequestModel model, Guid? categoryId = null, [FromRoute]int page = 1)
         {
-            logger.LogDebug($"Attempting to get paged consolidated products: Page: {page}, items per page: {model.ItemsPerPage}.");
+            logger.LogDebug(
+                $"Attempting to get paged consolidated products: Page: {page}, items per page: {model.ItemsPerPage}.");
 
             if (ModelState.IsValid)
             {
@@ -235,9 +240,17 @@ namespace webspec3.Controllers.Api.v1
                 {
                     Artist = model.Artist,
                     CategoryId = model.CategoryId,
+                    ImageId = model.Image.Id,
                     Label = model.Label,
                     ReleaseDate = model.ReleaseDate
                 };
+
+                if (await imageService.ImageIdExistsAsync(model.Image.Id))
+                {
+                    return StatusCode(400, new ApiV1ErrorResponseModel("Image with this id already exists!"));
+                }
+                
+                await imageService.AddAsync(model.Image);
 
                 var productPriceEntities = model.Prices
                     .Select(x => new ProductPriceEntity
@@ -309,14 +322,15 @@ namespace webspec3.Controllers.Api.v1
                 product.CategoryId = model.CategoryId;
                 product.Label = model.Label;
                 product.ReleaseDate = model.ReleaseDate;
+                product.ImageId = model.Image.Id;
 
                 var productPriceEntities = model.Prices
-                   .Select(x => new ProductPriceEntity
-                   {
-                       CurrencyId = x.CurrencyId,
-                       Price = x.Price
-                   })
-                   .ToList();
+                    .Select(x => new ProductPriceEntity
+                    {
+                        CurrencyId = x.CurrencyId,
+                        Price = x.Price
+                    })
+                    .ToList();
 
                 var productTranslationEntities = model.Translations
                     .Select(x => new ProductTranslationEntity
@@ -330,6 +344,19 @@ namespace webspec3.Controllers.Api.v1
 
                 product.Prices = productPriceEntities;
                 product.Translations = productTranslationEntities;
+
+                //Image got updated
+                if (product.ImageId != model.Image.Id)
+                {
+                    var oldImageEntity = await imageService.GetByIdAsync(product.ImageId);
+                    await imageService.DeleteAsync(oldImageEntity);
+                    await imageService.AddAsync(model.Image);
+                }
+                
+                if (!await imageService.ImageIdExistsAsync(model.Image.Id))
+                {
+                    await imageService.AddAsync(model.Image);
+                }
 
                 await productService.UpdateAsync(product);
 
@@ -372,12 +399,20 @@ namespace webspec3.Controllers.Api.v1
 
                 if (product == null)
                 {
-                    logger.LogWarning($"Error while deleting the product with id {productId}. The product does not exist.");
+                    logger.LogWarning(
+                        $"Error while deleting the product with id {productId}. The product does not exist.");
 
                     return NotFound();
                 }
-
+                
                 await productService.DeleteAsync(product);
+              
+                var image = await imageService.GetByIdAsync(product.ImageId);
+
+                if (image != null)
+                {
+                    await imageService.DeleteAsync(image);
+                }
 
                 logger.LogInformation($"Product with id {productId} has been deleted successfully.");
 

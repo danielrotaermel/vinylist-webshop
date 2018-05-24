@@ -6,7 +6,7 @@ namespace webspec3.Entities
     /// <summary>
     /// Represents a consolidated product
     /// 
-    /// M. Narr
+    /// M. Narr, J. Mauthe
     /// </summary>
     public sealed class ConsolidatedProductEntity
     {
@@ -39,6 +39,12 @@ namespace webspec3.Entities
         /// </summary>
         [Column("description_short")]
         public string DescriptionShort { get; set; }
+
+        /// <summary>
+        /// Product image id. 
+        /// </summary>
+        [Column("image_id")]
+        public Guid ImageId { get; set; }
 
         /// <summary>
         /// Product label
