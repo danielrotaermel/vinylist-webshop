@@ -35,11 +35,11 @@ namespace webspec3.Controllers.Api.v1
         /// <response code="200">Products returned successfully</response>
         /// <response code="500">An internal error occurred</response>
         [HttpGet("consolidated")]
-        public async Task<IActionResult> GetConsolidated()
+        public async Task<IActionResult> GetConsolidated(Guid? categoryId = null)
         {
             logger.LogDebug($"Attempting to get all consolidated products.");
 
-            var products = await productService.GetAllConsolidatedAsync();
+            var products = await productService.GetAllConsolidatedAsync(categoryId);
 
             logger.LogInformation($"Received {products.Count} products from the database.");
 
@@ -55,7 +55,7 @@ namespace webspec3.Controllers.Api.v1
         /// <response code="400">Invalid model</response>
         /// <response code="500">An internal error occurred</response>
         [HttpGet("consolidated/paged/{page:int}")]
-        public async Task<IActionResult> GetConsolidatedPaged([FromQuery]ApiV1ProductPagingSortingRequestModel model, [FromRoute]int page = 1)
+        public async Task<IActionResult> GetConsolidatedPaged([FromQuery]ApiV1ProductPagingSortingRequestModel model, Guid? categoryId = null, [FromRoute]int page = 1)
         {
             logger.LogDebug($"Attempting to get paged consolidated products: Page: {page}, items per page: {model.ItemsPerPage}.");
 
@@ -69,7 +69,7 @@ namespace webspec3.Controllers.Api.v1
                     SortDirection = model.SortDirection
                 };
 
-                var products = await productService.GetConsolidatedPagedAsync(options);
+                var products = await productService.GetConsolidatedPagedAsync(options, categoryId);
 
                 logger.LogInformation($"Received {products.Count} products from the database.");
 

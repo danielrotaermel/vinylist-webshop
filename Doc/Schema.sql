@@ -107,4 +107,4 @@ CREATE TABLE wishlist_products (
     ,PRIMARY KEY(product_id, user_id)
 );
 
-CREATE OR REPLACE VIEW products_consolidated AS SELECT p.id, p.artist, p.label, p.release_date, pp.price, pt.description, pt.description_short, pt.title, pp.currency_id as currency, pt.language_id as language FROM products p, product_prices pp, product_translations pt WHERE pp.product_id = p.id AND pt.product_id = p.id;
+CREATE OR REPLACE VIEW products_consolidated AS SELECT p.id, p.artist, p.category_id, p.label, p.release_date, pp.price, pt.description, pt.description_short, pt.title, pp.currency_id as currency, pt.language_id as language FROM products p, product_prices pp, product_translations pt WHERE pp.product_id = p.id AND pt.product_id = p.id;
