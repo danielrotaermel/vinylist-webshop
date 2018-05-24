@@ -55,8 +55,6 @@ CREATE TABLE product_categories (
     ,title  TEXT        NOT NULL
 );
 
-INSERT INTO product_categories (id, title) VALUES ('1f972016-b50b-474c-810b-8dc0781cea55', 'Nu Metal');
-
 CREATE TABLE products (
     id              UUID        PRIMARY KEY
     ,artist			TEXT		NOT NULL
