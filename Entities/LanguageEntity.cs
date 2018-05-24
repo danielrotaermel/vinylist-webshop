@@ -13,6 +13,8 @@ namespace webspec3.Entities
         /// <summary>
         /// Language id, e.g. DEU
         /// </summary>
+        [Required]
+        [Column("id")]
         public string Id { get; set; }
 
         /// <summary>
@@ -21,5 +23,12 @@ namespace webspec3.Entities
         [Required]
         [Column("title")]
         public string Title { get; set; }
+
+        /// <summary>
+        /// Whether this language is the default one
+        /// </summary>
+        [Required]
+        [Column("is_default")]
+        public bool IsDefault { get; set; }
     }
 }
