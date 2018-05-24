@@ -107,9 +107,12 @@ namespace webspec3.Services.Impl
             logger.LogInformation($"Sucessfully removed product with id {entityId}");
         }
 
-        public async Task<List<ProductEntity>> GetPagedAsync(PagingSortingParams options)
+        public async Task<PagingInformation<ProductEntity>> GetPagedAsync(PagingSortingParams options)
         {
             logger.LogDebug($"Attempting to retrieve products from database: Page: {options.Page}, items per page: {options.ItemsPerPage}, sort by: {options.SortBy}, sort direction: {options.SortDirection}.");
+
+            var totalProducts = await dbContext.Products.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalProducts / (double)options.ItemsPerPage);
 
             var products = await dbContext.Products
                 .Include(x => x.Prices)
@@ -119,7 +122,14 @@ namespace webspec3.Services.Impl
 
             logger.LogInformation($"Retrieved {products.Count} products from the database.");
 
-            return products;
+            return new PagingInformation<ProductEntity>
+            {
+                PageCount = totalPages,
+                CurrentPage = options.Page,
+                ItemsPerPage = options.ItemsPerPage,
+                TotalItems = totalProducts,
+                Items = products
+            };
         }
 
         public async Task<ProductEntity> GetByIdAsync(Guid entityId)
@@ -212,9 +222,12 @@ namespace webspec3.Services.Impl
             return products;
         }
 
-        public async Task<List<ConsolidatedProductEntity>> GetConsolidatedPagedAsync(PagingSortingParams options, Guid? categoryId = null)
+        public async Task<PagingInformation<ConsolidatedProductEntity>> GetConsolidatedPagedAsync(PagingSortingParams options, Guid? categoryId = null)
         {
             logger.LogDebug($"Attempting to retrieve products consolidated from database: Page: {options.Page}, items per page: {options.ItemsPerPage}, sort by: {options.SortBy}, sort direction: {options.SortDirection}.");
+
+            var totalProducts = await dbContext.Products.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalProducts / (double)options.ItemsPerPage);
 
             var query = dbContext.ProductsConsolidated
                 .Where(x => x.Language == i18nService.GetCurrentLanguage().Code && x.Currency == i18nService.GetCurrentCurrency().Code);
@@ -230,7 +243,14 @@ namespace webspec3.Services.Impl
 
             logger.LogInformation($"Retrieved {products.Count} products from the database.");
 
-            return products;
+            return new PagingInformation<ConsolidatedProductEntity>
+            {
+                PageCount = totalPages,
+                CurrentPage = options.Page,
+                ItemsPerPage = options.ItemsPerPage,
+                TotalItems = totalProducts,
+                Items = products
+            };
         }
 
         public async Task<ConsolidatedProductEntity> GetConsolidatedByIdAsync(Guid id)

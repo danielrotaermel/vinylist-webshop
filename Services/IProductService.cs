@@ -37,7 +37,7 @@ namespace webspec3.Services
         /// <param name="options">Instance of <see cref="PagingSortingParams"/></param>
         /// <param name="categoryId">Option categoryId. If supplied, only products belonging to this category will be returned</param>
         /// <returns>Paged list of available products consolidated into an instance of <see cref="ConsolidatedProductEntity"/></returns>
-        Task<List<ConsolidatedProductEntity>> GetConsolidatedPagedAsync(PagingSortingParams options, Guid? categoryId);
+        Task<PagingInformation<ConsolidatedProductEntity>> GetConsolidatedPagedAsync(PagingSortingParams options, Guid? categoryId);
 
         /// <summary>
         /// Returns the product with the specified id consolidated into an instance of <see cref="ConsolidatedProductEntity"/>
@@ -64,7 +64,7 @@ namespace webspec3.Services
         /// </summary>
         /// <param name="options">Instance of <see cref="PagingSortingParams"/></param>
         /// <returns>Paged list of available products/></returns>
-        Task<List<ProductEntity>> GetPagedAsync(PagingSortingParams options);
+        Task<PagingInformation<ProductEntity>> GetPagedAsync(PagingSortingParams options);
 
         /// <summary>
         /// Removes the products with the specified category
