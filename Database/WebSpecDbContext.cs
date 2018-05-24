@@ -23,6 +23,9 @@ namespace webspec3.Database
         public DbQuery<ConsolidatedProductEntity> ProductsConsolidated { get; set; }
 
 
+        public DbSet<CategoryEntity> Categories { get; set; }
+
+
 
         public DbSet<UserEntity> Users { get; set; }
 
@@ -61,6 +64,12 @@ namespace webspec3.Database
             modelBuilder
                 .Query<ConsolidatedProductEntity>()
                 .ToView("products_consolidated");
+
+
+            // Categories
+            modelBuilder
+                .Entity<CategoryEntity>()
+                .ToTable("product_categories");
 
 
             // Users

@@ -26,16 +26,18 @@ namespace webspec3.Services
         /// Returns a list of all available products consolidated into an instance of <see cref="ConsolidatedProductEntity"/>
         /// While consolidation, the currently selected currency and language is provided by an instance of <see cref="II18nService"/>
         /// </summary>
+        /// <param name="categoryId">Option categoryId. If supplied, only products belonging to this category will be returned</param>
         /// <returns>List of all available products consolidated into an instance of <see cref="ConsolidatedProductEntity"/></returns>
-        Task<List<ConsolidatedProductEntity>> GetAllConsolidatedAsync();
+        Task<List<ConsolidatedProductEntity>> GetAllConsolidatedAsync(Guid? categoryId);
 
         /// <summary>
         /// Returns a paged list of all available products consolidated into an instance of <see cref="ConsolidatedProductEntity"/> while respecting the provided options
         /// While consilidation, the currently selected currency and language is provided by an instance of <see cref="II18nService"/>
         /// </summary>
         /// <param name="options">Instance of <see cref="PagingSortingParams"/></param>
+        /// <param name="categoryId">Option categoryId. If supplied, only products belonging to this category will be returned</param>
         /// <returns>Paged list of available products consolidated into an instance of <see cref="ConsolidatedProductEntity"/></returns>
-        Task<List<ConsolidatedProductEntity>> GetConsolidatedPagedAsync(PagingSortingParams options);
+        Task<List<ConsolidatedProductEntity>> GetConsolidatedPagedAsync(PagingSortingParams options, Guid? categoryId);
 
         /// <summary>
         /// Returns the product with the specified id consolidated into an instance of <see cref="ConsolidatedProductEntity"/>
@@ -43,7 +45,7 @@ namespace webspec3.Services
         /// <param name="id">Product id</param>
         /// <returns>Product with the specified id consolidated into an instance of <see cref="ConsolidatedProductEntity"/></returns>
         Task<ConsolidatedProductEntity> GetConsolidatedByIdAsync(Guid id);
-        
+
         /// <summary>
         /// Returns the product with the specified id/>
         /// </summary>
@@ -63,5 +65,12 @@ namespace webspec3.Services
         /// <param name="options">Instance of <see cref="PagingSortingParams"/></param>
         /// <returns>Paged list of available products/></returns>
         Task<List<ProductEntity>> GetPagedAsync(PagingSortingParams options);
+
+        /// <summary>
+        /// Removes the products with the specified category
+        /// </summary>
+        /// <param name="categoryId">Category id</param>
+        /// <returns></returns>
+        Task DeleteProductsByCategoryAsync(Guid categoryId);
     }
 }

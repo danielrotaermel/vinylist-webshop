@@ -23,7 +23,7 @@ namespace webspec3.Controllers.Api.v1.Requests
         public string Artist { get; set; }
 
         /// <summary>
-        /// Product categorie's id
+        /// Product category's id
         /// </summary>
         [Required]
         public Guid CategoryId { get; set; }

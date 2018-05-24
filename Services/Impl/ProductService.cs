@@ -121,7 +121,7 @@ namespace webspec3.Services.Impl
 
             return products;
         }
-        
+
         public async Task<ProductEntity> GetByIdAsync(Guid entityId)
         {
             logger.LogDebug($"Attempting to retrieve the product with the id {entityId}");
@@ -191,28 +191,42 @@ namespace webspec3.Services.Impl
             }
         }
 
-        public async Task<List<ConsolidatedProductEntity>> GetAllConsolidatedAsync()
+        public async Task<List<ConsolidatedProductEntity>> GetAllConsolidatedAsync(Guid? categoryId = null)
         {
             logger.LogDebug($"Attempting to retrieve all available products consolidated from the database.");
 
-            var products = await dbContext.ProductsConsolidated
-                .Where(x => x.Language == i18nService.GetCurrentLanguage().Code && x.Currency == i18nService.GetCurrentCurrency().Code)
-                .OrderBy(x => x.Title)
-                .ToListAsync();
+            var query = dbContext.ProductsConsolidated
+                .Where(x => x.Language == i18nService.GetCurrentLanguage().Code && x.Currency == i18nService.GetCurrentCurrency().Code);
+
+            if (categoryId != null)
+            {
+                query = query.Where(x => x.CategoryId == categoryId);
+            }
+
+            query = query.OrderBy(x => x.Title);
+
+            var products = await query.ToListAsync();
 
             logger.LogInformation($"Retrieved {products.Count} products from the database.");
 
             return products;
         }
 
-        public async Task<List<ConsolidatedProductEntity>> GetConsolidatedPagedAsync(PagingSortingParams options)
+        public async Task<List<ConsolidatedProductEntity>> GetConsolidatedPagedAsync(PagingSortingParams options, Guid? categoryId = null)
         {
             logger.LogDebug($"Attempting to retrieve products consolidated from database: Page: {options.Page}, items per page: {options.ItemsPerPage}, sort by: {options.SortBy}, sort direction: {options.SortDirection}.");
 
-            var products = await dbContext.ProductsConsolidated
-                .Where(x => x.Language == i18nService.GetCurrentLanguage().Code && x.Currency == i18nService.GetCurrentCurrency().Code)
-                .PagedAndSorted(options)
-                .ToListAsync();
+            var query = dbContext.ProductsConsolidated
+                .Where(x => x.Language == i18nService.GetCurrentLanguage().Code && x.Currency == i18nService.GetCurrentCurrency().Code);
+
+            if (categoryId != null)
+            {
+                query = query.Where(x => x.CategoryId == categoryId);
+            }
+
+            query = query.PagedAndSorted(options);
+
+            var products = await query.ToListAsync();
 
             logger.LogInformation($"Retrieved {products.Count} products from the database.");
 
@@ -244,6 +258,32 @@ namespace webspec3.Services.Impl
             logger.LogInformation($"Retrieved {products.Count} products from the database.");
 
             return products;
+        }
+
+        public async Task DeleteProductsByCategoryAsync(Guid categoryId)
+        {
+            logger.LogDebug($"Attempting to remove products with category id {categoryId}.");
+
+            var productsWithCategory = await dbContext.Products
+                .Where(x => x.CategoryId == categoryId)
+                .ToListAsync();
+
+            using (var transaction = await dbContext.Database.BeginTransactionAsync())
+            {
+                foreach (var product in productsWithCategory)
+                {
+                    dbContext.ProductPrices.RemoveRange(dbContext.ProductPrices.Where(x => x.ProductId == product.Id));
+                    dbContext.ProductTranslations.RemoveRange(dbContext.ProductTranslations.Where(x => x.ProductId == product.Id));
+                }
+
+                dbContext.Products.RemoveRange(productsWithCategory);
+
+                await dbContext.SaveChangesAsync();
+
+                transaction.Commit();
+            }
+
+            logger.LogInformation($"Successfully removed {productsWithCategory.Count} products with category {categoryId}.");
         }
     }
 }

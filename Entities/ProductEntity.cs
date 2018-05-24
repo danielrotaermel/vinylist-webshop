@@ -35,7 +35,7 @@ namespace webspec3.Entities
         [Column("category_id")]
         public Guid CategoryId { get; set; }
 
-        public ProductCategory Category { get; set; }
+        public CategoryEntity Category { get; set; }
 
 
         public List<ProductPriceEntity> Prices { get; set; }

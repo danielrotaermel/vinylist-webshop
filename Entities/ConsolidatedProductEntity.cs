@@ -65,6 +65,12 @@ namespace webspec3.Entities
         public DateTime ReleaseDate { get; set; }
 
         /// <summary>
+        /// Product's category id
+        /// </summary>
+        [Column("category_id")]
+        public Guid CategoryId { get; set; }
+
+        /// <summary>
         /// Product title
         /// </summary>
         [Column("title")]

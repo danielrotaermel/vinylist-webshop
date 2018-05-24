@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace webspec3.Entities
 {
@@ -7,12 +8,14 @@ namespace webspec3.Entities
     /// 
     /// M. Narr
     /// </summary>
-    public sealed class ProductCategory : EntityBase
+    public sealed class CategoryEntity : EntityBase
     {
         /// <summary>
         /// Category title
         /// </summary>
         [Column("title")]
         public string Title { get; set; }
+
+        public List<ProductEntity> Products { get; set; }
     }
 }
