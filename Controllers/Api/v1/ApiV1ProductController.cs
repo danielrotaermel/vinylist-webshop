@@ -195,7 +195,7 @@ namespace webspec3.Controllers.Api.v1
         /// <response code="500">An internal error occurred</response>
         [HttpPost]
         [AdminRightsRequired]
-        public async Task<IActionResult> CreateNew([FromBody] ApiV1ProductCreateUpdateRequestModel model)
+        public async Task<IActionResult> CreateNew([FromBody] ApiV1ProductCreateRequestModel model)
         {
             if (model != null && ModelState.IsValid)
             {
@@ -254,7 +254,7 @@ namespace webspec3.Controllers.Api.v1
         /// <response code="500">An internal error occurred</response>
         [HttpPut("{productId}")]
         [AdminRightsRequired]
-        public async Task<IActionResult> Update([FromRoute] Guid productId, [FromBody] ApiV1ProductCreateUpdateRequestModel model)
+        public async Task<IActionResult> Update([FromRoute] Guid productId, [FromBody] ApiV1ProductUpdateRequestModel model)
         {
             // Check if model is valid
             if (model != null && ModelState.IsValid && productId == model.Id)
