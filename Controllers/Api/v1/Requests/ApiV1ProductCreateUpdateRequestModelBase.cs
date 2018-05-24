@@ -6,17 +6,12 @@ using webspec3.Entities;
 namespace webspec3.Controllers.Api.v1.Requests
 {
     /// <summary>
-    /// Model describing a product add/update request
+    /// Model describing a product create/update request
     /// 
     /// M. Narr
     /// </summary>
-    public sealed class ApiV1ProductCreateUpdateRequestModel
+    public abstract class ApiV1ProductCreateUpdateRequestModelBase
     {
-        /// <summary>
-        /// Product id
-        /// </summary>
-        public Guid? Id { get; set; }
-
         /// <summary>
         /// Product artist
         /// </summary>
@@ -24,7 +19,7 @@ namespace webspec3.Controllers.Api.v1.Requests
         public string Artist { get; set; }
 
         /// <summary>
-        /// Product categorie's id
+        /// Product category's id
         /// </summary>
         [Required]
         public Guid CategoryId { get; set; }

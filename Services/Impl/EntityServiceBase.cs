@@ -16,9 +16,10 @@ namespace webspec3.Services.Impl
     /// <typeparam name="T">Must extend from <see cref="EntityBase"/></typeparam>
     public abstract class EntityServiceBase<T> : IEntityService<T> where T : EntityBase
     {
-        private readonly WebSpecDbContext dbContext;
+        protected readonly WebSpecDbContext dbContext;
+        protected readonly ILogger logger;
+
         private readonly DbSet<T> entityDao;
-        private readonly ILogger logger;
         private readonly string entityName;
 
         /// <summary>
@@ -36,7 +37,7 @@ namespace webspec3.Services.Impl
             this.entityName = entityName;
         }
 
-        public async Task AddAsync(T entity)
+        public async virtual Task AddAsync(T entity)
         {
             logger.LogInformation($"Attempting to add new {entityName}.");
 
@@ -51,7 +52,7 @@ namespace webspec3.Services.Impl
             logger.LogInformation($"Successfully added {entityName} with id {entity.Id}.");
         }
 
-        public async Task DeleteAsync(T entity)
+        public async virtual Task DeleteAsync(T entity)
         {
             logger.LogDebug($"Attempting to delete {entityName} with id {entity.Id}.");
 
@@ -71,7 +72,7 @@ namespace webspec3.Services.Impl
             await DeleteAsync(await GetByIdAsync(entityId));
         }
 
-        public async Task<T> GetByIdAsync(Guid entityId)
+        public async virtual Task<T> GetByIdAsync(Guid entityId)
         {
             logger.LogDebug($"Attempting to get {entityName} with id {entityId}.");
 
@@ -80,7 +81,7 @@ namespace webspec3.Services.Impl
                 .FirstOrDefaultAsync();
         }
 
-        public async Task UpdateAsync(T entity)
+        public async virtual Task UpdateAsync(T entity)
         {
             logger.LogDebug($"Attempting to update {entityName} with id {entity.Id}.");
 

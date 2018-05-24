@@ -23,6 +23,10 @@ namespace webspec3.Database
 
         public DbSet<ImageEntity> Images { get; set; }
 
+        public DbSet<CategoryEntity> Categories { get; set; }
+
+
+
         public DbSet<UserEntity> Users { get; set; }
 
         public WebSpecDbContext(DbContextOptions<WebSpecDbContext> dbContextOptions) : base(dbContextOptions)
@@ -63,6 +67,12 @@ namespace webspec3.Database
             modelBuilder
                 .Entity<ImageEntity>()
                 .ToTable("product_images");
+
+            // Categories
+            modelBuilder
+                .Entity<CategoryEntity>()
+                .ToTable("product_categories");
+
 
             // Users
             modelBuilder

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -17,14 +18,23 @@ namespace webspec3.Services.Impl
     {
         private const string entityName = "user";
 
-        private readonly WebSpecDbContext dbContext;
-        private readonly ILogger logger;
-
         public UserService(WebSpecDbContext dbContext, ILogger<UserService> logger) : base(dbContext, dbContext.Users,
             logger, entityName)
         {
-            this.dbContext = dbContext;
-            this.logger = logger;
+
+        }
+
+        public async Task<List<UserEntity>> GetAll()
+        {
+            logger.LogDebug($"Attempting to get all users.");
+
+            var users = await dbContext.Users
+                 .OrderBy(x => x.LastName)
+                 .ToListAsync();
+
+            logger.LogInformation($"Received {users.Count} users from the database.");
+
+            return users;
         }
 
         public async Task<UserEntity> GetByEMailAsync(string email)

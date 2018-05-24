@@ -105,6 +105,7 @@ namespace webspec3
             });
 
 
+            services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IImageService, ImageService>();

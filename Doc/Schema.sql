@@ -55,8 +55,6 @@ CREATE TABLE product_categories (
     ,title  TEXT        NOT NULL
 );
 
-INSERT INTO product_categories (id, title) VALUES ('1f972016-b50b-474c-810b-8dc0781cea55', 'Nu Metal');
-
 CREATE TABLE product_images (
     id          	UUID            PRIMARY KEY
     ,description	TEXT			NOT NULL
@@ -108,4 +106,4 @@ CREATE TABLE wishlist_products (
     ,PRIMARY KEY(product_id, user_id)
 );
 
-CREATE OR REPLACE VIEW products_consolidated AS SELECT p.id, p.artist, p.label, p.release_date, password.image_id, pp.price, pt.description, pt.description_short, pt.title, pp.currency_id as currency, pt.language_id as language FROM products p, product_prices pp, product_translations pt WHERE pp.product_id = p.id AND pt.product_id = p.id;
+CREATE OR REPLACE VIEW products_consolidated AS SELECT p.id, p.artist, p.category_id, p.label, p.release_date, password.image_id, pp.price, pt.description, pt.description_short, pt.title, pp.currency_id as currency, pt.language_id as language FROM products p, product_prices pp, product_translations pt WHERE pp.product_id = p.id AND pt.product_id = p.id;

@@ -42,7 +42,7 @@ namespace webspec3.Entities
         [Column("image_id")]
         public Guid ImageId { get; set; }
 
-        public ProductCategory Category { get; set; }
+        public CategoryEntity Category { get; set; }
 
         public List<ProductPriceEntity> Prices { get; set; }
 

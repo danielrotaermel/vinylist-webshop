@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -40,11 +41,13 @@ namespace webspec3.Controllers.Api.v1
         /// <response code="200">Products returned successfully</response>
         /// <response code="500">An internal error occurred</response>
         [HttpGet("consolidated")]
-        public async Task<IActionResult> GetConsolidated()
+        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
+        public async Task<IActionResult> GetConsolidated(Guid? categoryId = null)
         {
             logger.LogDebug($"Attempting to get all consolidated products.");
 
-            var products = await productService.GetAllConsolidatedAsync();
+            var products = await productService.GetAllConsolidatedAsync(categoryId);
 
             logger.LogInformation($"Received {products.Count} products from the database.");
 
@@ -60,6 +63,9 @@ namespace webspec3.Controllers.Api.v1
         /// <response code="400">Invalid model</response>
         /// <response code="500">An internal error occurred</response>
         [HttpGet("consolidated/paged/{page:int}")]
+        [ProducesResponseType(typeof(PagingInformation<ConsolidatedProductEntity>), 200)]
+        [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 400)]
+        [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
         public async Task<IActionResult> GetConsolidatedPaged([FromQuery] ApiV1ProductPagingSortingRequestModel model,
             [FromRoute] int page = 1)
         {
@@ -76,11 +82,11 @@ namespace webspec3.Controllers.Api.v1
                     SortDirection = model.SortDirection
                 };
 
-                var products = await productService.GetConsolidatedPagedAsync(options);
+                var productPagingInformation = await productService.GetConsolidatedPagedAsync(options, categoryId);
 
-                logger.LogInformation($"Received {products.Count} products from the database.");
+                logger.LogInformation($"Received {productPagingInformation.Items.Count} products from the database.");
 
-                return Json(products);
+                return Json(productPagingInformation);
             }
             else
             {
@@ -97,6 +103,9 @@ namespace webspec3.Controllers.Api.v1
         /// <response code="404">Product with the specified id not found</response>
         /// <response code="500">An internal error occurred</response>
         [HttpGet("consolidated/{id}")]
+        [ProducesResponseType(typeof(List<ConsolidatedProductEntity>), 200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
         public async Task<IActionResult> GetConsolidatedById([FromRoute] Guid id)
         {
             logger.LogDebug($"Attempting to get consolidated product with id {id}.");
@@ -117,8 +126,13 @@ namespace webspec3.Controllers.Api.v1
         /// Returns all products
         /// </summary>
         /// <response code="200">Products returned successfully</response>
+        /// <response code="403">No permissions to get raw products</response>
         /// <response code="500">An internal error occurred</response>
         [HttpGet]
+        [AdminRightsRequired]
+        [ProducesResponseType(typeof(List<ProductEntity>), 200)]
+        [ProducesResponseType(403)]
+        [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
         public async Task<IActionResult> Get()
         {
             logger.LogDebug($"Attempting to get all products.");
@@ -137,10 +151,15 @@ namespace webspec3.Controllers.Api.v1
         /// <param name="model">Paging and sorting options</param>
         /// <response code="200">Products returned successfully</response>
         /// <response code="400">Invalid model</response>
+        /// <response code="403">No permissions to get raw products</response>
         /// <response code="500">An internal error occurred</response>
         [HttpGet("paged/{page:int}")]
-        public async Task<IActionResult> GetPaged([FromQuery] ApiV1ProductPagingSortingRequestModel model,
-            [FromRoute] int page = 1)
+        [AdminRightsRequired]
+        [ProducesResponseType(typeof(PagingInformation<ProductEntity>), 200)]
+        [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 400)]
+        [ProducesResponseType(403)]
+        [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
+        public async Task<IActionResult> GetPaged([FromQuery]ApiV1ProductPagingSortingRequestModel model, [FromRoute]int page = 1)
         {
             logger.LogDebug($"Attempting to get paged products: Page: {page}, items per page: {model.ItemsPerPage}.");
 
@@ -154,11 +173,11 @@ namespace webspec3.Controllers.Api.v1
                     SortDirection = model.SortDirection
                 };
 
-                var products = await productService.GetPagedAsync(options);
+                var productPagingInformation = await productService.GetPagedAsync(options);
 
-                logger.LogInformation($"Received {products.Count} products from the database.");
+                logger.LogInformation($"Received {productPagingInformation.Items.Count} products from the database.");
 
-                return Json(products);
+                return Json(productPagingInformation);
             }
             else
             {
@@ -172,9 +191,15 @@ namespace webspec3.Controllers.Api.v1
         /// </summary>
         /// <param name="id">Product id</param>
         /// <response code="200">Products returned successfully</response>
+        /// <response code="403">No permissions to get raw products</response>
         /// <response code="404">Product with the specified id not found</response>
         /// <response code="500">An internal error occurred</response>
         [HttpGet("{id}")]
+        [AdminRightsRequired]
+        [ProducesResponseType(typeof(ProductEntity), 200)]
+        [ProducesResponseType(403)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             logger.LogDebug($"Attempting to get product with id {id}.");
@@ -197,9 +222,15 @@ namespace webspec3.Controllers.Api.v1
         /// <param name="model">Product to create</param>
         /// <response code="200">Product created successfully</response>
         /// <response code="400">Invalid model</response>
+        /// <response code="403">No permissions to create new products</response>
         /// <response code="500">An internal error occurred</response>
         [HttpPost]
-        public async Task<IActionResult> CreateNew([FromBody] ApiV1ProductCreateUpdateRequestModel model)
+        [AdminRightsRequired]
+        [ProducesResponseType(typeof(ProductEntity), 200)]
+        [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 400)]
+        [ProducesResponseType(403)]
+        [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
+        public async Task<IActionResult> CreateNew([FromBody] ApiV1ProductCreateRequestModel model)
         {
             if (model != null && ModelState.IsValid)
             {
@@ -244,7 +275,10 @@ namespace webspec3.Controllers.Api.v1
 
                 logger.LogInformation($"Successfully added new product.");
 
-                return Ok();
+                // Get product
+                var newProduct = await productService.GetByIdAsync(productEntity.Id);
+
+                return Ok(newProduct);
             }
             else
             {
@@ -261,12 +295,15 @@ namespace webspec3.Controllers.Api.v1
         /// <param name="model">Product to update</param>
         /// <response code="200">Product updated successfully</response>
         /// <response code="400">Invalid model</response>
-        /// <response code="403">Forbidden Request</response>
+        /// <response code="403">No permission to update products</response>
         /// <response code="500">An internal error occurred</response>
         [HttpPut("{productId}")]
         [AdminRightsRequired]
-        public async Task<IActionResult> Update([FromRoute] Guid productId,
-            [FromBody] ApiV1ProductCreateUpdateRequestModel model)
+        [ProducesResponseType(typeof(ProductEntity), 200)]
+        [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 400)]
+        [ProducesResponseType(403)]
+        [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
+        public async Task<IActionResult> Update([FromRoute] Guid productId, [FromBody] ApiV1ProductUpdateRequestModel model)
         {
             // Check if model is valid
             if (model != null && ModelState.IsValid && productId == model.Id)
@@ -326,7 +363,9 @@ namespace webspec3.Controllers.Api.v1
 
                 logger.LogInformation($"Successfully updated product with id {model.Id}.");
 
-                return Ok();
+                var newProduct = await productService.GetByIdAsync(productId);
+
+                return Ok(newProduct);
             }
             else
             {
@@ -342,8 +381,14 @@ namespace webspec3.Controllers.Api.v1
         /// <param name="productId">Id of the product to delete</param>
         /// <response code="200">Product deleted successfully</response>
         /// <response code="400">Invalid model</response>
+        /// <response code="403">No permissions to delete products</response>
         /// <response code="500">An internal error occurred</response>
         [HttpDelete("{productId}")]
+        [AdminRightsRequired]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 400)]
+        [ProducesResponseType(403)]
+        [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
         public async Task<IActionResult> Delete([FromRoute] Guid productId)
         {
             if (ModelState.IsValid)
