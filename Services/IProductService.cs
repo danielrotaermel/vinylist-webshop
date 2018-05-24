@@ -43,7 +43,7 @@ namespace webspec3.Services
         /// <param name="id">Product id</param>
         /// <returns>Product with the specified id consolidated into an instance of <see cref="ConsolidatedProductEntity"/></returns>
         Task<ConsolidatedProductEntity> GetConsolidatedByIdAsync(Guid id);
-        
+
         /// <summary>
         /// Returns the product with the specified id/>
         /// </summary>
@@ -63,5 +63,12 @@ namespace webspec3.Services
         /// <param name="options">Instance of <see cref="PagingSortingParams"/></param>
         /// <returns>Paged list of available products/></returns>
         Task<List<ProductEntity>> GetPagedAsync(PagingSortingParams options);
+
+        /// <summary>
+        /// Removes the products with the specified category
+        /// </summary>
+        /// <param name="categoryId">Category id</param>
+        /// <returns></returns>
+        Task DeleteProductsByCategoryAsync(Guid categoryId);
     }
 }

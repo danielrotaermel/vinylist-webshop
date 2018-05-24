@@ -121,7 +121,7 @@ namespace webspec3.Services.Impl
 
             return products;
         }
-        
+
         public async Task<ProductEntity> GetByIdAsync(Guid entityId)
         {
             logger.LogDebug($"Attempting to retrieve the product with the id {entityId}");
@@ -244,6 +244,32 @@ namespace webspec3.Services.Impl
             logger.LogInformation($"Retrieved {products.Count} products from the database.");
 
             return products;
+        }
+
+        public async Task DeleteProductsByCategoryAsync(Guid categoryId)
+        {
+            logger.LogDebug($"Attempting to remove products with category id {categoryId}.");
+
+            var productsWithCategory = await dbContext.Products
+                .Where(x => x.CategoryId == categoryId)
+                .ToListAsync();
+
+            using (var transaction = await dbContext.Database.BeginTransactionAsync())
+            {
+                foreach (var product in productsWithCategory)
+                {
+                    dbContext.ProductPrices.RemoveRange(dbContext.ProductPrices.Where(x => x.ProductId == product.Id));
+                    dbContext.ProductTranslations.RemoveRange(dbContext.ProductTranslations.Where(x => x.ProductId == product.Id));
+                }
+
+                dbContext.Products.RemoveRange(productsWithCategory);
+
+                await dbContext.SaveChangesAsync();
+
+                transaction.Commit();
+            }
+
+            logger.LogInformation($"Successfully removed {productsWithCategory.Count} products with category {categoryId}.");
         }
     }
 }
