@@ -16,9 +16,10 @@ namespace webspec3.Services.Impl
     /// <typeparam name="T">Must extend from <see cref="EntityBase"/></typeparam>
     public abstract class EntityServiceBase<T> : IEntityService<T> where T : EntityBase
     {
-        private readonly WebSpecDbContext dbContext;
+        protected readonly WebSpecDbContext dbContext;
+        protected readonly ILogger logger;
+
         private readonly DbSet<T> entityDao;
-        private readonly ILogger logger;
         private readonly string entityName;
 
         /// <summary>

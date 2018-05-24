@@ -18,14 +18,10 @@ namespace webspec3.Services.Impl
     {
         private const string entityName = "user";
 
-        private readonly WebSpecDbContext dbContext;
-        private readonly ILogger logger;
-
         public UserService(WebSpecDbContext dbContext, ILogger<UserService> logger) : base(dbContext, dbContext.Users,
             logger, entityName)
         {
-            this.dbContext = dbContext;
-            this.logger = logger;
+
         }
 
         public async Task<List<UserEntity>> GetAll()

@@ -17,13 +17,9 @@ namespace webspec3.Services.Impl
     {
         private const string entityName = "category";
 
-        private readonly WebSpecDbContext dbContext;
-        private readonly ILogger logger;
-
         public CategoryService(WebSpecDbContext dbContext, ILogger<CategoryService> logger) : base(dbContext, dbContext.Categories, logger, entityName)
         {
-            this.dbContext = dbContext;
-            this.logger = logger;
+
         }
 
         public bool DoesCategoryNameExist(string categoryName)
