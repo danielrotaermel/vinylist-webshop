@@ -66,8 +66,7 @@ namespace webspec3.Controllers.Api.v1
         [ProducesResponseType(typeof(PagingInformation<ConsolidatedProductEntity>), 200)]
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 400)]
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
-        public async Task<IActionResult> GetConsolidatedPaged([FromQuery] ApiV1ProductPagingSortingRequestModel model,
-            [FromRoute] int page = 1)
+        public async Task<IActionResult> GetConsolidatedPaged([FromQuery]ApiV1ProductPagingSortingRequestModel model, Guid? categoryId = null, [FromRoute]int page = 1)
         {
             logger.LogDebug(
                 $"Attempting to get paged consolidated products: Page: {page}, items per page: {model.ItemsPerPage}.");
@@ -248,7 +247,7 @@ namespace webspec3.Controllers.Api.v1
 
                 if (await imageService.ImageIdExistsAsync(model.Image.Id))
                 {
-                    return StatusCode(403, new ApiV1ErrorResponseModel("Image with this id already exists!"));
+                    return StatusCode(400, new ApiV1ErrorResponseModel("Image with this id already exists!"));
                 }
                 
                 await imageService.AddAsync(model.Image);
@@ -405,15 +404,15 @@ namespace webspec3.Controllers.Api.v1
 
                     return NotFound();
                 }
-
+                
+                await productService.DeleteAsync(product);
+              
                 var image = await imageService.GetByIdAsync(product.ImageId);
 
                 if (image != null)
                 {
                     await imageService.DeleteAsync(image);
                 }
-                
-                await productService.DeleteAsync(product);
 
                 logger.LogInformation($"Product with id {productId} has been deleted successfully.");
 
