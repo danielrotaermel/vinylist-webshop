@@ -7,6 +7,7 @@ using webspec3.Controllers.Api.v1.Requests;
 using webspec3.Core.HelperClasses;
 using webspec3.Entities;
 using webspec3.Extensions;
+using webspec3.Filters;
 using webspec3.Services;
 
 namespace webspec3.Controllers.Api.v1
@@ -256,8 +257,10 @@ namespace webspec3.Controllers.Api.v1
         /// <param name="model">Product to update</param>
         /// <response code="200">Product updated successfully</response>
         /// <response code="400">Invalid model</response>
+        /// <response code="403">Forbidden Request</response>
         /// <response code="500">An internal error occurred</response>
         [HttpPut("{productId}")]
+        [AdminRightsRequired]
         public async Task<IActionResult> Update([FromRoute] Guid productId,
             [FromBody] ApiV1ProductCreateUpdateRequestModel model)
         {

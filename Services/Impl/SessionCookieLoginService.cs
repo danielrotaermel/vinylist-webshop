@@ -13,13 +13,13 @@ namespace webspec3.Services.Impl
     {
         private const string KEY_USER_ID = "user_id";
         private const string KEY_IS_ADMIN = "is_admin";
-        
-        private const int IS_ADMING = 1;
-        private const int IS_NO_ADMIN = 0;
+
+        private const string IS_ADMIN = "IS_ADMIN";
+        private const string IS_NO_ADMIN = "IS_NO_ADMIN";
 
         private readonly IHttpContextAccessor httpContextAccessor;
 
-        private readonly IUserService userService; 
+        private readonly IUserService userService;
 
         public SessionCookieLoginService(IHttpContextAccessor httpContextAccessor, IUserService userService)
         {
@@ -31,7 +31,8 @@ namespace webspec3.Services.Impl
         {
             if (!IsLoggedIn())
             {
-                throw new InvalidOperationException("No user is logged in at the moment. Check if a user is logged in before via. IsLoggedIn()");
+                throw new InvalidOperationException(
+                    "No user is logged in at the moment. Check if a user is logged in before via. IsLoggedIn()");
             }
 
             return Guid.Parse(httpContextAccessor.HttpContext.Session.GetString(KEY_USER_ID));
@@ -47,7 +48,7 @@ namespace webspec3.Services.Impl
             httpContextAccessor.HttpContext.Session.SetString(KEY_USER_ID, userId.ToString());
             var isAdmin = await userService.IsUserAdmin(userId);
 
-            httpContextAccessor.HttpContext.Session.SetInt32(KEY_IS_ADMIN, isAdmin ? IS_ADMING : IS_NO_ADMIN);
+            httpContextAccessor.HttpContext.Session.SetString(KEY_IS_ADMIN, isAdmin ? IS_ADMIN : IS_NO_ADMIN);
         }
 
         public void Logout()
@@ -58,7 +59,12 @@ namespace webspec3.Services.Impl
 
         public bool IsAdmin()
         {
-            return !string.IsNullOrEmpty(httpContextAccessor.HttpContext.Session.GetString(KEY_IS_ADMIN));
+            if (!string.IsNullOrEmpty(httpContextAccessor.HttpContext.Session.GetString(KEY_IS_ADMIN)))
+            {
+                return false;
+            }
+
+            return httpContextAccessor.HttpContext.Session.GetString(KEY_IS_ADMIN) == IS_ADMIN;
         }
     }
 }
