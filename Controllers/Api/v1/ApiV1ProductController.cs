@@ -361,6 +361,13 @@ namespace webspec3.Controllers.Api.v1
                     return NotFound();
                 }
 
+                var image = await imageService.GetByIdAsync(product.ImageId);
+
+                if (image != null)
+                {
+                    await imageService.DeleteAsync(image);
+                }
+                
                 await productService.DeleteAsync(product);
 
                 logger.LogInformation($"Product with id {productId} has been deleted successfully.");
