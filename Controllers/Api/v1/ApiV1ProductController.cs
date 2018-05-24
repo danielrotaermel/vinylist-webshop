@@ -21,11 +21,14 @@ namespace webspec3.Controllers.Api.v1
     {
         private readonly IProductService productService;
         private readonly ILogger logger;
+        private readonly IImageService imageService;
 
-        public ApiV1ProductController(IProductService productService, ILogger<ApiV1ProductController> logger)
+        public ApiV1ProductController(IProductService productService, ILogger<ApiV1ProductController> logger,
+            IImageService imageService)
         {
             this.productService = productService;
             this.logger = logger;
+            this.imageService = imageService;
         }
 
         /// <summary>
@@ -54,9 +57,11 @@ namespace webspec3.Controllers.Api.v1
         /// <response code="400">Invalid model</response>
         /// <response code="500">An internal error occurred</response>
         [HttpGet("consolidated/paged/{page:int}")]
-        public async Task<IActionResult> GetConsolidatedPaged([FromQuery]ApiV1ProductPagingSortingRequestModel model, [FromRoute]int page = 1)
+        public async Task<IActionResult> GetConsolidatedPaged([FromQuery] ApiV1ProductPagingSortingRequestModel model,
+            [FromRoute] int page = 1)
         {
-            logger.LogDebug($"Attempting to get paged consolidated products: Page: {page}, items per page: {model.ItemsPerPage}.");
+            logger.LogDebug(
+                $"Attempting to get paged consolidated products: Page: {page}, items per page: {model.ItemsPerPage}.");
 
             if (ModelState.IsValid)
             {
@@ -131,7 +136,8 @@ namespace webspec3.Controllers.Api.v1
         /// <response code="400">Invalid model</response>
         /// <response code="500">An internal error occurred</response>
         [HttpGet("paged/{page:int}")]
-        public async Task<IActionResult> GetPaged([FromQuery]ApiV1ProductPagingSortingRequestModel model, [FromRoute]int page = 1)
+        public async Task<IActionResult> GetPaged([FromQuery] ApiV1ProductPagingSortingRequestModel model,
+            [FromRoute] int page = 1)
         {
             logger.LogDebug($"Attempting to get paged products: Page: {page}, items per page: {model.ItemsPerPage}.");
 
@@ -202,6 +208,7 @@ namespace webspec3.Controllers.Api.v1
                     Artist = model.Artist,
                     CategoryId = model.CategoryId,
                     Label = model.Label,
+                    Image = model.Image,
                     ReleaseDate = model.ReleaseDate
                 };
 
@@ -223,6 +230,11 @@ namespace webspec3.Controllers.Api.v1
                     })
                     .ToList();
 
+                if (model.Image != null)
+                {
+                    await imageService.AddAsync(model.Image);
+                }
+
                 await productService.AddAsync(productEntity, productPriceEntities, productTranslationEntities);
 
                 logger.LogInformation($"Successfully added new product.");
@@ -237,7 +249,6 @@ namespace webspec3.Controllers.Api.v1
             }
         }
 
-        //TODO only as admin
         /// <summary>
         /// Updates an existing product
         /// </summary>
@@ -247,7 +258,8 @@ namespace webspec3.Controllers.Api.v1
         /// <response code="400">Invalid model</response>
         /// <response code="500">An internal error occurred</response>
         [HttpPut("{productId}")]
-        public async Task<IActionResult> Update([FromRoute] Guid productId, [FromBody] ApiV1ProductCreateUpdateRequestModel model)
+        public async Task<IActionResult> Update([FromRoute] Guid productId,
+            [FromBody] ApiV1ProductCreateUpdateRequestModel model)
         {
             // Check if model is valid
             if (model != null && ModelState.IsValid && productId == model.Id)
@@ -269,12 +281,12 @@ namespace webspec3.Controllers.Api.v1
                 product.ReleaseDate = model.ReleaseDate;
 
                 var productPriceEntities = model.Prices
-                   .Select(x => new ProductPriceEntity
-                   {
-                       CurrencyId = x.CurrencyId,
-                       Price = x.Price
-                   })
-                   .ToList();
+                    .Select(x => new ProductPriceEntity
+                    {
+                        CurrencyId = x.CurrencyId,
+                        Price = x.Price
+                    })
+                    .ToList();
 
                 var productTranslationEntities = model.Translations
                     .Select(x => new ProductTranslationEntity
@@ -288,6 +300,22 @@ namespace webspec3.Controllers.Api.v1
 
                 product.Prices = productPriceEntities;
                 product.Translations = productTranslationEntities;
+
+                // Delete old imageEntity
+                if (product.Image == null)
+                {
+                    var oldImageEntity = await imageService.GetByProductIdAsync(productId);
+                    await imageService.DeleteAsync(oldImageEntity);
+                }
+                else
+                {
+                    //Image got updated
+                    if (product.Image != model.Image)
+                    {
+                        await imageService.DeleteAsync(product.Image);
+                        await imageService.AddAsync(model.Image);
+                    }
+                }
 
                 await productService.UpdateAsync(product);
 
@@ -322,7 +350,8 @@ namespace webspec3.Controllers.Api.v1
 
                 if (product == null)
                 {
-                    logger.LogWarning($"Error while deleting the product with id {productId}. The product does not exist.");
+                    logger.LogWarning(
+                        $"Error while deleting the product with id {productId}. The product does not exist.");
 
                     return NotFound();
                 }

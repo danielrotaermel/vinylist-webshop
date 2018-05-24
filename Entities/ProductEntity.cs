@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Buffers.Text;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -7,7 +8,7 @@ namespace webspec3.Entities
     /// <summary>
     /// Model representing a product within the webshop
     /// 
-    /// M. Narr
+    /// M. Narr, J.Mauthe
     /// </summary>
     public sealed class ProductEntity : EntityBase
     {
@@ -35,8 +36,13 @@ namespace webspec3.Entities
         [Column("category_id")]
         public Guid CategoryId { get; set; }
 
-        public ProductCategory Category { get; set; }
+        /// <summary>
+        /// Product image
+        /// </summary>
+        [Column("image")]
+        public ImageEntity Image { get; set; }
 
+        public ProductCategory Category { get; set; }
 
         public List<ProductPriceEntity> Prices { get; set; }
 

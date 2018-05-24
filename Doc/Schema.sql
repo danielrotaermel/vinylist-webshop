@@ -62,6 +62,7 @@ CREATE TABLE products (
     ,artist			TEXT		NOT NULL
     ,label			TEXT		NOT NULL
     ,release_date	DATE		NOT NULL
+    ,image      TEXT
     ,category_id    UUID    	NOT NULL REFERENCES product_categories(id) 			
 );
 
@@ -84,7 +85,8 @@ CREATE TABLE product_translations (
 CREATE TABLE product_images (
     id          	UUID            PRIMARY KEY
     ,description	TEXT			NOT NULL
-    ,file_name      TEXT            NOT NULL
+    ,base_64_string      TEXT            NOT NULL
+    ,image_type     TEXT    NOT NULL
     ,product_id 	UUID		    NOT NULL REFERENCES products(id)
 );
 
@@ -107,4 +109,4 @@ CREATE TABLE wishlist_products (
     ,PRIMARY KEY(product_id, user_id)
 );
 
-CREATE OR REPLACE VIEW products_consolidated AS SELECT p.id, p.artist, p.label, p.release_date, pp.price, pt.description, pt.description_short, pt.title, pp.currency_id as currency, pt.language_id as language FROM products p, product_prices pp, product_translations pt WHERE pp.product_id = p.id AND pt.product_id = p.id;
+CREATE OR REPLACE VIEW products_consolidated AS SELECT p.id, p.artist, p.label, p.release_date, p.image, pp.price, pt.description, pt.description_short, pt.title, pp.currency_id as currency, pt.language_id as language FROM products p, product_prices pp, product_translations pt WHERE pp.product_id = p.id AND pt.product_id = p.id;
