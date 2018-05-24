@@ -21,12 +21,14 @@ namespace webspec3.Services.Impl
         private readonly WebSpecDbContext dbContext;
         private readonly II18nService i18nService;
         private readonly ILogger logger;
+        private readonly IImageService imageService;
 
-        public ProductService(WebSpecDbContext dbContext, II18nService i18nService, ILogger<ProductService> logger)
+        public ProductService(WebSpecDbContext dbContext, II18nService i18nService, ILogger<ProductService> logger, IImageService imageService)
         {
             this.dbContext = dbContext;
             this.i18nService = i18nService;
             this.logger = logger;
+            this.imageService = imageService;
         }
 
         public Task AddAsync(ProductEntity entity)
@@ -299,7 +301,17 @@ namespace webspec3.Services.Impl
                 dbContext.Products.RemoveRange(productsWithCategory);
 
                 await dbContext.SaveChangesAsync();
+                
+                foreach (var product in productsWithCategory)
+                {
+                    var image = await imageService.GetByIdAsync(product.ImageId);
 
+                    if (image != null)
+                    {
+                        await imageService.DeleteAsync(image);
+                    }
+                }
+                
                 transaction.Commit();
             }
 
