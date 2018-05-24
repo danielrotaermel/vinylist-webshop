@@ -15,20 +15,22 @@ DROP TABLE IF EXISTS currencies;
 DROP TABLE IF EXISTS languages;
 
 CREATE TABLE languages (
-    id		CHAR(5)		PRIMARY KEY
-    ,title	TEXT		NOT NULL
+    id			CHAR(5)	PRIMARY KEY
+    ,title		TEXT	NOT NULL
+    ,is_default BOOLEAN	NOT NULL
 );
 
-INSERT INTO languages (id, title) VALUES ('de_DE', 'German');
-INSERT INTO languages (id, title) VALUES ('en_US', 'English (US)');
+INSERT INTO languages (id, title, is_default) VALUES ('de_DE', 'German', FALSE);
+INSERT INTO languages (id, title, is_default) VALUES ('en_US', 'English (US)', TRUE);
 
 CREATE TABLE currencies (
-    id		CHAR(3)		PRIMARY KEY
-    ,title	TEXT		NOT NULL
+    id			CHAR(3)		PRIMARY KEY
+    ,title		TEXT		NOT NULL
+    ,is_default BOOLEAN NOT NULL
 );
 
-INSERT INTO currencies (id, title) VALUES ('EUR', 'Euro');
-INSERT INTO currencies (id, title) VALUES ('USD', 'US Dollars');
+INSERT INTO currencies (id, title, is_default) VALUES ('EUR', 'Euro', FALSE);
+INSERT INTO currencies (id, title, is_default) VALUES ('USD', 'US Dollars', TRUE);
 
 
 CREATE TABLE addresses (

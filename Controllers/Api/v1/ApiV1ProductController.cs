@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using webspec3.Attributes;
 using Microsoft.EntityFrameworkCore;
 using webspec3.Controllers.Api.v1.Requests;
 using webspec3.Controllers.Api.v1.Responses;
@@ -41,6 +42,7 @@ namespace webspec3.Controllers.Api.v1
         /// <response code="200">Products returned successfully</response>
         /// <response code="500">An internal error occurred</response>
         [HttpGet("consolidated")]
+        [ResponseI18Nable]
         [ProducesResponseType(200)]
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
         public async Task<IActionResult> GetConsolidated(Guid? categoryId = null)
@@ -63,6 +65,7 @@ namespace webspec3.Controllers.Api.v1
         /// <response code="400">Invalid model</response>
         /// <response code="500">An internal error occurred</response>
         [HttpGet("consolidated/paged/{page:int}")]
+        [ResponseI18Nable]
         [ProducesResponseType(typeof(PagingInformation<ConsolidatedProductEntity>), 200)]
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 400)]
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
@@ -102,6 +105,7 @@ namespace webspec3.Controllers.Api.v1
         /// <response code="404">Product with the specified id not found</response>
         /// <response code="500">An internal error occurred</response>
         [HttpGet("consolidated/{id}")]
+        [ResponseI18Nable]
         [ProducesResponseType(typeof(List<ConsolidatedProductEntity>), 200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]

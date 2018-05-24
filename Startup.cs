@@ -13,6 +13,7 @@ using webspec3.Core.I18n;
 using webspec3.Database;
 using webspec3.Services;
 using webspec3.Services.Impl;
+using webspec3.Swagger;
 
 namespace webspec3
 {
@@ -58,6 +59,8 @@ namespace webspec3
 
                 var filePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "webspec3.xml");
                 c.IncludeXmlComments(filePath);
+
+                c.OperationFilter<AddCustomI18NParameters>();
             });
 
             // In production, the Angular files will be served from this directory
@@ -73,37 +76,7 @@ namespace webspec3
             services.AddTransient<IPasswordService, HMACSHA512PasswordService>();
             services.AddTransient<ILoginService, SessionCookieLoginService>();
 
-            services.AddTransient<II18nService, I18nService>(serviceProvider =>
-            {
-                var service = new I18nService();
-
-                service.SupportedCurrencies.Add(new SupportedCurrency
-                {
-                    Code = "EUR",
-                    Title = "Euros"
-                });
-
-                service.SupportedCurrencies.Add(new SupportedCurrency
-                {
-                    Code = "USD",
-                    Title = "US Dollars"
-                });
-
-                service.SupportedLanguages.Add(new SupportedLanguage
-                {
-                    Code = "de_DE",
-                    Title = "German"
-                });
-
-                service.SupportedLanguages.Add(new SupportedLanguage
-                {
-                    Code = "en_US",
-                    Title = "English"
-                });
-
-                return service;
-            });
-
+            services.AddTransient<II18nService, I18nService>();
 
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IProductService, ProductService>();

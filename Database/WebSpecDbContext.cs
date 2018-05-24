@@ -44,7 +44,7 @@ namespace webspec3.Database
 
             modelBuilder
                 .Entity<CurrencyEntity>()
-                .ToTable("currency");
+                .ToTable("currencies");
 
 
             // Products
