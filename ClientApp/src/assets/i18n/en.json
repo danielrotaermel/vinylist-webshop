@@ -21,5 +21,8 @@
     "EMAIL": "E-Mail",
     "LAST_NAME": "Last name",
     "FIRST_NAME": "First name"
+  },
+  "PRODUCT": {
+    "TO_CART": "Add to cart"
   }
 }

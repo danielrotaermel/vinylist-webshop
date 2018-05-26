@@ -1,7 +1,34 @@
-<p>
-  product-list-item works!
-</p>
+<!--@author Janina Wachendorfer-->
 
-<a [routerLink]="['/product', product.id]">
-  {{product.artist}}
-</a>
+<div style="width:300px">
+  <a [routerLink]="['/product', product.id]">
+    <div class="row center-xs">
+      <div class="col-xs-12">
+        <div class="box">
+          <img src="{{product.image.getImageDataString()}}">
+        </div>
+      </div>
+    </div>
+    <div class="row middle-xs product-container">
+      <div class="col-xs">
+        <div class="row start-xs title">{{product.getTranslationByKey("DE").getTitle()}}</div>
+        <div class="row start-xs artist">{{product.artist}}</div>
+      </div>
+      <div class="col-xs price">{{product.getPriceByKey("EUR").getFormattedPrice()}}</div>
+    </div>
+  </a>
+  <div class="row product-container">
+    <div class="col-xs favorite-button">
+      <button mat-icon-button>
+        <mat-icon mat-icon-button aria-label="likes">favorite</mat-icon>
+      </button>
+    </div>
+    <div class="col-xs shopping-cart-button">
+      <button mat-stroked-button>
+        <mat-icon aria-label="shopping_cart">shopping_cart</mat-icon>
+        {{'PRODUCT.TO_CART' | translate}}
+      </button>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,35 @@
+// @author Janina Wachendorfer
+a {
+  text-decoration: none;
+  color: white;
+  img {
+    max-width: 300px;
+  }
+  .title {
+    font-size: 15pt;
+    font-weight: 700;
+  }
+  .artist {
+    font-size: 11pt;
+    font-weight: 600;
+    padding-top: 3px;
+  }
+
+  .price {
+    font-size: 13pt;
+    font-weight: 500;
+    text-align: end;
+  }
+}
+
+.product-container {
+  margin: 5px;
+}
+
+.favorite-button {
+  text-align: start;
+}
+
+.shopping-cart-button {
+  text-align: end;
+}
