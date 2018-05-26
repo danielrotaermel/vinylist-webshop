@@ -1,5 +1,7 @@
+import { Deserializable } from "./deserializable";
+
 /** @author Janina Wachendorfer */
-export class ProductTranslation {
+export class ProductTranslation implements Deserializable {
   private description: string;
   private descriptionShort: string;
   private languageId: string;
@@ -19,5 +21,10 @@ export class ProductTranslation {
 
   getTitle(): string {
     return this.title;
+  }
+
+  deserialize(input: any) {
+    Object.assign(this, input);
+    return this;
   }
 }

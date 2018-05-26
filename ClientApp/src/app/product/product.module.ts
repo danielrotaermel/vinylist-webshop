@@ -6,6 +6,7 @@ import { ProductListItemComponent } from "./product-list-item/product-list-item.
 import { ProductFilterComponent } from "./product-filter/product-filter.component";
 
 import { RouterModule, Routes } from "@angular/router";
+import { MaterialModule } from "../core/material.module";
 
 const routes: Routes = [
   { path: "", component: ProductListComponent },
@@ -13,7 +14,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [CommonModule, RouterModule.forRoot(routes)],
+  imports: [CommonModule, RouterModule.forRoot(routes), MaterialModule],
   exports: [RouterModule],
   declarations: [
     ProductListComponent,
