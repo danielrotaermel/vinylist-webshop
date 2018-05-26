@@ -2,9 +2,7 @@
   product-list works!
 </p>
 <ul class="products">
-  <li *ngFor="let product of products">
-    <a routerLink="/product/{{product.id}}">
-      <span>{{product.id}}</span> {{product.artist}}
-    </a>
+  <li *ngFor="let item of products">
+    <app-product-list-item [product]="item"></app-product-list-item>
   </li>
 </ul>
