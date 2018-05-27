@@ -1,8 +1,14 @@
-<p>
-  product-list works!
-</p>
-<ul class="products">
-  <li *ngFor="let item of products">
-    <app-product-list-item [product]="item"></app-product-list-item>
-  </li>
-</ul>
+<!-- @author Janina Wachendorfer -->
+
+<div class="row">
+  <div class="col-lg-3 col-xs-12">
+    Hier kommen die Genres hin
+  </div>
+  <div class="col-lg-9 col-sm-12 col-xs-12">
+    <div class="products row">
+      <div *ngFor="let item of products" class="col-lg-4 col-sm-6 col-xs-12 item">
+        <app-product-list-item [product]="item"></app-product-list-item>
+      </div>
+    </div>
+  </div>
+</div>

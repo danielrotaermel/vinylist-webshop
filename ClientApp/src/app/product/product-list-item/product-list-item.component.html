@@ -1,6 +1,6 @@
 <!--@author Janina Wachendorfer-->
 
-<div style="width:300px">
+<div class="product-container">
   <a [routerLink]="['/product', product.id]">
     <div class="row center-xs">
       <div class="col-xs-12">
@@ -9,15 +9,15 @@
         </div>
       </div>
     </div>
-    <div class="row middle-xs product-container">
-      <div class="col-xs">
+    <div class="row middle-xs description-container">
+      <div class="col-xs-9">
         <div class="row start-xs title">{{product.getTranslationByKey("DE").getTitle()}}</div>
         <div class="row start-xs artist">{{product.artist}}</div>
       </div>
-      <div class="col-xs price">{{product.getPriceByKey("EUR").getFormattedPrice()}}</div>
+      <div class="col-xs-3 price">{{product.getPriceByKey("EUR").getFormattedPrice()}}</div>
     </div>
   </a>
-  <div class="row product-container">
+  <div class="row button-row">
     <div class="col-xs favorite-button">
       <button mat-icon-button>
         <mat-icon mat-icon-button aria-label="likes">favorite</mat-icon>
