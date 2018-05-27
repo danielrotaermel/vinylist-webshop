@@ -23,6 +23,7 @@
     "FIRST_NAME": "First name"
   },
   "PRODUCT": {
-    "TO_CART": "Add to cart"
+    "TO_CART": "Add to cart",
+    "WISHLIST_TOOLTIP": "Add to wishlist"
   }
 }
