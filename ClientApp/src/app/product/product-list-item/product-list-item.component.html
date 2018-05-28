@@ -11,10 +11,10 @@
     </div>
     <div class="row middle-xs description-container">
       <div class="col-xs-9">
-        <div class="row start-xs title">{{product.getTranslationByKey("DE").getTitle()}}</div>
+        <div class="row start-xs title">{{getTranslation().getTitle()}}</div>
         <div class="row start-xs artist">{{product.artist}}</div>
       </div>
-      <div class="col-xs-3 price">{{product.getPriceByKey("EUR").getFormattedPrice()}}</div>
+      <div class="col-xs-3 price">{{getPrice().getFormattedPrice()}}</div>
     </div>
   </a>
   <div class="row button-row">

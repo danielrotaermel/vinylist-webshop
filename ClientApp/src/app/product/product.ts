@@ -19,30 +19,32 @@ export class Product implements Deserializable {
    * Get Translations of product by language key.
    * If the given key doesn't match any of the translation's key,
    * the first available translation is returned.
-   * @param key language key (DE or EN)
+   * @param key language key (de_DE or en_US)
    */
   public getTranslationByKey(key: string): ProductTranslation {
+    let found = this.translations[0];
     this.translations.forEach(element => {
       if (element.getLanguageId() === key) {
-        return element;
+        found = element;
       }
     });
-    return this.translations[0];
+    return found;
   }
 
   /**
    * Get Price of product by currency key.
    * If the given key doesn't match any of the price's keys,
    * the first available price is returned.
-   * @param key Currency key
+   * @param key Currency key (EUR or USD)
    */
   public getPriceByKey(key: string): ProductPrice {
+    let found = this.prices[0];
     this.prices.forEach(element => {
       if (element.currencyId === key) {
-        return element;
+        found = element;
       }
     });
-    return this.prices[0];
+    return found;
   }
 
   deserialize(input: any) {
