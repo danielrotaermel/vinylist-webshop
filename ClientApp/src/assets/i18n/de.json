@@ -24,6 +24,8 @@
   },
   "PRODUCT": {
     "TO_CART": "In den Warenkorb",
-    "WISHLIST_TOOLTIP": "Zur Wunschliste hinzufügen"
+    "WISHLIST_TOOLTIP": "Zur Wunschliste hinzufügen",
+    "BY": "von",
+    "DESCRIPTION": "Beschreibung"
   }
 }

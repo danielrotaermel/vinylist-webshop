@@ -24,6 +24,8 @@
   },
   "PRODUCT": {
     "TO_CART": "Add to cart",
-    "WISHLIST_TOOLTIP": "Add to wishlist"
+    "WISHLIST_TOOLTIP": "Add to wishlist",
+    "BY": "by",
+    "DESCRIPTION": "Description"
   }
 }
