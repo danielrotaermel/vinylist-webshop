@@ -10,11 +10,18 @@ import { TranslateModule } from "@ngx-translate/core";
 import { RouterModule, Routes } from "@angular/router";
 import { MaterialModule } from "../core/material.module";
 
+import { ProductDetailResolver } from "./product-detail/product-detail-resolvers";
+
 const routes: Routes = [
   { path: "", component: ProductListComponent },
-  { path: "product/:id", component: ProductDetailComponent }
+  {
+    path: "product/:id",
+    component: ProductDetailComponent,
+    resolve: { product: ProductDetailResolver }
+  }
 ];
 
+/** @author Janina Wachendorfer */
 @NgModule({
   imports: [
     CommonModule,
@@ -28,6 +35,7 @@ const routes: Routes = [
     ProductDetailComponent,
     ProductListItemComponent,
     ProductFilterComponent
-  ]
+  ],
+  providers: [ProductDetailResolver]
 })
 export class ProductModule {}
