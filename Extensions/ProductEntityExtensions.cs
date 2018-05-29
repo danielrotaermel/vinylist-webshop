@@ -24,7 +24,7 @@ namespace webspec3.Extensions
                 Artist = productEntity.Artist,
                 CategoryId = productEntity.CategoryId,
                 Label = productEntity.Label,
-                Langauges = productEntity.Translations.Select(x => new ApiV1ProductReponseModel.ApiV1LanguageResponseModel
+                Languages = productEntity.Translations.Select(x => new ApiV1ProductReponseModel.ApiV1LanguageResponseModel
                 {
                     LanguageId = x.LanguageId,
                     Description = x.Description,
