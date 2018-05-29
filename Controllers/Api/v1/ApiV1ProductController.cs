@@ -4,8 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using webspec3.Attributes;
-using Microsoft.EntityFrameworkCore;
 using webspec3.Controllers.Api.v1.Requests;
 using webspec3.Controllers.Api.v1.Responses;
 using webspec3.Core.HelperClasses;
@@ -37,103 +35,13 @@ namespace webspec3.Controllers.Api.v1
         }
 
         /// <summary>
-        /// Returns all products in a consolidated manner (i18n/l10n is considered)
-        /// </summary>
-        /// <response code="200">Products returned successfully</response>
-        /// <response code="500">An internal error occurred</response>
-        [HttpGet("consolidated")]
-        [ResponseI18Nable]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
-        public async Task<IActionResult> GetConsolidated(Guid? categoryId = null)
-        {
-            logger.LogDebug($"Attempting to get all consolidated products.");
-
-            var products = await productService.GetAllConsolidatedAsync(categoryId);
-
-            logger.LogInformation($"Received {products.Count} products from the database.");
-
-            return Json(products);
-        }
-
-        /// <summary>
-        /// Returns all products in a consolidated manner (i18n/l10n is considered) with paging
-        /// </summary>
-        /// <param name="page">Page to retrieve</param>
-        /// <param name="model">Paging and sorting options</param>
-        /// <response code="200">Products returned successfully</response>
-        /// <response code="400">Invalid model</response>
-        /// <response code="500">An internal error occurred</response>
-        [HttpGet("consolidated/paged/{page:int}")]
-        [ResponseI18Nable]
-        [ProducesResponseType(typeof(PagingInformation<ConsolidatedProductEntity>), 200)]
-        [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 400)]
-        [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
-        public async Task<IActionResult> GetConsolidatedPaged([FromQuery]ApiV1ProductPagingSortingRequestModel model, Guid? categoryId = null, [FromRoute]int page = 1)
-        {
-            logger.LogDebug(
-                $"Attempting to get paged consolidated products: Page: {page}, items per page: {model.ItemsPerPage}.");
-
-            if (ModelState.IsValid)
-            {
-                var options = new PagingSortingParams
-                {
-                    ItemsPerPage = model.ItemsPerPage,
-                    Page = page,
-                    SortBy = model.SortBy,
-                    SortDirection = model.SortDirection
-                };
-
-                var productPagingInformation = await productService.GetConsolidatedPagedAsync(options, categoryId);
-
-                logger.LogInformation($"Received {productPagingInformation.Items.Count} products from the database.");
-
-                return Json(productPagingInformation);
-            }
-            else
-            {
-                logger.LogWarning($"Error while performing paged request. Validation failed.");
-                return BadRequest(ModelState.ToApiV1ErrorResponseModel());
-            }
-        }
-
-        /// <summary>
-        /// Returns the product with the specified id in a consolidated manner (i18n/l10n is considered)
-        /// </summary>
-        /// <param name="id">Product id</param>
-        /// <response code="200">Products returned successfully</response>
-        /// <response code="404">Product with the specified id not found</response>
-        /// <response code="500">An internal error occurred</response>
-        [HttpGet("consolidated/{id}")]
-        [ResponseI18Nable]
-        [ProducesResponseType(typeof(List<ConsolidatedProductEntity>), 200)]
-        [ProducesResponseType(404)]
-        [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
-        public async Task<IActionResult> GetConsolidatedById([FromRoute] Guid id)
-        {
-            logger.LogDebug($"Attempting to get consolidated product with id {id}.");
-
-            var product = await productService.GetConsolidatedByIdAsync(id);
-
-            if (product == null)
-            {
-                logger.LogWarning($"Product with id {id} could not be found.");
-
-                return NotFound();
-            }
-
-            return Json(product);
-        }
-
-        /// <summary>
         /// Returns all products
         /// </summary>
         /// <response code="200">Products returned successfully</response>
         /// <response code="403">No permissions to get raw products</response>
         /// <response code="500">An internal error occurred</response>
         [HttpGet]
-        [AdminRightsRequired]
-        [ProducesResponseType(typeof(List<ProductEntity>), 200)]
+        [ProducesResponseType(typeof(List<ApiV1ProductReponseModel>), 200)]
         [ProducesResponseType(403)]
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
         public async Task<IActionResult> Get()
@@ -144,7 +52,7 @@ namespace webspec3.Controllers.Api.v1
 
             logger.LogInformation($"Received {products.Count} products from the database.");
 
-            return Json(products);
+            return Json(products.Select(x => x.ToApiV1ProductResponseModel()).ToList());
         }
 
         /// <summary>
@@ -157,8 +65,7 @@ namespace webspec3.Controllers.Api.v1
         /// <response code="403">No permissions to get raw products</response>
         /// <response code="500">An internal error occurred</response>
         [HttpGet("paged/{page:int}")]
-        [AdminRightsRequired]
-        [ProducesResponseType(typeof(PagingInformation<ProductEntity>), 200)]
+        [ProducesResponseType(typeof(PagingInformation<ApiV1ProductReponseModel>), 200)]
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 400)]
         [ProducesResponseType(403)]
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
@@ -178,9 +85,18 @@ namespace webspec3.Controllers.Api.v1
 
                 var productPagingInformation = await productService.GetPagedAsync(options);
 
-                logger.LogInformation($"Received {productPagingInformation.Items.Count} products from the database.");
+                var productPagingInformationResponse = new PagingInformation<ApiV1ProductReponseModel>
+                {
+                    CurrentPage = productPagingInformation.CurrentPage,
+                    Items = productPagingInformation.Items.Select(x => x.ToApiV1ProductResponseModel()).ToList(),
+                    ItemsPerPage = productPagingInformation.ItemsPerPage,
+                    PageCount = productPagingInformation.PageCount,
+                    TotalItems = productPagingInformation.TotalItems
+                };
 
-                return Json(productPagingInformation);
+                logger.LogInformation($"Received {productPagingInformationResponse.Items.Count} products from the database.");
+
+                return Json(productPagingInformationResponse);
             }
             else
             {
@@ -198,8 +114,7 @@ namespace webspec3.Controllers.Api.v1
         /// <response code="404">Product with the specified id not found</response>
         /// <response code="500">An internal error occurred</response>
         [HttpGet("{id}")]
-        [AdminRightsRequired]
-        [ProducesResponseType(typeof(ProductEntity), 200)]
+        [ProducesResponseType(typeof(ApiV1ProductReponseModel), 200)]
         [ProducesResponseType(403)]
         [ProducesResponseType(404)]
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
@@ -216,7 +131,7 @@ namespace webspec3.Controllers.Api.v1
                 return NotFound();
             }
 
-            return Json(product);
+            return Json(product.ToApiV1ProductResponseModel());
         }
 
         /// <summary>
@@ -229,7 +144,7 @@ namespace webspec3.Controllers.Api.v1
         /// <response code="500">An internal error occurred</response>
         [HttpPost]
         [AdminRightsRequired]
-        [ProducesResponseType(typeof(ProductEntity), 200)]
+        [ProducesResponseType(typeof(ApiV1ProductReponseModel), 200)]
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 400)]
         [ProducesResponseType(403)]
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
@@ -240,21 +155,24 @@ namespace webspec3.Controllers.Api.v1
                 logger.LogDebug(
                     $"Attempting to add new product with {model.Prices.Count} prices and {model.Translations.Count} translations.");
 
+                var imageEntity = new ImageEntity
+                {
+                    Base64String = model.Image.Base64String,
+                    Description = model.Image.Description,
+                    ImageType = model.Image.ImageType
+                };
+
+                // Add image to database
+                await imageService.AddAsync(imageEntity);
+
                 var productEntity = new ProductEntity
                 {
                     Artist = model.Artist,
                     CategoryId = model.CategoryId,
-                    ImageId = model.Image.Id,
+                    ImageId = imageEntity.Id,
                     Label = model.Label,
                     ReleaseDate = model.ReleaseDate
                 };
-
-                if (await imageService.ImageIdExistsAsync(model.Image.Id))
-                {
-                    return StatusCode(400, new ApiV1ErrorResponseModel("Image with this id already exists!"));
-                }
-                
-                await imageService.AddAsync(model.Image);
 
                 var productPriceEntities = model.Prices
                     .Select(x => new ProductPriceEntity
@@ -274,6 +192,7 @@ namespace webspec3.Controllers.Api.v1
                     })
                     .ToList();
 
+                // Add product with prices and translations to database
                 await productService.AddAsync(productEntity, productPriceEntities, productTranslationEntities);
 
                 logger.LogInformation($"Successfully added new product.");
@@ -281,7 +200,7 @@ namespace webspec3.Controllers.Api.v1
                 // Get product
                 var newProduct = await productService.GetByIdAsync(productEntity.Id);
 
-                return Ok(newProduct);
+                return Ok(newProduct.ToApiV1ProductResponseModel());
             }
             else
             {
@@ -326,7 +245,6 @@ namespace webspec3.Controllers.Api.v1
                 product.CategoryId = model.CategoryId;
                 product.Label = model.Label;
                 product.ReleaseDate = model.ReleaseDate;
-                product.ImageId = model.Image.Id;
 
                 var productPriceEntities = model.Prices
                     .Select(x => new ProductPriceEntity
@@ -349,18 +267,18 @@ namespace webspec3.Controllers.Api.v1
                 product.Prices = productPriceEntities;
                 product.Translations = productTranslationEntities;
 
-                //Image got updated
-                if (product.ImageId != model.Image.Id)
-                {
-                    var oldImageEntity = await imageService.GetByIdAsync(product.ImageId);
-                    await imageService.DeleteAsync(oldImageEntity);
-                    await imageService.AddAsync(model.Image);
-                }
-                
-                if (!await imageService.ImageIdExistsAsync(model.Image.Id))
-                {
-                    await imageService.AddAsync(model.Image);
-                }
+                //// Image got updated
+                //if (product.ImageId != model.Image.Id)
+                //{
+                //    var oldImageEntity = await imageService.GetByIdAsync(product.ImageId);
+                //    await imageService.DeleteAsync(oldImageEntity);
+                //    await imageService.AddAsync(model.Image);
+                //}
+
+                //if (!await imageService.ImageIdExistsAsync(model.Image.Id))
+                //{
+                //    await imageService.AddAsync(model.Image);
+                //}
 
                 await productService.UpdateAsync(product);
 
@@ -408,9 +326,10 @@ namespace webspec3.Controllers.Api.v1
 
                     return NotFound();
                 }
-                
+
                 await productService.DeleteAsync(product);
-              
+
+                // Remove related image
                 var image = await imageService.GetByIdAsync(product.ImageId);
 
                 if (image != null)
