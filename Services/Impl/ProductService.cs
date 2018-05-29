@@ -109,17 +109,18 @@ namespace webspec3.Services.Impl
             logger.LogInformation($"Sucessfully removed product with id {entityId}");
         }
 
-        public async Task<PagingInformation<ProductEntity>> GetPagedAsync(PagingSortingParams options)
+        public async Task<PagingInformation<ProductEntity>> GetPagedAsync(PagingSortingParams pagingSortingOptions, FilterParams filterParams)
         {
-            logger.LogDebug($"Attempting to retrieve products from database: Page: {options.Page}, items per page: {options.ItemsPerPage}, sort by: {options.SortBy}, sort direction: {options.SortDirection}.");
+            logger.LogDebug($"Attempting to retrieve products from database: Page: {pagingSortingOptions.Page}, items per page: {pagingSortingOptions.ItemsPerPage}, sort by: {pagingSortingOptions.SortBy}, sort direction: {pagingSortingOptions.SortDirection}.");
 
             var totalProducts = await dbContext.Products.CountAsync();
-            var totalPages = (int)Math.Ceiling(totalProducts / (double)options.ItemsPerPage);
+            var totalPages = (int)Math.Ceiling(totalProducts / (double)pagingSortingOptions.ItemsPerPage);
 
             var products = await dbContext.Products
                 .Include(x => x.Prices)
                 .Include(x => x.Translations)
-                .PagedAndSorted(options)
+                .Filtered(filterParams)
+                .PagedAndSorted(pagingSortingOptions)
                 .ToListAsync();
 
             logger.LogInformation($"Retrieved {products.Count} products from the database.");
@@ -127,8 +128,8 @@ namespace webspec3.Services.Impl
             return new PagingInformation<ProductEntity>
             {
                 PageCount = totalPages,
-                CurrentPage = options.Page,
-                ItemsPerPage = options.ItemsPerPage,
+                CurrentPage = pagingSortingOptions.Page,
+                ItemsPerPage = pagingSortingOptions.ItemsPerPage,
                 TotalItems = totalProducts,
                 Items = products
             };
@@ -301,7 +302,7 @@ namespace webspec3.Services.Impl
                 dbContext.Products.RemoveRange(productsWithCategory);
 
                 await dbContext.SaveChangesAsync();
-                
+
                 foreach (var product in productsWithCategory)
                 {
                     var image = await imageService.GetByIdAsync(product.ImageId);
@@ -311,7 +312,7 @@ namespace webspec3.Services.Impl
                         await imageService.DeleteAsync(image);
                     }
                 }
-                
+
                 transaction.Commit();
             }
 

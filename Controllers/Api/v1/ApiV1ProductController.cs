@@ -69,13 +69,13 @@ namespace webspec3.Controllers.Api.v1
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 400)]
         [ProducesResponseType(403)]
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
-        public async Task<IActionResult> GetPaged([FromQuery]ApiV1ProductPagingSortingRequestModel model, [FromRoute]int page = 1)
+        public async Task<IActionResult> GetPaged([FromQuery]ApiV1ProductPagingSortingFilteringRequestModel model, [FromRoute]int page = 1)
         {
             logger.LogDebug($"Attempting to get paged products: Page: {page}, items per page: {model.ItemsPerPage}.");
 
             if (ModelState.IsValid)
             {
-                var options = new PagingSortingParams
+                var pagingSortingOptions = new PagingSortingParams
                 {
                     ItemsPerPage = model.ItemsPerPage,
                     Page = page,
@@ -83,7 +83,13 @@ namespace webspec3.Controllers.Api.v1
                     SortDirection = model.SortDirection
                 };
 
-                var productPagingInformation = await productService.GetPagedAsync(options);
+                var filterOptions = new FilterParams
+                {
+                    FilterBy = model.FilterBy,
+                    FilterQuery = model.FilterQuery
+                };
+
+                var productPagingInformation = await productService.GetPagedAsync(pagingSortingOptions, filterOptions);
 
                 var productPagingInformationResponse = new PagingInformation<ApiV1ProductReponseModel>
                 {

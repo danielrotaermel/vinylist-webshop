@@ -7,10 +7,13 @@ namespace webspec3.Controllers.Api.v1.Requests
     /// 
     /// M. Narr
     /// </summary>
-    public sealed class ApiV1ProductPagingSortingRequestModel : ApiV1PagingSortingRequestModelBase
+    public sealed class ApiV1ProductPagingSortingFilteringRequestModel : ApiV1PagingSortingFilteringRequestModelBase
     {
         [Required(AllowEmptyStrings = false)]
-        [RegularExpression("(Artist|Description|DescriptionShort|Label|Price|ReleaseDate|Title)")]
+        [RegularExpression("(Artist|Label|ReleaseDate)")]
         public override string SortBy { get; set; }
+
+        [RegularExpression("(Artist|Label|ReleaseDate)")]
+        public override string FilterBy { get; set; }
     }
 }
