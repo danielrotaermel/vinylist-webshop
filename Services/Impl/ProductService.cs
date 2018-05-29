@@ -113,15 +113,15 @@ namespace webspec3.Services.Impl
         {
             logger.LogDebug($"Attempting to retrieve products from database: Page: {pagingSortingOptions.Page}, items per page: {pagingSortingOptions.ItemsPerPage}, sort by: {pagingSortingOptions.SortBy}, sort direction: {pagingSortingOptions.SortDirection}.");
 
-            var totalProducts = await dbContext.Products.CountAsync();
-            var totalPages = (int)Math.Ceiling(totalProducts / (double)pagingSortingOptions.ItemsPerPage);
-
             var products = await dbContext.Products
                 .Include(x => x.Prices)
                 .Include(x => x.Translations)
                 .Filtered(filterParams)
                 .PagedAndSorted(pagingSortingOptions)
                 .ToListAsync();
+
+            var totalProducts = products.Count();
+            var totalPages = (int)Math.Ceiling(totalProducts / (double)pagingSortingOptions.ItemsPerPage);
 
             logger.LogInformation($"Retrieved {products.Count} products from the database.");
 
