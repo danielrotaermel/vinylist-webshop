@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using webspec3.Entities;
 
 namespace webspec3.Controllers.Api.v1.Requests
 {
@@ -40,7 +39,7 @@ namespace webspec3.Controllers.Api.v1.Requests
         /// Product image
         /// </summary>
         [Required]
-        public ImageEntity Image{ get; set; }
+        public ApiV1ProductImageCreateRequestModel Image { get; set; }
 
         /// <summary>
         /// List of available prices

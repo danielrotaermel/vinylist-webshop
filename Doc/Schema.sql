@@ -26,7 +26,7 @@ INSERT INTO languages (id, title, is_default) VALUES ('en_US', 'English (US)', T
 CREATE TABLE currencies (
     id			CHAR(3)		PRIMARY KEY
     ,title		TEXT		NOT NULL
-    ,is_default BOOLEAN NOT NULL
+    ,is_default BOOLEAN     NOT NULL
 );
 
 INSERT INTO currencies (id, title, is_default) VALUES ('EUR', 'Euro', FALSE);
@@ -49,7 +49,7 @@ CREATE TABLE users (
 --    ,address_id 		UUID    		NOT NULL REFERENCES addresses(id)
     ,email      		TEXT    		NOT NULL UNIQUE
     ,password   		TEXT  			NOT NULL
-    ,is_admin       BOOLEAN         NOT NULL
+    ,is_admin           BOOLEAN         NOT NULL
 );
 
 CREATE TABLE product_categories (
@@ -60,8 +60,8 @@ CREATE TABLE product_categories (
 CREATE TABLE product_images (
     id          	UUID            PRIMARY KEY
     ,description	TEXT			NOT NULL
-    ,base_64_string      TEXT            NOT NULL
-    ,image_type     TEXT    NOT NULL
+    ,base_64_string TEXT            NOT NULL
+    ,image_type     TEXT            NOT NULL
 );
 
 CREATE TABLE products (
@@ -69,8 +69,8 @@ CREATE TABLE products (
     ,artist			TEXT		NOT NULL
     ,label			TEXT		NOT NULL
     ,release_date	DATE		NOT NULL
-    ,image_id      UUID       REFERENCES product_images(id)
-    ,category_id    UUID    	NOT NULL REFERENCES product_categories(id) 			
+    ,image_id       UUID        REFERENCES product_images(id)
+    ,category_id    UUID    	NOT NULL REFERENCES product_categories(id)
 );
 
 CREATE TABLE product_prices (
@@ -108,4 +108,7 @@ CREATE TABLE wishlist_products (
     ,PRIMARY KEY(product_id, user_id)
 );
 
-CREATE OR REPLACE VIEW products_consolidated AS SELECT p.id, p.artist, p.category_id, p.label, p.release_date, password.image_id, pp.price, pt.description, pt.description_short, pt.title, pp.currency_id as currency, pt.language_id as language FROM products p, product_prices pp, product_translations pt WHERE pp.product_id = p.id AND pt.product_id = p.id;
+CREATE OR REPLACE VIEW products_consolidated AS
+SELECT p.id, p.artist, p.category_id, p.label, p.release_date, p.image_id, pp.price, pt.description, pt.description_short, pt.title, pp.currency_id as currency, pt.language_id as language
+FROM products p, product_prices pp, product_translations pt
+WHERE pp.product_id = p.id AND pt.product_id = p.id;

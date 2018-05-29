@@ -62,9 +62,10 @@ namespace webspec3.Services
         /// <summary>
         /// Returns a paged list of all available products/>
         /// </summary>
-        /// <param name="options">Instance of <see cref="PagingSortingParams"/></param>
+        /// <param name="pagingSortingOptions">Instance of <see cref="PagingSortingParams"/> to handle paging and sorting</param>
+        /// <param name="filterOptions">Instance of <see cref="FilterParams"/> to handle filtering</param>
         /// <returns>Paged list of available products/></returns>
-        Task<PagingInformation<ProductEntity>> GetPagedAsync(PagingSortingParams options);
+        Task<PagingInformation<ProductEntity>> GetPagedAsync(PagingSortingParams pagingSortingOptions, FilterParams filterOptions);
 
         /// <summary>
         /// Removes the products with the specified category
