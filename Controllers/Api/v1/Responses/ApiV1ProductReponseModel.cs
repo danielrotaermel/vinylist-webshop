@@ -36,6 +36,11 @@ namespace webspec3.Controllers.Api.v1.Responses
         public Guid CategoryId { get; set; }
 
         /// <summary>
+        /// Associated product image
+        /// </summary>
+        public ApiV1ImageResponseModel Image { get; set; }
+
+        /// <summary>
         /// Associated prices
         /// </summary>
         public List<ApiV1PriceResponseModel> Prices { get; set; } = new List<ApiV1PriceResponseModel>();
@@ -86,6 +91,27 @@ namespace webspec3.Controllers.Api.v1.Responses
             /// Product title
             /// </summary>
             public string Title { get; set; }
+        }
+
+        /// <summary>
+        /// M. Narr
+        /// </summary>
+        public sealed class ApiV1ImageResponseModel
+        {
+            /// <summary>
+            /// Image description
+            /// </summary>
+            public string Description { get; set; }
+
+            /// <summary>
+            /// Base64 image data
+            /// </summary>
+            public string Base64String { get; set; }
+
+            /// <summary>
+            /// Image type
+            /// </summary>
+            public string ImageType { get; set; }
         }
     }
 }

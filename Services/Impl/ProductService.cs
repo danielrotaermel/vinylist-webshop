@@ -114,6 +114,7 @@ namespace webspec3.Services.Impl
             logger.LogDebug($"Attempting to retrieve products from database: Page: {pagingSortingOptions.Page}, items per page: {pagingSortingOptions.ItemsPerPage}, sort by: {pagingSortingOptions.SortBy}, sort direction: {pagingSortingOptions.SortDirection}.");
 
             var products = await dbContext.Products
+                .Include(x => x.Image)
                 .Include(x => x.Prices)
                 .Include(x => x.Translations)
                 .Filtered(filterParams)
@@ -141,6 +142,7 @@ namespace webspec3.Services.Impl
 
             var product = await dbContext.Products
                 .Where(x => x.Id == entityId)
+                .Include(x => x.Image)
                 .Include(x => x.Prices)
                 .Include(x => x.Translations)
                 .FirstOrDefaultAsync();
@@ -273,6 +275,7 @@ namespace webspec3.Services.Impl
             logger.LogDebug($"Attempting to retrieve all available products from the database.");
 
             var products = await dbContext.Products
+                .Include(x => x.Image)
                 .Include(x => x.Prices)
                 .Include(x => x.Translations)
                 .OrderBy(x => x.Artist)

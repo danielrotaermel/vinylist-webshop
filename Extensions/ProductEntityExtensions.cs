@@ -23,6 +23,12 @@ namespace webspec3.Extensions
                 Id = productEntity.Id,
                 Artist = productEntity.Artist,
                 CategoryId = productEntity.CategoryId,
+                Image = new ApiV1ProductReponseModel.ApiV1ImageResponseModel
+                {
+                    Base64String = productEntity.Image.Base64String,
+                    Description = productEntity.Image.Description,
+                    ImageType = productEntity.Image.ImageType
+                },
                 Label = productEntity.Label,
                 Languages = productEntity.Translations.Select(x => new ApiV1ProductReponseModel.ApiV1LanguageResponseModel
                 {

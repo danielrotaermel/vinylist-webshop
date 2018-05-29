@@ -44,6 +44,8 @@ namespace webspec3.Entities
 
         public CategoryEntity Category { get; set; }
 
+        public ImageEntity Image { get; set; }
+
         public List<ProductPriceEntity> Prices { get; set; }
 
         public List<ProductTranslationEntity> Translations { get; set; }
