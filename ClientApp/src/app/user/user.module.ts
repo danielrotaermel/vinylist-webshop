@@ -15,17 +15,22 @@ import { RegisterService } from './register/register.service';
 import { LoginService } from './login/login.service';
 import { ApiService } from "../api.service";
 
+/**
+ * @author Alexander Merker
+ */
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forRoot([{ path: "login", component: LoginComponent }, { path: "register", component: RegisterComponent}]),
+    RouterModule.forRoot([{ path: "login", component: LoginComponent }, 
+      { path: "register", component: RegisterComponent}, 
+      { path: "profile", component: UserDataComponent}]),
     AngularSvgIconModule,
     MaterialModule,
     TranslateModule,
     FormsModule
   ],
   declarations: [UserDataComponent, LoginComponent, RegisterComponent],
-  exports:[LoginComponent, RegisterComponent],
+  exports:[UserDataComponent, LoginComponent, RegisterComponent],
   providers: [
     LoginService,
     RegisterService,
