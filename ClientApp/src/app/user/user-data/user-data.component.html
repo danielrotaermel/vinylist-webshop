@@ -1,3 +1,49 @@
-<p>
-  user-data works!
-</p>
+<!-- Author: Alexander Merker -->
+
+<div class="bordered">
+  <form #userProfileForm="ngForm">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row">
+                <span class="base-icon">
+                    <i class="material-icons md-light">account_circle</i>
+                </span>
+                <mat-form-field>
+                    <input matInput type="text" name="firstName" [(ngModel)]="firstName" placeholder="{{'USER.FIRST_NAME' | translate}}" required>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <span class="base-icon">
+                    <i class="material-icons md-light">perm_identity</i>
+                </span>
+                <mat-form-field>
+                    <input matInput type="text" name="lastName" [(ngModel)]="lastName" placeholder="{{'USER.LAST_NAME' | translate}}" required>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <span class="base-icon">
+                    <i class="material-icons md-light">email</i>
+                </span>
+                <mat-form-field>
+                    <input matInput type="email" name="email" [(ngModel)]="email" placeholder="{{'USER.EMAIL' | translate}}" required>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <span class="base-icon">
+                    <i class="material-icons md-light">vpn_key</i>
+                </span>
+                <mat-form-field>
+                    <input matInput type="password" name="password" [(ngModel)]="password" placeholder="{{'USER.PASSWORD' | translate}}" required
+                        ng-maxlength="255" ng-minlength="4">
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <button [disabled]="!registrationForm.valid" mat-button (click)="performRegistration()">{{'USER.REGISTER' | translate}}</button>
+                </div>
+            </div>
+            <a mat-button routerLink="/login">{{'USER.REGISTER_SWITCH' | translate}}</a>
+        </div>
+    </div>
+  </form>
+</div>>
