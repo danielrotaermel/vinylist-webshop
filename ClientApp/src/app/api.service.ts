@@ -58,7 +58,7 @@ export class ApiService {
 
   //DELETE: /api/v1/user
   public delete_user(id: UserID): Observable<UserID>{
-      return this.http.celete(this.apiUrl + '/users/:' + id)
+      return this.http.delete(this.apiUrl + '/users/:' + id)
       .map(response => {
         return response.json();
       })
