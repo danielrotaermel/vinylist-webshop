@@ -10,6 +10,7 @@ import { Component, Inject } from '@angular/core';
 export class ApiService {
 
   private apiUrl: string;
+  private userid : UserID;
 
   constructor(
     private http:Http, @Inject('BASE_URL') baseUrl: string) { 
@@ -24,6 +25,9 @@ export class ApiService {
   public login(data: Credentials): Observable<Credentials>{
       return this.http.post(this.apiUrl + '/login', data)
       .map(response => {
+        //Save UserId, accessible by get_UserId()
+        var a = response.json();
+        this.userid = a.id;
         return response.json();
       })
       .catch(this.handleError);
@@ -40,7 +44,7 @@ export class ApiService {
 
   //PUT: /api/v1/user
   public update_user(data: User, id: UserID): Observable<User>{
-      return this.http.put(this.apiUrl + '/users/:' + id, data)
+      return this.http.put(this.apiUrl + '/users/' + id, data)
       .map(response => {
         return response.json();
       })
@@ -49,7 +53,7 @@ export class ApiService {
 
   //GET: /api/v1/user
   public get_user(id: UserID): Observable<User>{
-      return this.http.get(this.apiUrl + '/users/:' + id)
+      return this.http.get(this.apiUrl + '/users/' + id)
       .map(response => {
         return response.json();
       })
@@ -57,10 +61,10 @@ export class ApiService {
   } 
 
   //DELETE: /api/v1/user
-  public delete_user(id: UserID): Observable<UserID>{
-      return this.http.delete(this.apiUrl + '/users/:' + id)
+  public delete_user(id: UserID): Observable<string>{
+      return this.http.delete(this.apiUrl + '/users/' + id)
       .map(response => {
-        return response.json();
+        return "Deleted successfully";
       })
       .catch(this.handleError);
   } 
@@ -72,6 +76,11 @@ export class ApiService {
         return response.json();
       })
       .catch(this.handleError);
+  }
+
+  //NOT AN API CALL - get id of current user
+  public get_userId(): UserID{
+      return this.userid;
   }
 
   private handleError (error: Response | any) {

@@ -13,6 +13,7 @@ import { RegisterComponent } from "./register/register.component";
 
 import { RegisterService } from './register/register.service';
 import { LoginService } from './login/login.service';
+import { UserDataService } from './user-data/user-data.service';
 import { ApiService } from "../api.service";
 
 /**
@@ -34,6 +35,7 @@ import { ApiService } from "../api.service";
   providers: [
     LoginService,
     RegisterService,
+    UserDataService,
     ApiService
   ],
 })

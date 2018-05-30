@@ -39,7 +39,7 @@ export class LoginComponent {
         this.openSnackBar("Login successful", 1500);
       },
       (error: any) => {
-        this.openSnackBar(error, 5000);
+        this.openSnackBar("Wrong username or password", 5000);
       }
     );
   }
