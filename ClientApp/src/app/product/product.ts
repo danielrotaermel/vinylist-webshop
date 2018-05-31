@@ -9,9 +9,8 @@ export class Product implements Deserializable {
   label: string;
   releaseDate: string;
   categoryId: string;
-  imageId: string;
   id: string;
-  translations: ProductTranslation[];
+  languages: ProductTranslation[];
   image: ProductImage;
   prices: ProductPrice[];
 
@@ -22,8 +21,8 @@ export class Product implements Deserializable {
    * @param key language key (de_DE or en_US)
    */
   public getTranslationByKey(key: string): ProductTranslation {
-    let found = this.translations[0];
-    this.translations.forEach(element => {
+    let found = this.languages[0];
+    this.languages.forEach(element => {
       if (element.getLanguageId() === key) {
         found = element;
       }
@@ -47,12 +46,22 @@ export class Product implements Deserializable {
     return found;
   }
 
+  /**
+   * Splits date string into an array containing year, month and day.
+   * The following timestamp is ignored
+   */
+  public getFormattedDate(): string[] {
+    var splittedTime = this.releaseDate.split("T", 2);
+    var splittedDate = splittedTime[0].split("-", 3);
+    return splittedDate;
+  }
+
   deserialize(input: any) {
     Object.assign(this, input);
-    this.translations = new Array<ProductTranslation>();
+    this.languages = new Array<ProductTranslation>();
 
-    input.translations.forEach(element => {
-      this.translations.push(new ProductTranslation().deserialize(element));
+    input.languages.forEach(element => {
+      this.languages.push(new ProductTranslation().deserialize(element));
     });
 
     this.image = new ProductImage();

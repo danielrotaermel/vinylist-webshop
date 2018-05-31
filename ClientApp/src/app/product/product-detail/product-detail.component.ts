@@ -25,12 +25,23 @@ export class ProductDetailComponent implements OnInit {
     this.product = this.route.snapshot.data["product"];
   }
 
-  getTranslationKey(): string {
-    if (this.translateService.currentLang.toString() === "de") {
-      return "de_DE";
-    } else {
-      return "en_US";
+  isGerman(): boolean {
+    return this.translateService.currentLang.toString() === "de";
+  }
+
+  getReleaseDate(): string {
+    let date = this.product.getFormattedDate();
+    if (this.isGerman()) {
+      return date[2] + "." + date[1] + "." + date[0];
     }
+    return date[1] + "/" + date[2] + "/" + date[0];
+  }
+
+  getTranslationKey(): string {
+    if (this.isGerman()) {
+      return "de_DE";
+    }
+    return "en_US";
   }
 
   getTranslation(): ProductTranslation {
@@ -38,7 +49,7 @@ export class ProductDetailComponent implements OnInit {
   }
 
   getPrice(): ProductPrice {
-    if (this.translateService.currentLang.toString() === "de") {
+    if (this.isGerman()) {
       return this.product.getPriceByKey("EUR");
     }
     return this.product.getPriceByKey("USD");
