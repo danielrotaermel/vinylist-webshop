@@ -203,7 +203,7 @@ namespace webspec3.Controllers.Api.v1
 
                     if (user == null)
                     {
-                        return Forbid();
+                        return StatusCode(403);
                     }
 
                     // Check if user updates himself or admin is updating
@@ -211,7 +211,7 @@ namespace webspec3.Controllers.Api.v1
                     {
                         logger.LogWarning($"Only an admin can update arbitrary users. A user can only update himself.");
 
-                        return Forbid();
+                        return StatusCode(403);
                     }
 
                     // Update the user
@@ -289,7 +289,7 @@ namespace webspec3.Controllers.Api.v1
 
                     if (user == null)
                     {
-                        return Forbid();
+                        return StatusCode(403);
                     }
 
                     // Check if user updates himself or admin is updating
@@ -297,7 +297,7 @@ namespace webspec3.Controllers.Api.v1
                     {
                         logger.LogWarning($"Only an admin can delete arbitrary users. A user can only delete himself.");
 
-                        return Forbid();
+                        return StatusCode(403);
                     }
 
                     await userService.DeleteAsync(user);
