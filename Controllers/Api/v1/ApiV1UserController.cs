@@ -35,6 +35,50 @@ namespace webspec3.Controllers.Api.v1
         }
 
         /// <summary>
+        /// Returns information about the currently logged in user
+        /// </summary>
+        /// <response code="200">Current user returned successfully</response>
+        /// <response code="400">No user is logged in at the moment</response>
+        /// <response code="403">No user is logged in at the moment</response>
+        /// <response code="500">An internal error occurred</response>
+        [HttpGet("current")]
+        [LoginRequired]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(403)]
+        [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
+        public async Task<IActionResult> GetCurrentUser()
+        {
+            logger.LogDebug($"Attempting to get the current user.");
+
+            // Check if a user is logged in
+            if (!loginService.IsLoggedIn())
+            {
+                logger.LogWarning($"No user logged in at the moment. Returning.");
+
+                return BadRequest(new ApiV1ErrorResponseModel($"There is no user logged in at the moment."));
+            }
+
+            var user = await userService.GetByIdAsync(loginService.GetLoggedInUserId());
+
+            if (user == null)
+            {
+                logger.LogError($"Could not find the currently logged in user.");
+
+                return StatusCode(500, "An internal error occurred.");
+            }
+
+            return Json(new
+            {
+                user.Id,
+                user.FirstName,
+                user.LastName,
+                user.Email,
+                user.IsAdmin
+            });
+        }
+
+        /// <summary>
         /// Returns a list of all users
         /// </summary>
         /// <response code="200">List of users returned</response>
