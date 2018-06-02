@@ -58,28 +58,26 @@ namespace webspec3.Controllers.Api.v1
         /// <summary>
         /// Returns all products with paging
         /// </summary>
-        /// <param name="page">Page to retrieve</param>
         /// <param name="model">Paging and sorting options</param>
         /// <response code="200">Products returned successfully</response>
         /// <response code="400">Invalid model</response>
         /// <response code="403">No permissions to get raw products</response>
         /// <response code="500">An internal error occurred</response>
-        [HttpGet("paged/{page:int}")]
+        [HttpGet("paged")]
         [ProducesResponseType(typeof(PagingInformation<ApiV1ProductReponseModel>), 200)]
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 400)]
         [ProducesResponseType(403)]
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
-        public async Task<IActionResult> GetPaged([FromQuery] ApiV1ProductPagingSortingFilteringRequestModel model,
-            [FromRoute] int page = 1)
+        public async Task<IActionResult> GetPaged([FromQuery]ApiV1ProductPagingSortingFilteringRequestModel model)
         {
-            logger.LogDebug($"Attempting to get paged products: Page: {page}, items per page: {model.ItemsPerPage}.");
+            logger.LogDebug($"Attempting to get paged products: Page: {model.Page}, items per page: {model.ItemsPerPage}.");
 
             if (ModelState.IsValid)
             {
                 var pagingSortingOptions = new PagingSortingParams
                 {
                     ItemsPerPage = model.ItemsPerPage,
-                    Page = page,
+                    Page = model.Page,
                     SortBy = model.SortBy,
                     SortDirection = model.SortDirection
                 };

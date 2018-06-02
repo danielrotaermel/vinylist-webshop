@@ -10,6 +10,11 @@ namespace webspec3.Controllers.Api.v1.Requests
     public abstract class ApiV1PagingSortingFilteringRequestModelBase
     {
         /// <summary>
+        /// Specifies the page which should be retrieved
+        /// </summary>
+        public int Page { get; set; }
+
+        /// <summary>
         /// Specifies how many items should be returned per page
         /// </summary>
         [Range(5, 50)]
