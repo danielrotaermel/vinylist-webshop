@@ -54,5 +54,37 @@ namespace webspec3.Extensions
 
             return source;
         }
+
+        /// <summary>
+        /// Applies the specified filtering options to the IQueryable
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source">Source queryable</param>
+        /// <param name="options">Instance of <see cref="FilterParams"/></param>
+        /// <returns>Modified source queryable</returns>
+        public static IQueryable<T> ProductsAdvancedFiltered<T>(this IQueryable<T> source, FilterParams options)
+        {
+            if (options == null || string.IsNullOrEmpty(options.FilterBy) || string.IsNullOrEmpty(options.FilterQuery))
+            {
+                return source;
+            }
+
+            switch (options.FilterBy)
+            {
+                case "Artist":
+                case "Label":
+                case "ReleaseDate":
+                    source = source.Filtered(options);
+                    break;
+                case "Description":
+                case "DescriptionShort":
+                case "Title":
+                    source = source.Where($"Translations.Any(LanguageId = @0) and Translations.Where(LanguageId = @0).First().{options.FilterBy}.ToLower().Contains(@1)", options.FilterLanguage, options.FilterQuery.ToLower());
+                    break;
+            }
+
+
+            return source;
+        }
     }
 }

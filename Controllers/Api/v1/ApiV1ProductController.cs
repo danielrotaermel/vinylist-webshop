@@ -23,15 +23,16 @@ namespace webspec3.Controllers.Api.v1
     public sealed class ApiV1ProductController : Controller
     {
         private readonly IProductService productService;
-        private readonly ILogger logger;
         private readonly IImageService imageService;
+        private readonly II18nService i18nService;
+        private readonly ILogger logger;
 
-        public ApiV1ProductController(IProductService productService, ILogger<ApiV1ProductController> logger,
-            IImageService imageService)
+        public ApiV1ProductController(IProductService productService, IImageService imageService, II18nService i18nService, ILogger<ApiV1ProductController> logger)
         {
             this.productService = productService;
-            this.logger = logger;
             this.imageService = imageService;
+            this.i18nService = i18nService;
+            this.logger = logger;
         }
 
         /// <summary>
@@ -74,6 +75,12 @@ namespace webspec3.Controllers.Api.v1
 
             if (ModelState.IsValid)
             {
+                // Check if the requested language exists
+                if (!i18nService.SupportedLanguages.Any(x => x.Code == model.LanguageCode))
+                {
+                    return BadRequest(new ApiV1ErrorResponseModel("The requested language does not exist."));
+                }
+
                 var pagingSortingOptions = new PagingSortingParams
                 {
                     ItemsPerPage = model.ItemsPerPage,
@@ -85,7 +92,8 @@ namespace webspec3.Controllers.Api.v1
                 var filterOptions = new FilterParams
                 {
                     FilterBy = model.FilterBy,
-                    FilterQuery = model.FilterQuery
+                    FilterQuery = model.FilterQuery,
+                    FilterLanguage = model.LanguageCode
                 };
 
                 var productPagingInformation = await productService.GetPagedAsync(pagingSortingOptions, filterOptions);

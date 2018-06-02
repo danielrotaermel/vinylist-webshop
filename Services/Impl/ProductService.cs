@@ -121,12 +121,12 @@ namespace webspec3.Services.Impl
                 .Include(x => x.Image)
                 .Include(x => x.Prices)
                 .Include(x => x.Translations)
-                .Filtered(filterParams)
+                .ProductsAdvancedFiltered(filterParams)
                 .PagedAndSorted(pagingSortingOptions)
                 .ToListAsync();
 
             var totalProducts = products.Count();
-            var totalPages = (int) Math.Ceiling(totalProducts / (double) pagingSortingOptions.ItemsPerPage);
+            var totalPages = (int)Math.Ceiling(totalProducts / (double)pagingSortingOptions.ItemsPerPage);
 
             logger.LogInformation($"Retrieved {products.Count} products from the database.");
 
@@ -240,7 +240,7 @@ namespace webspec3.Services.Impl
                 $"Attempting to retrieve products consolidated from database: Page: {options.Page}, items per page: {options.ItemsPerPage}, sort by: {options.SortBy}, sort direction: {options.SortDirection}.");
 
             var totalProducts = await dbContext.Products.CountAsync();
-            var totalPages = (int) Math.Ceiling(totalProducts / (double) options.ItemsPerPage);
+            var totalPages = (int)Math.Ceiling(totalProducts / (double)options.ItemsPerPage);
 
             var query = dbContext.ProductsConsolidated
                 .Where(x => x.Language == i18nService.GetCurrentLanguage().Code &&
@@ -319,7 +319,7 @@ namespace webspec3.Services.Impl
 
                 transaction.Commit();
             }
-          
+
             foreach (var product in productsWithCategory)
             {
                 await imageService.DeleteAsync(product.ImageId);
