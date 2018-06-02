@@ -69,7 +69,8 @@ namespace webspec3.Controllers.Api.v1
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 400)]
         [ProducesResponseType(403)]
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
-        public async Task<IActionResult> GetPaged([FromQuery]ApiV1ProductPagingSortingFilteringRequestModel model, [FromRoute]int page = 1)
+        public async Task<IActionResult> GetPaged([FromQuery] ApiV1ProductPagingSortingFilteringRequestModel model,
+            [FromRoute] int page = 1)
         {
             logger.LogDebug($"Attempting to get paged products: Page: {page}, items per page: {model.ItemsPerPage}.");
 
@@ -100,7 +101,8 @@ namespace webspec3.Controllers.Api.v1
                     TotalItems = productPagingInformation.TotalItems
                 };
 
-                logger.LogInformation($"Received {productPagingInformationResponse.Items.Count} products from the database.");
+                logger.LogInformation(
+                    $"Received {productPagingInformationResponse.Items.Count} products from the database.");
 
                 return Json(productPagingInformationResponse);
             }
@@ -231,7 +233,8 @@ namespace webspec3.Controllers.Api.v1
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 400)]
         [ProducesResponseType(403)]
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
-        public async Task<IActionResult> Update([FromRoute] Guid productId, [FromBody] ApiV1ProductUpdateRequestModel model)
+        public async Task<IActionResult> Update([FromRoute] Guid productId,
+            [FromBody] ApiV1ProductUpdateRequestModel model)
         {
             // Check if model is valid
             if (model != null && ModelState.IsValid && productId == model.Id)
@@ -251,6 +254,24 @@ namespace webspec3.Controllers.Api.v1
                 product.CategoryId = model.CategoryId;
                 product.Label = model.Label;
                 product.ReleaseDate = model.ReleaseDate;
+
+                var oldImageId = product.ImageId;
+
+                // If the image got updated
+                if (product.Image.Base64String != model.Image.Base64String
+                    || product.Image.Description != model.Image.Description
+                    || product.Image.ImageType != model.Image.ImageType)
+                {
+                    var newImage = new ImageEntity
+                    {
+                        Base64String = model.Image.Base64String,
+                        Description = model.Image.Description,
+                        ImageType = model.Image.ImageType
+                    };
+
+                    await imageService.AddAsync(newImage);
+                    product.ImageId = newImage.Id;
+                }
 
                 var productPriceEntities = model.Prices
                     .Select(x => new ProductPriceEntity
@@ -273,20 +294,13 @@ namespace webspec3.Controllers.Api.v1
                 product.Prices = productPriceEntities;
                 product.Translations = productTranslationEntities;
 
-                //// Image got updated
-                //if (product.ImageId != model.Image.Id)
-                //{
-                //    var oldImageEntity = await imageService.GetByIdAsync(product.ImageId);
-                //    await imageService.DeleteAsync(oldImageEntity);
-                //    await imageService.AddAsync(model.Image);
-                //}
-
-                //if (!await imageService.ImageIdExistsAsync(model.Image.Id))
-                //{
-                //    await imageService.AddAsync(model.Image);
-                //}
-
                 await productService.UpdateAsync(product);
+
+                //Delete old Image
+                if (oldImageId != product.ImageId)
+                {
+                    await imageService.DeleteAsync(oldImageId);
+                }
 
                 logger.LogInformation($"Successfully updated product with id {model.Id}.");
 
@@ -336,12 +350,7 @@ namespace webspec3.Controllers.Api.v1
                 await productService.DeleteAsync(product);
 
                 // Remove related image
-                var image = await imageService.GetByIdAsync(product.ImageId);
-
-                if (image != null)
-                {
-                    await imageService.DeleteAsync(image);
-                }
+                await imageService.DeleteAsync(product.ImageId);
 
                 logger.LogInformation($"Product with id {productId} has been deleted successfully.");
 

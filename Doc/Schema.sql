@@ -45,8 +45,6 @@ CREATE TABLE users (
     id         	        UUID            PRIMARY KEY
     ,first_name         TEXT    		NOT NULL
     ,last_name   		TEXT     		NOT NULL
---    ,billing_address_id UUID		    NOT NULL REFERENCES addresses(id)
---    ,address_id 		UUID    		NOT NULL REFERENCES addresses(id)
     ,email      		TEXT    		NOT NULL UNIQUE
     ,password   		TEXT  			NOT NULL
     ,is_admin           BOOLEAN         NOT NULL

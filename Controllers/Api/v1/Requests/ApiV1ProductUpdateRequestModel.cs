@@ -12,6 +12,6 @@ namespace webspec3.Controllers.Api.v1.Requests
         /// <summary>
         /// Product id
         /// </summary>
-        public Guid? Id { get; set; }
+        public Guid Id { get; set; }
     }
 }

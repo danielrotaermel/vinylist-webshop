@@ -23,7 +23,8 @@ namespace webspec3.Services.Impl
         private readonly ILogger logger;
         private readonly IImageService imageService;
 
-        public ProductService(WebSpecDbContext dbContext, II18nService i18nService, ILogger<ProductService> logger, IImageService imageService)
+        public ProductService(WebSpecDbContext dbContext, II18nService i18nService, ILogger<ProductService> logger,
+            IImageService imageService)
         {
             this.dbContext = dbContext;
             this.i18nService = i18nService;
@@ -97,7 +98,8 @@ namespace webspec3.Services.Impl
                 dbContext.ProductPrices.RemoveRange(dbContext.ProductPrices.Where(x => x.ProductId == entityId));
 
                 // Remove all translations
-                dbContext.ProductTranslations.RemoveRange(dbContext.ProductTranslations.Where(x => x.ProductId == entityId));
+                dbContext.ProductTranslations.RemoveRange(
+                    dbContext.ProductTranslations.Where(x => x.ProductId == entityId));
 
                 dbContext.Products.Remove(await dbContext.Products.FindAsync(entityId));
 
@@ -109,9 +111,11 @@ namespace webspec3.Services.Impl
             logger.LogInformation($"Sucessfully removed product with id {entityId}");
         }
 
-        public async Task<PagingInformation<ProductEntity>> GetPagedAsync(PagingSortingParams pagingSortingOptions, FilterParams filterParams)
+        public async Task<PagingInformation<ProductEntity>> GetPagedAsync(PagingSortingParams pagingSortingOptions,
+            FilterParams filterParams)
         {
-            logger.LogDebug($"Attempting to retrieve products from database: Page: {pagingSortingOptions.Page}, items per page: {pagingSortingOptions.ItemsPerPage}, sort by: {pagingSortingOptions.SortBy}, sort direction: {pagingSortingOptions.SortDirection}.");
+            logger.LogDebug(
+                $"Attempting to retrieve products from database: Page: {pagingSortingOptions.Page}, items per page: {pagingSortingOptions.ItemsPerPage}, sort by: {pagingSortingOptions.SortBy}, sort direction: {pagingSortingOptions.SortDirection}.");
 
             var products = await dbContext.Products
                 .Include(x => x.Image)
@@ -122,7 +126,7 @@ namespace webspec3.Services.Impl
                 .ToListAsync();
 
             var totalProducts = products.Count();
-            var totalPages = (int)Math.Ceiling(totalProducts / (double)pagingSortingOptions.ItemsPerPage);
+            var totalPages = (int) Math.Ceiling(totalProducts / (double) pagingSortingOptions.ItemsPerPage);
 
             logger.LogInformation($"Retrieved {products.Count} products from the database.");
 
@@ -187,7 +191,8 @@ namespace webspec3.Services.Impl
 
                 // Remove all previous prices and translations
                 dbContext.ProductPrices.RemoveRange(dbContext.ProductPrices.Where(x => x.ProductId == entity.Id));
-                dbContext.ProductTranslations.RemoveRange(dbContext.ProductTranslations.Where(x => x.ProductId == entity.Id));
+                dbContext.ProductTranslations.RemoveRange(
+                    dbContext.ProductTranslations.Where(x => x.ProductId == entity.Id));
 
                 await dbContext.SaveChangesAsync();
 
@@ -211,7 +216,8 @@ namespace webspec3.Services.Impl
             logger.LogDebug($"Attempting to retrieve all available products consolidated from the database.");
 
             var query = dbContext.ProductsConsolidated
-                .Where(x => x.Language == i18nService.GetCurrentLanguage().Code && x.Currency == i18nService.GetCurrentCurrency().Code);
+                .Where(x => x.Language == i18nService.GetCurrentLanguage().Code &&
+                            x.Currency == i18nService.GetCurrentCurrency().Code);
 
             if (categoryId != null)
             {
@@ -227,15 +233,18 @@ namespace webspec3.Services.Impl
             return products;
         }
 
-        public async Task<PagingInformation<ConsolidatedProductEntity>> GetConsolidatedPagedAsync(PagingSortingParams options, Guid? categoryId = null)
+        public async Task<PagingInformation<ConsolidatedProductEntity>> GetConsolidatedPagedAsync(
+            PagingSortingParams options, Guid? categoryId = null)
         {
-            logger.LogDebug($"Attempting to retrieve products consolidated from database: Page: {options.Page}, items per page: {options.ItemsPerPage}, sort by: {options.SortBy}, sort direction: {options.SortDirection}.");
+            logger.LogDebug(
+                $"Attempting to retrieve products consolidated from database: Page: {options.Page}, items per page: {options.ItemsPerPage}, sort by: {options.SortBy}, sort direction: {options.SortDirection}.");
 
             var totalProducts = await dbContext.Products.CountAsync();
-            var totalPages = (int)Math.Ceiling(totalProducts / (double)options.ItemsPerPage);
+            var totalPages = (int) Math.Ceiling(totalProducts / (double) options.ItemsPerPage);
 
             var query = dbContext.ProductsConsolidated
-                .Where(x => x.Language == i18nService.GetCurrentLanguage().Code && x.Currency == i18nService.GetCurrentCurrency().Code);
+                .Where(x => x.Language == i18nService.GetCurrentLanguage().Code &&
+                            x.Currency == i18nService.GetCurrentCurrency().Code);
 
             if (categoryId != null)
             {
@@ -264,7 +273,8 @@ namespace webspec3.Services.Impl
 
             var product = await dbContext.ProductsConsolidated
                 .Where(x => x.Id == id)
-                .Where(x => x.Language == i18nService.GetCurrentLanguage().Code && x.Currency == i18nService.GetCurrentCurrency().Code)
+                .Where(x => x.Language == i18nService.GetCurrentLanguage().Code &&
+                            x.Currency == i18nService.GetCurrentCurrency().Code)
                 .FirstOrDefaultAsync();
 
             return product;
@@ -299,27 +309,24 @@ namespace webspec3.Services.Impl
                 foreach (var product in productsWithCategory)
                 {
                     dbContext.ProductPrices.RemoveRange(dbContext.ProductPrices.Where(x => x.ProductId == product.Id));
-                    dbContext.ProductTranslations.RemoveRange(dbContext.ProductTranslations.Where(x => x.ProductId == product.Id));
+                    dbContext.ProductTranslations.RemoveRange(
+                        dbContext.ProductTranslations.Where(x => x.ProductId == product.Id));
                 }
 
                 dbContext.Products.RemoveRange(productsWithCategory);
 
                 await dbContext.SaveChangesAsync();
 
-                foreach (var product in productsWithCategory)
-                {
-                    var image = await imageService.GetByIdAsync(product.ImageId);
-
-                    if (image != null)
-                    {
-                        await imageService.DeleteAsync(image);
-                    }
-                }
-
                 transaction.Commit();
             }
+          
+            foreach (var product in productsWithCategory)
+            {
+                await imageService.DeleteAsync(product.ImageId);
+            }
 
-            logger.LogInformation($"Successfully removed {productsWithCategory.Count} products with category {categoryId}.");
+            logger.LogInformation(
+                $"Successfully removed {productsWithCategory.Count} products with category {categoryId}.");
         }
     }
 }
