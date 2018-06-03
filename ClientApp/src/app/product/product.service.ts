@@ -5,6 +5,7 @@ import { Observable, of } from "rxjs";
 import { catchError, map, tap } from "rxjs/operators";
 
 import { Product } from "./product";
+import { Category } from "./category";
 
 /** @author Janina Wachendorfer */
 @Injectable({
@@ -21,6 +22,15 @@ export class ProductService {
       products.push(new Product().deserialize(element));
     });
     return products;
+  }
+
+  getProductsWithCategory(category: Category): Observable<Product[]> {
+    return this.http
+      .get<Product[]>(this.productUrl + "?categoryId=" + category.getId())
+      .pipe(
+        map(products => this.deserializeProducts(products)),
+        catchError(this.handleError<Product[]>("getProducts"))
+      );
   }
 
   // get all products

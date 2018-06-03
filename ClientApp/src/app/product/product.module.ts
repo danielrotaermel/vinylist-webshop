@@ -1,4 +1,5 @@
 import { NgModule } from "@angular/core";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { ProductListComponent } from "./product-list/product-list.component";
 import { ProductDetailComponent } from "./product-detail/product-detail.component";
@@ -12,8 +13,19 @@ import { MaterialModule } from "../core/material.module";
 
 import { ProductDetailResolver } from "./product-detail/product-detail-resolvers";
 
+import {
+  ProductListResolver,
+  CategoriesResolver
+} from "./product-list/product-list-resolver";
 const routes: Routes = [
-  { path: "", component: ProductListComponent },
+  {
+    path: "",
+    component: ProductListComponent,
+    resolve: {
+      products: ProductListResolver,
+      categories: CategoriesResolver
+    }
+  },
   {
     path: "product/:id",
     component: ProductDetailComponent,
@@ -27,7 +39,8 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forRoot(routes),
     MaterialModule,
-    TranslateModule
+    TranslateModule,
+    FormsModule
   ],
   exports: [RouterModule],
   declarations: [
@@ -36,6 +49,6 @@ const routes: Routes = [
     ProductListItemComponent,
     ProductFilterComponent
   ],
-  providers: [ProductDetailResolver]
+  providers: [ProductDetailResolver, ProductListResolver, CategoriesResolver]
 })
 export class ProductModule {}
