@@ -35,6 +35,50 @@ namespace webspec3.Controllers.Api.v1
         }
 
         /// <summary>
+        /// Returns information about the currently logged in user
+        /// </summary>
+        /// <response code="200">Current user returned successfully</response>
+        /// <response code="400">No user is logged in at the moment</response>
+        /// <response code="403">No user is logged in at the moment</response>
+        /// <response code="500">An internal error occurred</response>
+        [HttpGet("current")]
+        [LoginRequired]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(403)]
+        [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
+        public async Task<IActionResult> GetCurrentUser()
+        {
+            logger.LogDebug($"Attempting to get the current user.");
+
+            // Check if a user is logged in
+            if (!loginService.IsLoggedIn())
+            {
+                logger.LogWarning($"No user logged in at the moment. Returning.");
+
+                return BadRequest(new ApiV1ErrorResponseModel($"There is no user logged in at the moment."));
+            }
+
+            var user = await userService.GetByIdAsync(loginService.GetLoggedInUserId());
+
+            if (user == null)
+            {
+                logger.LogError($"Could not find the currently logged in user.");
+
+                return StatusCode(500, "An internal error occurred.");
+            }
+
+            return Json(new
+            {
+                user.Id,
+                user.FirstName,
+                user.LastName,
+                user.Email,
+                user.IsAdmin
+            });
+        }
+
+        /// <summary>
         /// Returns a list of all users
         /// </summary>
         /// <response code="200">List of users returned</response>
@@ -159,7 +203,7 @@ namespace webspec3.Controllers.Api.v1
 
                     if (user == null)
                     {
-                        return Forbid();
+                        return StatusCode(403);
                     }
 
                     // Check if user updates himself or admin is updating
@@ -167,7 +211,7 @@ namespace webspec3.Controllers.Api.v1
                     {
                         logger.LogWarning($"Only an admin can update arbitrary users. A user can only update himself.");
 
-                        return Forbid();
+                        return StatusCode(403);
                     }
 
                     // Update the user
@@ -245,7 +289,7 @@ namespace webspec3.Controllers.Api.v1
 
                     if (user == null)
                     {
-                        return Forbid();
+                        return StatusCode(403);
                     }
 
                     // Check if user updates himself or admin is updating
@@ -253,7 +297,7 @@ namespace webspec3.Controllers.Api.v1
                     {
                         logger.LogWarning($"Only an admin can delete arbitrary users. A user can only delete himself.");
 
-                        return Forbid();
+                        return StatusCode(403);
                     }
 
                     await userService.DeleteAsync(user);

@@ -59,7 +59,9 @@ namespace webspec3.Services.Impl
 
         public bool IsAdmin()
         {
-            if (!string.IsNullOrEmpty(httpContextAccessor.HttpContext.Session.GetString(KEY_IS_ADMIN)))
+            var isAdminValue = httpContextAccessor.HttpContext.Session.GetString(KEY_IS_ADMIN);
+
+            if (string.IsNullOrEmpty(isAdminValue))
             {
                 return false;
             }

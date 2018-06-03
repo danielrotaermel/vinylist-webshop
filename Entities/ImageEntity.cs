@@ -9,20 +9,13 @@ namespace webspec3.Entities
     /// 
     /// J. Mauthe
     /// </summary>
-    public sealed class ImageEntity
+    public sealed class ImageEntity : EntityBase
     {
-        /// <summary>
-        /// Image id
-        /// </summary>
-        [Column("id")]
-        public Guid Id { get; set; }
-
         /// <summary>
         /// Description of the image
         /// </summary>
         [Column("description")]
-        [Required] 
-        public string Description { get; set; }
+        [Required] public string Description { get; set; }
 
         /// <summary>
         /// Base64 representation of the image
@@ -35,7 +28,7 @@ namespace webspec3.Entities
         /// The type of the image. (Must be png or jpg)
         /// </summary>
         [Required]
-        [RegularExpression("(png|jpg)")]
+        [RegularExpression("(png|jpg|jpeg)")]
         [Column("image_type")]
         public string ImageType { get; set; }
     }

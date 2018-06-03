@@ -9,11 +9,11 @@ namespace webspec3.Controllers.Api.v1.Requests
     /// </summary>
     public sealed class ApiV1ProductPagingSortingFilteringRequestModel : ApiV1PagingSortingFilteringRequestModelBase
     {
-        [Required(AllowEmptyStrings = false)]
-        [RegularExpression("(Artist|Label|ReleaseDate)")]
-        public override string SortBy { get; set; }
+        [Required(AllowEmptyStrings = false, ErrorMessage = "The parameter sort by is required.")]
+        [RegularExpression("^.*(Artist|Label|ReleaseDate)$", ErrorMessage = "The parameter sort by must match one of 'Artist', 'Label', 'ReleaseDate'")]
+        public override string SortBy { get; set; } = "Artist";
 
-        [RegularExpression("(Artist|Label|ReleaseDate)")]
+        [RegularExpression("^.*(Artist|Label|ReleaseDate|Description|DescriptionShort|Title)$", ErrorMessage = "The parameter filter by must match one of 'Artist', 'Label', 'ReleaseDate', 'Description', 'DescriptionShort' and 'Title'")]
         public override string FilterBy { get; set; }
     }
 }

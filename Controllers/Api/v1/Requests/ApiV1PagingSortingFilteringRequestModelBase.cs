@@ -10,9 +10,14 @@ namespace webspec3.Controllers.Api.v1.Requests
     public abstract class ApiV1PagingSortingFilteringRequestModelBase
     {
         /// <summary>
+        /// Specifies the page which should be retrieved
+        /// </summary>
+        public int Page { get; set; } = 1;
+
+        /// <summary>
         /// Specifies how many items should be returned per page
         /// </summary>
-        [Range(5, 50)]
+        [Range(5, 50, ErrorMessage = "Value from 5-50 are supported only")]
         public int ItemsPerPage { get; set; } = 10;
 
         /// <summary>
@@ -23,8 +28,8 @@ namespace webspec3.Controllers.Api.v1.Requests
         /// <summary>
         /// Specifies the sorting direction
         /// </summary>
-        [Required(AllowEmptyStrings = false)]
-        [RegularExpression("(ASC|DESC)")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Sort direction is required")]
+        [RegularExpression("(ASC|DESC)", ErrorMessage = "Sort direction can only be ascending (ASC) or descending (DESC)")]
         public string SortDirection { get; set; } = "ASC";
 
         /// <summary>
@@ -36,5 +41,11 @@ namespace webspec3.Controllers.Api.v1.Requests
         /// Specifies the filter string
         /// </summary>
         public string FilterQuery { get; set; }
+
+        /// <summary>
+        /// Specifies the language code to select the correct l10n for searching and filtering
+        /// </summary>
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Please specify a language code")]
+        public string LanguageCode { get; set; }
     }
 }

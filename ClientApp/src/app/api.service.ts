@@ -17,7 +17,7 @@ export class ApiService {
   }
 
 /** -----------------------------------------------------------------
- *                   LOGIN AND REGISTER
+ *                   LOGIN / REGISTER / USER CRUD
  *------------------------------------------------------------------*/
 
   //POST: /api/v1/login
@@ -37,6 +37,33 @@ export class ApiService {
       })
       .catch(this.handleError);
   }
+
+  //PUT: /api/v1/user
+  public update_user(data: User, id: UserID): Observable<User>{
+      return this.http.put(this.apiUrl + '/users/:' + id, data)
+      .map(response => {
+        return response.json();
+      })
+      .catch(this.handleError);
+  }
+
+  //GET: /api/v1/user
+  public get_user(id: UserID): Observable<User>{
+      return this.http.get(this.apiUrl + '/users/:' + id)
+      .map(response => {
+        return response.json();
+      })
+      .catch(this.handleError);
+  } 
+
+  //DELETE: /api/v1/user
+  public delete_user(id: UserID): Observable<UserID>{
+      return this.http.delete(this.apiUrl + '/users/:' + id)
+      .map(response => {
+        return response.json();
+      })
+      .catch(this.handleError);
+  } 
   
   //GET: /api/v1/logout
   public logout(): Observable<void>{
@@ -46,8 +73,6 @@ export class ApiService {
       })
       .catch(this.handleError);
   }
-
-  //TODO: implement isAuthenticated for all other webservices!
 
   private handleError (error: Response | any) {
     console.error('ApiService::handleError', error);
@@ -65,4 +90,7 @@ interface User {
   lastName: string;
   email: string;
   password: string;
+}
+interface UserID {
+  userID: string; //TODO: GUID type?
 }

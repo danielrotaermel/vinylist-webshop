@@ -16,5 +16,10 @@
         /// Specifies the filter query
         /// </summary>
         public string FilterQuery { get; set; }
+
+        /// <summary>
+        /// Specifies the l10n being used for filtering
+        /// </summary>
+        public string FilterLanguage { get; set; }
     }
 }

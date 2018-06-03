@@ -23,15 +23,16 @@ namespace webspec3.Controllers.Api.v1
     public sealed class ApiV1ProductController : Controller
     {
         private readonly IProductService productService;
-        private readonly ILogger logger;
         private readonly IImageService imageService;
+        private readonly II18nService i18nService;
+        private readonly ILogger logger;
 
-        public ApiV1ProductController(IProductService productService, ILogger<ApiV1ProductController> logger,
-            IImageService imageService)
+        public ApiV1ProductController(IProductService productService, IImageService imageService, II18nService i18nService, ILogger<ApiV1ProductController> logger)
         {
             this.productService = productService;
-            this.logger = logger;
             this.imageService = imageService;
+            this.i18nService = i18nService;
+            this.logger = logger;
         }
 
         /// <summary>
@@ -58,27 +59,32 @@ namespace webspec3.Controllers.Api.v1
         /// <summary>
         /// Returns all products with paging
         /// </summary>
-        /// <param name="page">Page to retrieve</param>
         /// <param name="model">Paging and sorting options</param>
         /// <response code="200">Products returned successfully</response>
         /// <response code="400">Invalid model</response>
         /// <response code="403">No permissions to get raw products</response>
         /// <response code="500">An internal error occurred</response>
-        [HttpGet("paged/{page:int}")]
+        [HttpGet("paged")]
         [ProducesResponseType(typeof(PagingInformation<ApiV1ProductReponseModel>), 200)]
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 400)]
         [ProducesResponseType(403)]
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
-        public async Task<IActionResult> GetPaged([FromQuery]ApiV1ProductPagingSortingFilteringRequestModel model, [FromRoute]int page = 1)
+        public async Task<IActionResult> GetPaged([FromQuery]ApiV1ProductPagingSortingFilteringRequestModel model)
         {
-            logger.LogDebug($"Attempting to get paged products: Page: {page}, items per page: {model.ItemsPerPage}.");
+            logger.LogDebug($"Attempting to get paged products: Page: {model.Page}, items per page: {model.ItemsPerPage}.");
 
             if (ModelState.IsValid)
             {
+                // Check if the requested language exists
+                if (!i18nService.SupportedLanguages.Any(x => x.Code == model.LanguageCode))
+                {
+                    return BadRequest(new ApiV1ErrorResponseModel("The requested language does not exist."));
+                }
+
                 var pagingSortingOptions = new PagingSortingParams
                 {
                     ItemsPerPage = model.ItemsPerPage,
-                    Page = page,
+                    Page = model.Page,
                     SortBy = model.SortBy,
                     SortDirection = model.SortDirection
                 };
@@ -86,7 +92,8 @@ namespace webspec3.Controllers.Api.v1
                 var filterOptions = new FilterParams
                 {
                     FilterBy = model.FilterBy,
-                    FilterQuery = model.FilterQuery
+                    FilterQuery = model.FilterQuery,
+                    FilterLanguage = model.LanguageCode
                 };
 
                 var productPagingInformation = await productService.GetPagedAsync(pagingSortingOptions, filterOptions);
@@ -100,7 +107,8 @@ namespace webspec3.Controllers.Api.v1
                     TotalItems = productPagingInformation.TotalItems
                 };
 
-                logger.LogInformation($"Received {productPagingInformationResponse.Items.Count} products from the database.");
+                logger.LogInformation(
+                    $"Received {productPagingInformationResponse.Items.Count} products from the database.");
 
                 return Json(productPagingInformationResponse);
             }
@@ -231,7 +239,8 @@ namespace webspec3.Controllers.Api.v1
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 400)]
         [ProducesResponseType(403)]
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
-        public async Task<IActionResult> Update([FromRoute] Guid productId, [FromBody] ApiV1ProductUpdateRequestModel model)
+        public async Task<IActionResult> Update([FromRoute] Guid productId,
+            [FromBody] ApiV1ProductUpdateRequestModel model)
         {
             // Check if model is valid
             if (model != null && ModelState.IsValid && productId == model.Id)
@@ -251,6 +260,24 @@ namespace webspec3.Controllers.Api.v1
                 product.CategoryId = model.CategoryId;
                 product.Label = model.Label;
                 product.ReleaseDate = model.ReleaseDate;
+
+                var oldImageId = product.ImageId;
+
+                // If the image got updated
+                if (product.Image.Base64String != model.Image.Base64String
+                    || product.Image.Description != model.Image.Description
+                    || product.Image.ImageType != model.Image.ImageType)
+                {
+                    var newImage = new ImageEntity
+                    {
+                        Base64String = model.Image.Base64String,
+                        Description = model.Image.Description,
+                        ImageType = model.Image.ImageType
+                    };
+
+                    await imageService.AddAsync(newImage);
+                    product.ImageId = newImage.Id;
+                }
 
                 var productPriceEntities = model.Prices
                     .Select(x => new ProductPriceEntity
@@ -273,20 +300,13 @@ namespace webspec3.Controllers.Api.v1
                 product.Prices = productPriceEntities;
                 product.Translations = productTranslationEntities;
 
-                //// Image got updated
-                //if (product.ImageId != model.Image.Id)
-                //{
-                //    var oldImageEntity = await imageService.GetByIdAsync(product.ImageId);
-                //    await imageService.DeleteAsync(oldImageEntity);
-                //    await imageService.AddAsync(model.Image);
-                //}
-
-                //if (!await imageService.ImageIdExistsAsync(model.Image.Id))
-                //{
-                //    await imageService.AddAsync(model.Image);
-                //}
-
                 await productService.UpdateAsync(product);
+
+                //Delete old Image
+                if (oldImageId != product.ImageId)
+                {
+                    await imageService.DeleteAsync(oldImageId);
+                }
 
                 logger.LogInformation($"Successfully updated product with id {model.Id}.");
 
@@ -336,12 +356,7 @@ namespace webspec3.Controllers.Api.v1
                 await productService.DeleteAsync(product);
 
                 // Remove related image
-                var image = await imageService.GetByIdAsync(product.ImageId);
-
-                if (image != null)
-                {
-                    await imageService.DeleteAsync(image);
-                }
+                await imageService.DeleteAsync(product.ImageId);
 
                 logger.LogInformation($"Product with id {productId} has been deleted successfully.");
 
