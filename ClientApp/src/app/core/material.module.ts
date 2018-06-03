@@ -15,7 +15,10 @@ import {
   MatRadioModule,
   MatCheckboxModule,
   MatBadgeModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatExpansionModule,
+  MatDividerModule,
+  MatChipsModule
 } from "@angular/material";
 
 @NgModule({
@@ -29,7 +32,10 @@ import {
     MatRadioModule,
     MatCheckboxModule,
     MatBadgeModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatExpansionModule,
+    MatDividerModule,
+    MatChipsModule
   ],
   exports: [
     MatSelectModule,
@@ -41,7 +47,10 @@ import {
     MatRadioModule,
     MatCheckboxModule,
     MatBadgeModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatExpansionModule,
+    MatDividerModule,
+    MatChipsModule
   ],
   declarations: []
 })

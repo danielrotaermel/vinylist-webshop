@@ -1,6 +1,55 @@
 // @author Janina Wachendorfer
+.product-list-container {
+  padding-top: 20px;
+
+  .selected-container {
+    padding-bottom: 10px;
+  }
+}
+
 .v-line {
   border-left: 2px solid #ccc;
   height: 100%;
-  padding-right: 10px;
+  padding-right: -40px;
+  padding-left: 20px;
+}
+
+@media only screen and (max-width: 1182px) {
+  .v-line {
+    border: none;
+    padding: 0;
+  }
+}
+
+.mat-expansion-panel {
+  background: none;
+  box-shadow: none !important;
+}
+
+.border-box {
+  border-color: white;
+  border-style: solid;
+  border-width: thin;
+  border-radius: 4px;
+}
+
+mat-panel-title {
+  color: white;
+  font-size: 14pt;
+}
+
+mat-panel-description {
+  color: #ccc;
+}
+
+.genre-selection {
+  color: white;
+}
+
+.selection-row {
+  margin: 10px;
+}
+
+.mat-divider {
+  border-top-color: #ccc;
 }
