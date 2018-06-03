@@ -125,7 +125,7 @@ namespace webspec3.Services.Impl
             logger.LogDebug($"Successfully removed product with id {productId} from all wishlists.");
         }
 
-        public async Task DeleteWishlistsByCategoryAsync(List<ProductEntity> productList)
+        public async Task DeleteWishlistsByProductsAsync(List<ProductEntity> productList)
         {
             logger.LogDebug($"Attempting to remove all wishlists with products of a given product list.");
 

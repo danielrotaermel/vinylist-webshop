@@ -180,7 +180,7 @@ namespace webspec3.Controllers.Api.v1
                     return BadRequest(new ApiV1ErrorResponseModel($"A category with with id {categoryId} does not exist."));
                 }
 
-                var productList = categoryService.GetAllProductyByCategoryIdAsync(categoryId);
+                var productList = await categoryService.GetAllProductyByCategoryIdAsync(categoryId);
 
                 if (productList == null)
                 {              
@@ -189,13 +189,13 @@ namespace webspec3.Controllers.Api.v1
                 }
                 
                 // Remove all Wishlists with the products of this category first
-                await wishlistService.DeleteWishlistsByCategoryAsync(productList.Result);
+                await wishlistService.DeleteWishlistsByProductsAsync(productList);
                 
                 // Remove all products with the specified category
-                await productService.DeleteProductsByCategoryAsync(productList.Result);
+                await productService.DeleteAll(productList);
 
                 //Remove all images of the products of this category
-                await imageService.DeleteImagesByCategoryAsync(productList.Result);
+                await imageService.DeleteImagesByCategoryAsync(productList);
                 
                 // Remove the category itself
                 await categoryService.DeleteAsync(category);

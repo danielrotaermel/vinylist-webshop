@@ -298,7 +298,7 @@ namespace webspec3.Services.Impl
             return products;
         }
 
-        public async Task DeleteProductsByCategoryAsync(List<ProductEntity> productList)
+        public async Task DeleteAll(List<ProductEntity> productList)
         {
             logger.LogDebug($"Attempting to remove {productList.Count} products by category");
             

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using webspec3.Controllers.Api.v1.Responses;
 using webspec3.Entities;
 using webspec3.Extensions;
+using webspec3.Filters;
 using webspec3.Services;
 
 namespace webspec3.Controllers.Api.v1
@@ -42,6 +43,7 @@ namespace webspec3.Controllers.Api.v1
         [HttpPost("{productId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
+        [LoginRequired]
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
         public async Task<IActionResult> AddProduct([FromRoute] Guid productId)
         {
@@ -53,12 +55,6 @@ namespace webspec3.Controllers.Api.v1
                 {
                     logger.LogDebug($"Failed to add product with id {productId} to a wishlist. The given Product id doesn't exist at all.");
                     return BadRequest("The product Id doesn't exist");
-                }
-
-                if (!loginService.IsLoggedIn())
-                {
-                    logger.LogDebug($"Failed to add product with id {productId} to a wishlist. There is no user logged in.");
-                    return BadRequest("No user logged in");
                 }
 
                 var userId = loginService.GetLoggedInUserId();
@@ -99,18 +95,13 @@ namespace webspec3.Controllers.Api.v1
         [HttpDelete("{productId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
+        [LoginRequired]
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
         public async Task<IActionResult> Delete([FromRoute] Guid productId)
         {
             if (ModelState.IsValid)
             {
                 logger.LogDebug($"Attempting to remove product with productId {productId} from wishlist.");
-                
-                if (!loginService.IsLoggedIn())
-                {
-                    logger.LogDebug($"Failed to remove product with id {productId} to a wishlist. There is no user logged in.");
-                    return BadRequest("No user logged in");
-                }
 
                 var userId = loginService.GetLoggedInUserId();
 
@@ -149,18 +140,13 @@ namespace webspec3.Controllers.Api.v1
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
+        [LoginRequired]
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
         public async Task<IActionResult> GetAllProducts()
         {
             if (ModelState.IsValid)
             {
                 logger.LogDebug($"Attempting to retrieve all products from the wishlist.");
-                
-                if (!loginService.IsLoggedIn())
-                {
-                    logger.LogDebug($"Failed to retrieve all  products from the wishlist. There is no user logged in.");
-                    return BadRequest("No user logged in");
-                }
 
                 var userId = loginService.GetLoggedInUserId();
 
@@ -187,16 +173,12 @@ namespace webspec3.Controllers.Api.v1
         [HttpDelete]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
+        [LoginRequired]
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
         public async Task<IActionResult> DeleteAll()
         {
             if (ModelState.IsValid)
             {
-                if (!loginService.IsLoggedIn())
-                {
-                    logger.LogDebug($"Failed to remove all  products from the wishlist. There is no user logged in.");
-                    return BadRequest("No user logged in");
-                }
 
                 var userId = loginService.GetLoggedInUserId();
 

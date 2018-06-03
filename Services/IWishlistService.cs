@@ -60,6 +60,6 @@ namespace webspec3.Services
         /// </summary>
         /// <param name="productList">The product list which will be removed aftwerwards</param>
         /// <returns></returns>
-        Task DeleteWishlistsByCategoryAsync(List<ProductEntity> productList);
+        Task DeleteWishlistsByProductsAsync(List<ProductEntity> productList);
     }
 }
