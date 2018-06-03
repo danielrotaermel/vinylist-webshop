@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using webspec3.Entities;
 
@@ -23,5 +24,12 @@ namespace webspec3.Services
         /// </summary>
         /// <returns>List of all categories associated with the count of products belonging to them</returns>
         Task<List<(CategoryEntity categoryEntity, int productCount)>> GetAllAsync();
+
+        /// <summary>
+        /// Returns a list of all products which belong to a given category
+        /// </summary>
+        /// <param name="categoryId">The Id of the category</param>
+        /// <returns>List of all Products for a given category</returns>
+        Task<List<ProductEntity>> GetAllProductyByCategoryIdAsync(Guid categoryId);
     }
 }

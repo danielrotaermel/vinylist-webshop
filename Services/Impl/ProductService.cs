@@ -22,14 +22,16 @@ namespace webspec3.Services.Impl
         private readonly II18nService i18nService;
         private readonly ILogger logger;
         private readonly IImageService imageService;
+        private readonly IWishlistService wishlistService;
 
         public ProductService(WebSpecDbContext dbContext, II18nService i18nService, ILogger<ProductService> logger,
-            IImageService imageService)
+            IImageService imageService, IWishlistService wishlistService)
         {
             this.dbContext = dbContext;
             this.i18nService = i18nService;
             this.logger = logger;
             this.imageService = imageService;
+            this.wishlistService = wishlistService;
         }
 
         public Task AddAsync(ProductEntity entity)
@@ -91,7 +93,7 @@ namespace webspec3.Services.Impl
         public async Task DeleteAsync(Guid entityId)
         {
             logger.LogDebug($"Attempting to remove product with id {entityId}");
-
+            
             using (var transaction = await dbContext.Database.BeginTransactionAsync())
             {
                 // Remove all prices
@@ -107,7 +109,7 @@ namespace webspec3.Services.Impl
 
                 transaction.Commit();
             }
-
+            
             logger.LogInformation($"Sucessfully removed product with id {entityId}");
         }
 
@@ -296,37 +298,37 @@ namespace webspec3.Services.Impl
             return products;
         }
 
-        public async Task DeleteProductsByCategoryAsync(Guid categoryId)
+        public async Task DeleteProductsByCategoryAsync(List<ProductEntity> productList)
         {
-            logger.LogDebug($"Attempting to remove products with category id {categoryId}.");
-
-            var productsWithCategory = await dbContext.Products
-                .Where(x => x.CategoryId == categoryId)
-                .ToListAsync();
-
+            logger.LogDebug($"Attempting to remove {productList.Count} products by category");
+            
             using (var transaction = await dbContext.Database.BeginTransactionAsync())
             {
-                foreach (var product in productsWithCategory)
+                foreach (var product in productList)
                 {
                     dbContext.ProductPrices.RemoveRange(dbContext.ProductPrices.Where(x => x.ProductId == product.Id));
                     dbContext.ProductTranslations.RemoveRange(
                         dbContext.ProductTranslations.Where(x => x.ProductId == product.Id));
                 }
 
-                dbContext.Products.RemoveRange(productsWithCategory);
+                dbContext.Products.RemoveRange(productList);
 
                 await dbContext.SaveChangesAsync();
 
                 transaction.Commit();
             }
 
-            foreach (var product in productsWithCategory)
-            {
-                await imageService.DeleteAsync(product.ImageId);
-            }
-
             logger.LogInformation(
-                $"Successfully removed {productsWithCategory.Count} products with category {categoryId}.");
+                $"Successfully removed {productList.Count} products by category.");
+        }
+
+        public async Task<bool> DoesProductExistByIdAsync(Guid productId)
+        {
+            logger.LogDebug($"Attempting to check if a product with id {productId} exists or not.");
+            
+            return await dbContext.Products
+                       .Where(x => x.Id == productId)
+                       .CountAsync() > 0;
         }
     }
 }

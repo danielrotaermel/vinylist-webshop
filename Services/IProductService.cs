@@ -72,6 +72,13 @@ namespace webspec3.Services
         /// </summary>
         /// <param name="categoryId">Category id</param>
         /// <returns></returns>
-        Task DeleteProductsByCategoryAsync(Guid categoryId);
+        Task DeleteProductsByCategoryAsync(List<ProductEntity> productList);
+
+        /// <summary>
+        /// Returns a boolean indicating if a given product id exists in the database
+        /// </summary>
+        /// <param name="productId">Id of Product</param>
+        /// <returns>True, if the given id exists. False otherwise</returns>
+        Task<bool> DoesProductExistByIdAsync(Guid productId);
     }
 }

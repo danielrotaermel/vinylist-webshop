@@ -82,6 +82,7 @@ namespace webspec3
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IImageService, ImageService>();
+            services.AddTransient<IWishlistService, WishlistService>();
             
             services.AddMvc().AddJsonOptions(options => {
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
