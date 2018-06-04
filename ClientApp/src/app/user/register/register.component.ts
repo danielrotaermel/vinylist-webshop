@@ -44,7 +44,7 @@ export class RegisterComponent {
           this.openSnackBar("Registered successfully", 1500);
         },
         (error: any) => {
-          this.openSnackBar(error, 5000);
+          this.openSnackBar("Something went wrong with registration", 5000);
         }
       );
   }

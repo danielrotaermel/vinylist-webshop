@@ -19,6 +19,12 @@
       <div class="col-xs-6 col-sm-6 col-lg-6 end-lg">
         <a mat-button routerLink="/login">{{'NAVIGATION_BAR.SIGN_IN' | translate}}</a>
       </div>
+      <!-- cogwheel icon to open user menu, can be refactored to be shown when logged in. -->
+      <div class="col-xs-6 col-sm-6 col-lg-6 end-lg">
+        <a mat-button routerLink="/profile">
+          <i class="material-icons md-light">settings</i>
+        </a>
+      </div>
       <div class="col-xs-6 col-sm-6 col-lg-6 end-xs end-lg">
 
         <button mat-icon-button (click)="favsPopover.open()">

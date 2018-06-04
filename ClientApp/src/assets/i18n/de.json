@@ -20,6 +20,9 @@
     "PASSWORD": "Passwort",
     "EMAIL": "E-Mail",
     "LAST_NAME": "Nachname",
-    "FIRST_NAME": "Vorname"
+    "FIRST_NAME": "Vorname",
+    "PROFILE_HEADING": "Eigene Accountdaten ändern",
+    "DELETE_ACC": "Meinen Account löschen",
+    "SAVE_ACC": "Speichern"
   }
 }
