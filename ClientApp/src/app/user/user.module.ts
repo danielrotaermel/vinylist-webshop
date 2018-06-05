@@ -23,7 +23,7 @@ import { ApiService } from '../api.service';
   imports: [
     CommonModule,
     RouterModule.forRoot([
-      { path: 'register', component: RegisterComponent },
+      // { path: 'register', component: RegisterComponent },
       { path: 'profile', component: UserDataComponent }
     ]),
     AngularSvgIconModule,

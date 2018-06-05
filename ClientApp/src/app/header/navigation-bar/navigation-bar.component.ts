@@ -15,7 +15,13 @@ import { TranslateService } from '@ngx-translate/core';
 export class NavigationBarComponent implements OnInit {
   @ViewChild('profile') profile;
 
-  hidden = true;
+  showRegister = false;
+  showLogin = true;
+
+  toggleAuthView() {
+    this.showLogin = !this.showLogin;
+    this.showRegister = !this.showRegister;
+  }
 
   constructor(private translate: TranslateService, private router: Router) {
     console.log(this.router.url);

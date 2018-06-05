@@ -18,12 +18,8 @@
     </mat-form-field>
   </div>
 
-  <div id="login">
+  <div id="loginButton">
     <button [disabled]="!loginForm.valid" (click)="performLogin()" mat-raised-button color="primary">{{'USER.LOGIN' | translate}}</button>
   </div>
 
-  <div id="register">
-    <!-- (click)="popover.close()" -->
-    <a mat-button routerLink="/register" (click)="hideme()">{{'USER.LOGIN_SWITCH' | translate}}</a>
-  </div>
 </form>

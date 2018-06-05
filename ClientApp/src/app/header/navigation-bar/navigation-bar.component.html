@@ -28,8 +28,14 @@
             <a routerLink="/profile" (click)="profile.popover.close()">edit profile</a>
           </sub-title>
           <content>
-            <!-- <app-register *ngIf="displaySignup" [displaySignin]="!displaySignup" [popover]="profile.popover"></app-register> -->
-            <app-login [popover]="profile.popover"></app-login>
+            <div>
+              <app-register *ngIf="showRegister" [displaySignin]="!displaySignup" [popover]="profile.popover"></app-register>
+              <a mat-button *ngIf="showRegister" (click)="toggleAuthView()">{{'USER.REGISTER_SWITCH' | translate}}</a>
+            </div>
+            <div>
+              <app-login *ngIf="showLogin" [popover]="profile.popover"></app-login>
+              <a mat-button *ngIf="showLogin" (click)="toggleAuthView()">{{'USER.LOGIN_SWITCH' | translate}}</a>
+            </div>
           </content>
         </app-card-overlay>
 
@@ -55,8 +61,18 @@
   </div>
 </div>
 
+
+<!-- <div id="login">
+    <a mat-button routerLink="/login" (click)="displaySignup = !displaySignup">{{'USER.REGISTER_SWITCH' | translate}}</a>
+  </div>
+<div id="register">
+  <a mat-button routerLink="/register">{{'USER.LOGIN_SWITCH' | translate}}</a>
+</div> -->
+
 <ng-template #login>
-  <app-login *ngIf="showLogin" [showLogin]="showLogin" [popover]="profile.popover"></app-login>
+  <div id="register">
+    <a mat-button routerLink="/register">{{'USER.LOGIN_SWITCH' | translate}}</a>
+  </div>
 </ng-template>
 
 
