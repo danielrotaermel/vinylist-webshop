@@ -17,79 +17,46 @@
   <div class="col-lg-4 col-xs-12 end-lg start-xs">
     <div class="row between-xs end-lg">
       <div class="col-xs-6 col-sm-6 col-lg-6 end-lg">
-        <a mat-button routerLink="/login">{{'NAVIGATION_BAR.SIGN_IN' | translate}}</a>
+        <a mat-button (click)="profile.popover.open()">{{'NAVIGATION_BAR.SIGN_IN' | translate}}</a>
       </div>
-      <!-- cogwheel icon to open user menu, can be refactored to be shown when logged in. -->
-      <div class="col-xs-6 col-sm-6 col-lg-6 end-lg">
-        <a mat-button routerLink="/profile">
-          <i class="material-icons md-light">settings</i>
-        </a>
-      </div>
+
       <div class="col-xs-6 col-sm-6 col-lg-6 end-xs end-lg">
 
-        <button mat-icon-button (click)="favsPopover.open()">
-          <mat-icon [satPopoverAnchorFor]="favsPopover" mat-icon-button aria-label="likes" mat-icon-button matBadge="8" matBadgePosition="after"
-            matBadgeColor="warn" aria-label="shopping_cart">favorite</mat-icon>
-        </button>
+        <app-card-overlay #profile anchorButton="account_circle" cornerButton="account_circle" badgeCount=2>
+          <h2>Profile</h2>
+          <sub-title>
+            <a routerLink="/profile" (click)="profile.popover.close()">edit profile</a>
+          </sub-title>
+          <content>
+            <div>
+              <app-register *ngIf="showRegister" [popover]="profile.popover"></app-register>
+              <a mat-button *ngIf="showRegister" (click)="toggleAuthView()">{{'USER.REGISTER_SWITCH' | translate}}</a>
+            </div>
+            <div>
+              <app-login *ngIf="showLogin" [popover]="profile.popover"></app-login>
+              <a mat-button *ngIf="showLogin" (click)="toggleAuthView()">{{'USER.LOGIN_SWITCH' | translate}}</a>
+            </div>
+          </content>
+        </app-card-overlay>
 
-        <button mat-icon-button (click)="cartPopover.open()">
-          <mat-icon [satPopoverAnchorFor]="cartPopover" mat-icon-button matBadge="8" matBadgePosition="after" matBadgeColor="warn"
-            aria-label="shopping_cart">shopping_cart</mat-icon>
-        </button>
+        <app-card-overlay #favorites anchorButton="favorite" cornerButton="favorite">
+          <h2>Favorites</h2>
+          <content>
+            <p>Favorites</p>
+            <button mat-button (click)="favorites.popover.close()">close</button>
+          </content>
+        </app-card-overlay>
+
+        <app-card-overlay #cart anchorButton="shopping_cart" cornerButton="shopping_cart">
+          <h2>Products</h2>
+          <content>
+            <p>Products</p>
+            <button mat-button (click)="cart.popover.close()">close</button>
+          </content>
+        </app-card-overlay>
 
       </div>
     </div>
 
-    <!-- language-switcher can be moved to some other place if wished so -->
-    <!-- <app-language-switcher></app-language-switcher> -->
   </div>
 </div>
-
-
-<!-- cart popver -->
-<sat-popover #cartPopover hasBackdrop lockAlignment verticalAlign="start" horizontalAlign="end">
-  <div class="overlay">
-    <mat-card class="cart-overlay">
-      <mat-card-header class="between-xs overwrite-2">
-        <mat-card-title class="overwrite-1">
-          <h2>Cart</h2>
-        </mat-card-title>
-        <mat-card-subtitle class="overwrite-1">View Cart</mat-card-subtitle>
-        <button mat-icon-button class="close-overlay-button">
-          <mat-icon mat-icon-button (click)="cartPopover.close()" aria-label="shopping_cart" mat-icon-button matBadge="8" matBadgePosition="after"
-            matBadgeColor="warn" aria-label="shopping_cart">shopping_cart</mat-icon>
-        </button>
-      </mat-card-header>
-      <mat-card-content class="start-xs">
-        <p>
-          products here!
-        </p>
-        <button mat-raised-button color="primary">PROCEED TO CHECKOUT</button>
-      </mat-card-content>
-    </mat-card>
-  </div>
-</sat-popover>
-
-<!-- favs popver -->
-<sat-popover #favsPopover hasBackdrop lockAlignment verticalAlign="start" horizontalAlign="end">
-  <div class="overlay">
-    <mat-card class="cart-overlay">
-      <mat-card-header class="between-xs overwrite-2">
-        <mat-card-title class="overwrite-1">
-          <h2>Favorites</h2>
-        </mat-card-title>
-        <mat-card-subtitle class="overwrite-1">view favorites</mat-card-subtitle>
-        <button mat-icon-button class="close-overlay-button">
-          <mat-icon mat-icon-button (click)="favsPopover.close()" aria-label="likes" mat-icon-button matBadge="8" matBadgePosition="after"
-            matBadgeColor="warn" aria-label="shopping_cart">favorite</mat-icon>
-        </button>
-      </mat-card-header>
-      <mat-card-content class="start-xs">
-        <p>
-          favorites here!
-        </p>
-        <button mat-raised-button color="primary">PROCEED TO CHECKOUT</button>
-      </mat-card-content>
-    </mat-card>
-  </div>
-</sat-popover>

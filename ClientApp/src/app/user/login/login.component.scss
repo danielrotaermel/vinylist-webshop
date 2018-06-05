@@ -1,4 +1,37 @@
-// Author: Janina Wachendorfer
+// Author: Janina Wachendorfer, Daniel Rotärmel
 .base-icon {
   margin: 20px 10px 0px 0px;
+}
+
+::ng-deep .mat-form-field.mat-form-field-invalid .mat-form-field-label {
+  color: white;
+}
+
+::ng-deep .mat-form-field-invalid .mat-input-element {
+  caret-color: white;
+}
+
+::ng-deep
+  .mat-form-field-appearance-outline.mat-form-field-invalid.mat-form-field-invalid
+  .mat-form-field-outline-thick {
+  color: #ff5a5a;
+}
+
+::ng-deep
+  .mat-form-field.mat-form-field-invalid
+  .mat-form-field-label
+  .mat-form-field-required-marker {
+  color: #ff5a5a;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: rgba($color: #fff, $alpha: 1);
+}
+
+::ng-deep .mat-form-field-label {
+  color: rgba($color: #fff, $alpha: 1);
+}
+
+#loginButton {
+  margin-bottom: 5px;
 }
