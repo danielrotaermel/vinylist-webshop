@@ -1,49 +1,52 @@
 <!-- Authors: Alexander Merker, Janina Wachendorfer -->
+<div class="col-xs-8">
+  <form #registrationForm="ngForm">
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>{{'USER.FIRST_NAME' | translate}}</mat-label>
+        <input matInput type="text" name="firstName" [(ngModel)]="firstName" required>
+        <mat-icon matSuffix>account_circle</mat-icon>
+        <!-- <mat-error>Email is required</mat-error> -->
+      </mat-form-field>
 
-<form #registrationForm="ngForm">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="row">
-                <span class="base-icon">
-                    <i class="material-icons md-light">account_circle</i>
-                </span>
-                <mat-form-field>
-                    <input matInput type="text" name="firstName" [(ngModel)]="firstName" placeholder="{{'USER.FIRST_NAME' | translate}}" required>
-                </mat-form-field>
-            </div>
-            <div class="row">
-                <span class="base-icon">
-                    <i class="material-icons md-light">perm_identity</i>
-                </span>
-                <mat-form-field>
-                    <input matInput type="text" name="lastName" [(ngModel)]="lastName" placeholder="{{'USER.LAST_NAME' | translate}}" required>
-                </mat-form-field>
-            </div>
-            <div class="row">
-                <span class="base-icon">
-                    <i class="material-icons md-light">email</i>
-                </span>
-                <mat-form-field>
-                    <input matInput type="email" name="email" [(ngModel)]="email" placeholder="{{'USER.EMAIL' | translate}}" required>
-                </mat-form-field>
-            </div>
-            <div class="row">
-                <span class="base-icon">
-                    <i class="material-icons md-light">vpn_key</i>
-                </span>
-                <mat-form-field>
-                    <input matInput type="password" name="password" [(ngModel)]="password" placeholder="{{'USER.PASSWORD' | translate}}" required
-                        ng-maxlength="255" ng-minlength="4">
-                </mat-form-field>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <button [disabled]="!registrationForm.valid" mat-button (click)="performRegistration()">{{'USER.REGISTER' | translate}}</button>
-                </div>
-            </div>
-            <a mat-button routerLink="/login">{{'USER.REGISTER_SWITCH' | translate}}</a>
-        </div>
     </div>
-
-
-</form>
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>{{'USER.LAST_NAME' | translate}}</mat-label>
+        <input matInput type="text" name="lastName" [(ngModel)]="lastName" required>
+        <mat-icon matSuffix>perm_identity</mat-icon>
+        <!-- <mat-error>Email is required</mat-error> -->
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>{{'USER.EMAIL' | translate}}</mat-label>
+        <input matInput type="email" name="email" [(ngModel)]="email" required>
+        <mat-icon matSuffix>email</mat-icon>
+        <!-- <mat-error>Email is required</mat-error> -->
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>{{'USER.PASSWORD' | translate}}</mat-label>
+        <input matInput type="password" name="password" [(ngModel)]="password" required ng-maxlength="255" ng-minlength="4">
+        <mat-icon matSuffix>vpn_key</mat-icon>
+        <!-- <mat-error>Email is required</mat-error> -->
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>{{'USER.PASSWORD' | translate}}</mat-label>
+        <input matInput type="password" name="password" [(ngModel)]="password" required ng-maxlength="255" ng-minlength="4">
+        <mat-icon matSuffix>vpn_key</mat-icon>
+        <!-- <mat-error>Email is required</mat-error> -->
+      </mat-form-field>
+    </div>
+    <div id="register">
+      <button [disabled]="!registrationForm.valid" mat-button (click)="performRegistration()">{{'USER.REGISTER' | translate}}</button>
+    </div>
+    <div id="login">
+      <a mat-button routerLink="/login" (click)="displaySignup = !displaySignup">{{'USER.REGISTER_SWITCH' | translate}}</a>
+    </div>
+  </form>
+</div>

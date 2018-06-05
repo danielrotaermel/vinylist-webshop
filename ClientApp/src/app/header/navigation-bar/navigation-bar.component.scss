@@ -77,6 +77,16 @@ button:focus {
   border-color: $focus !important;
 }
 
+a:focus {
+  outline: none;
+  border: 0px solid;
+  border-color: $focus !important;
+}
+
+sub-title > a:hover {
+  color: $font-focus;
+}
+
 @media (max-width: 1200px) {
   /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
   .navbar > div {
@@ -108,12 +118,8 @@ $overlay-button-offset: 5px;
 }
 
 .close-overlay-button {
-  margin-top: calc(
-    (-1 * #{$card-padding}) + #{$overlay-button-offset}
-  ) !important;
-  margin-right: calc(
-    (-1 * #{$card-padding}) + #{$overlay-button-offset}
-  ) !important;
+  margin-top: calc((-1 * #{$card-padding}) + #{$overlay-button-offset}) !important;
+  margin-right: calc((-1 * #{$card-padding}) + #{$overlay-button-offset}) !important;
 }
 
 #mat-badge-content-0 {
