@@ -3,8 +3,8 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
 import { MaterialModule } from '../core/material.module';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { UserDataComponent } from './user-data/user-data.component';
 import { RouterModule } from '@angular/router';
+import { UserDataComponent } from './user-data/user-data.component';
 
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -22,10 +22,7 @@ import { ApiService } from '../api.service';
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forRoot([
-      // { path: 'register', component: RegisterComponent },
-      { path: 'profile', component: UserDataComponent }
-    ]),
+    RouterModule.forRoot([{ path: 'profile', component: UserDataComponent }]),
     AngularSvgIconModule,
     MaterialModule,
     TranslateModule,

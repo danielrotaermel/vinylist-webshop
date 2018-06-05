@@ -22,7 +22,7 @@ export class RegisterComponent {
   email: string;
   password: string;
 
-  @Input('displaySignup') displaySignup;
+  @Input() popover;
 
   constructor(
     private snackBar: MatSnackBar,
@@ -39,6 +39,7 @@ export class RegisterComponent {
   performRegistration() {
     this.registerService.signup(this.firstName, this.lastName, this.email, this.password).subscribe(
       (data: any) => {
+        this.popover.close();
         localStorage.setItem('userToken', data.access_token);
         this.router.navigate(['/']);
         this.openSnackBar('Registered successfully', 1500);
