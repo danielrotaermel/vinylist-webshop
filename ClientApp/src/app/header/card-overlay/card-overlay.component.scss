@@ -1,0 +1,74 @@
+@import '../../../sass/styles';
+
+::ng-deep mat-card-subtitle {
+  margin-bottom: 10px;
+}
+
+/*
+ * Button overlays - cart and favorites
+ */
+$card-padding: 24px;
+$overlay-button-offset: 5px;
+
+.mat-card {
+  color: white;
+  background-color: #4a667f;
+  background-image: linear-gradient(0deg, #4a667f 0%, #6d97b9 100%);
+  border-radius: 5px;
+  padding: $card-padding !important;
+}
+
+.overlay {
+  margin-right: calc(-8px - #{$overlay-button-offset});
+  margin-top: calc(-9px - #{$overlay-button-offset});
+}
+
+.close-overlay-button {
+  margin-top: calc((-1 * #{$card-padding}) + #{$overlay-button-offset}) !important;
+  margin-right: calc((-1 * #{$card-padding}) + #{$overlay-button-offset}) !important;
+}
+
+#mat-badge-content-0 {
+  right: -4px !important;
+  top: -4px !important;
+  background-color: greenyellow !important;
+}
+
+#mat-badge-content-1.mat-badge-content.mat-badge-active {
+  right: -4px !important;
+  top: -4px !important;
+  background-color: greenyellow !important;
+}
+
+.mat-button-wrapper {
+  padding-left: 10px !important;
+}
+
+mat-icon.mat-badge {
+  margin-left: 8px !important;
+}
+
+.mat-card-header-text {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+}
+
+h2 {
+  margin-top: 0px;
+  margin-bottom: 0.4em;
+}
+
+.overwrite-1 {
+  margin: 0 -8px;
+}
+
+.overwrite-2 {
+  padding-bottom: 5px;
+}
+
+::ng-deep .mat-badge-active {
+  border: 2px solid #e26260 !important;
+  width: 18px !important;
+  height: 18px !important;
+  line-height: 18px !important;
+}

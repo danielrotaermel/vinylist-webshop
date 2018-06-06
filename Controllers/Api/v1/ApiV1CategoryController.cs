@@ -23,12 +23,16 @@ namespace webspec3.Controllers.Api.v1
         private readonly ICategoryService categoryService;
         private readonly IProductService productService;
         private readonly ILogger logger;
+        private readonly IWishlistService wishlistService;
+        private readonly IImageService imageService;
 
-        public ApiV1CategoryController(ICategoryService categoryService, IProductService productService, ILogger<ApiV1CategoryController> logger)
+        public ApiV1CategoryController(ICategoryService categoryService, IProductService productService, ILogger<ApiV1CategoryController> logger, IWishlistService wishlistService, IImageService imageService)
         {
             this.categoryService = categoryService;
             this.productService = productService;
             this.logger = logger;
+            this.wishlistService = wishlistService;
+            this.imageService = imageService;
         }
 
         /// <summary>
@@ -153,7 +157,7 @@ namespace webspec3.Controllers.Api.v1
 
         /// <summary>
         /// Removes the specified category.
-        /// All products with the specified category will be removed.
+        /// All products with the specified category will be removed including corresponding images and products in wishlists
         /// </summary>
         /// <response code="200">Category successfully deleted</response> 
         /// <response code="400">Invalid model or a category with the specified id does not exist</response>  
@@ -176,9 +180,23 @@ namespace webspec3.Controllers.Api.v1
                     return BadRequest(new ApiV1ErrorResponseModel($"A category with with id {categoryId} does not exist."));
                 }
 
-                // Remove all products with the specified category
-                await productService.DeleteProductsByCategoryAsync(categoryId);
+                var productList = await categoryService.GetAllProductyByCategoryIdAsync(categoryId);
 
+                if (productList == null)
+                {              
+                    logger.LogWarning($"The category with id {categoryId} has no products.");
+                    return BadRequest(new ApiV1ErrorResponseModel($"The category with id {categoryId} has no products at all."));
+                }
+                
+                // Remove all Wishlists with the products of this category first
+                await wishlistService.DeleteWishlistsByProductsAsync(productList);
+                
+                // Remove all products with the specified category
+                await productService.DeleteAll(productList);
+
+                //Remove all images of the products of this category
+                await imageService.DeleteImagesByCategoryAsync(productList);
+                
                 // Remove the category itself
                 await categoryService.DeleteAsync(category);
 

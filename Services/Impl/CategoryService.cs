@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,6 +48,15 @@ namespace webspec3.Services.Impl
             logger.LogInformation($"Received {categories.Count} categories from the database.");
 
             return categories;
+        }
+
+        public async Task<List<ProductEntity>> GetAllProductyByCategoryIdAsync(Guid categoryId)
+        {
+            logger.LogDebug($"Attempting to retrieve all Products for the category id {categoryId}.");
+            
+            return await dbContext.Products
+                .Where(x => x.CategoryId == categoryId)
+                .ToListAsync();
         }
     }
 }

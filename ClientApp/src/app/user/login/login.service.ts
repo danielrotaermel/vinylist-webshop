@@ -24,16 +24,4 @@ export class LoginService {
     };
     return this.apiService.login(data);
   }
-  
-  //
-
-  public registerInstance(name: string, instance: LoginComponent) {  
-    this.instances[name] = instance;
-  }
-
-  public removeInstance(name: string, instance: LoginComponent) {
-    if (this.instances[name] === instance) {
-      delete this.instances[name];
-    }
- }
 }

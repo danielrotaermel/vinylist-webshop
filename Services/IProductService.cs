@@ -68,10 +68,17 @@ namespace webspec3.Services
         Task<PagingInformation<ProductEntity>> GetPagedAsync(PagingSortingParams pagingSortingOptions, FilterParams filterOptions);
 
         /// <summary>
-        /// Removes the products with the specified category
+        /// Removes the all given products
         /// </summary>
-        /// <param name="categoryId">Category id</param>
+        /// <param name="productList">List of products to be removed</param>
         /// <returns></returns>
-        Task DeleteProductsByCategoryAsync(Guid categoryId);
+        Task DeleteAll(List<ProductEntity> productList);
+
+        /// <summary>
+        /// Returns a boolean indicating if a given product id exists in the database
+        /// </summary>
+        /// <param name="productId">Id of Product</param>
+        /// <returns>True, if the given id exists. False otherwise</returns>
+        Task<bool> DoesProductExistByIdAsync(Guid productId);
     }
 }

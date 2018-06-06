@@ -6,6 +6,8 @@ using webspec3.Entities;
 namespace webspec3.Services
 {
     /// <summary>
+    /// Basic Service providing Access to the images in the database.
+    /// 
     /// J. Mauthe
     /// </summary>
     public interface IImageService
@@ -30,5 +32,12 @@ namespace webspec3.Services
         /// <param name="imageId">The id of the image</param>
         /// <returns></returns>
         Task DeleteAsync(Guid imageId);
+
+        /// <summary>
+        /// Removes all images by a given list of products
+        /// </summary>
+        /// <param name="productList">The list of products which will be removed</param>
+        /// <returns></returns>
+        Task DeleteImagesByCategoryAsync(List<ProductEntity> productList);
     }
 }

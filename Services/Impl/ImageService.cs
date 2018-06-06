@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.DynamicLinq;
 using Microsoft.Extensions.Logging;
 using webspec3.Database;
@@ -31,19 +33,24 @@ namespace webspec3.Services.Impl
 
         public async Task AddAsync(ImageEntity entity)
         {
+            logger.LogDebug($"Attempting to Add a new image with id {entity.Id}.");
+            
             using (var transaction = await dbContext.Database.BeginTransactionAsync())
             {
                 await dbContext.Images.AddAsync(entity);
                 await dbContext.SaveChangesAsync();
                 transaction.Commit();
             }
+            
+            logger.LogInformation($"Sucessfully added Image with id {entity.Id}");
         }
 
         public async Task<ImageEntity> GetByIdAsync(Guid imageId)
         {
-            return await dbContext.Images
-                .Where(x => x.Id.Equals(imageId))
-                .FirstOrDefaultAsync();
+            logger.LogDebug($"Attempting to get an image with id {imageId}.");
+                
+            return await EntityFrameworkDynamicQueryableExtensions.FirstOrDefaultAsync(dbContext.Images
+                .Where(x => x.Id.Equals(imageId)));
         }
 
         public async Task DeleteAsync(Guid imageId)
@@ -52,7 +59,7 @@ namespace webspec3.Services.Impl
 
             using (var transaction = await dbContext.Database.BeginTransactionAsync())
             {
-               dbContext.Images.Remove(await dbContext.Images.FindAsync(imageId));
+                dbContext.Images.Remove(await dbContext.Images.FindAsync(imageId));
 
                 await dbContext.SaveChangesAsync();
 
@@ -62,15 +69,13 @@ namespace webspec3.Services.Impl
             logger.LogInformation($"Sucessfully removed Image with id {imageId}");
         }
 
-        public async Task UpdateAsync(ImageEntity entity)
+        public async Task DeleteImagesByCategoryAsync(List<ProductEntity> productList)
         {
-            using (var transaction = await dbContext.Database.BeginTransactionAsync())
+            logger.LogDebug($"Attempting to remove all Images for a given product list");
+            
+            foreach (var product in productList)
             {
-                dbContext.Images.Update(entity);
-
-                await dbContext.SaveChangesAsync();
-
-                transaction.Commit();
+                await DeleteAsync(product.ImageId);
             }
         }
     }

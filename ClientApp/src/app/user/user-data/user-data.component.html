@@ -1,9 +1,14 @@
 <!-- Author: Alexander Merker -->
 
-<div class="bordered">
+<div>
   <form #userProfileForm="ngForm">
     <div class="row">
         <div class="col-md-6">
+            <div class="row">
+                <span>
+                    {{'USER.PROFILE_HEADING' | translate}}
+                </span>
+            </div>
             <div class="row">
                 <span class="base-icon">
                     <i class="material-icons md-light">account_circle</i>
@@ -39,11 +44,13 @@
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <button [disabled]="!registrationForm.valid" mat-button (click)="performRegistration()">{{'USER.REGISTER' | translate}}</button>
+                    <button mat-button (click)="performSave()">{{'USER.SAVE_ACC' | translate}}</button>
+                </div>
+                <div class="col-md-6">
+                    <button mat-button (click)="performDelete()">{{'USER.DELETE_ACC' | translate}}</button>
                 </div>
             </div>
-            <a mat-button routerLink="/login">{{'USER.REGISTER_SWITCH' | translate}}</a>
         </div>
     </div>
   </form>
-</div>>
+</div>
