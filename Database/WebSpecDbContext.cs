@@ -25,6 +25,7 @@ namespace webspec3.Database
 
         public DbSet<CategoryEntity> Categories { get; set; }
 
+        public DbSet<WishlistEntity> Wishlists { get; set; }
 
 
         public DbSet<UserEntity> Users { get; set; }
@@ -72,6 +73,12 @@ namespace webspec3.Database
             modelBuilder
                 .Entity<CategoryEntity>()
                 .ToTable("product_categories");
+
+            // Wishlists
+            modelBuilder
+                .Entity<WishlistEntity>()
+                .ToTable("wishlist_products")
+                .HasKey(x => new { x.ProductId, x.UserId});
 
 
             // Users

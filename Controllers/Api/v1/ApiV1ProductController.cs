@@ -23,16 +23,19 @@ namespace webspec3.Controllers.Api.v1
     public sealed class ApiV1ProductController : Controller
     {
         private readonly IProductService productService;
+        private readonly ILogger logger;
         private readonly IImageService imageService;
         private readonly II18nService i18nService;
-        private readonly ILogger logger;
+        private readonly IWishlistService wishlistService;
 
-        public ApiV1ProductController(IProductService productService, IImageService imageService, II18nService i18nService, ILogger<ApiV1ProductController> logger)
+        public ApiV1ProductController(IProductService productService, ILogger<ApiV1ProductController> logger,
+            IImageService imageService, IWishlistService wishlistService)
         {
             this.productService = productService;
+            this.logger = logger;
             this.imageService = imageService;
             this.i18nService = i18nService;
-            this.logger = logger;
+            this.wishlistService = wishlistService;
         }
 
         /// <summary>
@@ -59,6 +62,7 @@ namespace webspec3.Controllers.Api.v1
         /// <summary>
         /// Returns all products with paging
         /// </summary>
+        /// <param name="page">Page to retrieve</param>
         /// <param name="model">Paging and sorting options</param>
         /// <response code="200">Products returned successfully</response>
         /// <response code="400">Invalid model</response>
@@ -352,10 +356,13 @@ namespace webspec3.Controllers.Api.v1
 
                     return NotFound();
                 }
+                
+                // Delete corresponding wishlists
+                await wishlistService.DeleteByProductId(product.Id);
 
                 await productService.DeleteAsync(product);
 
-                // Remove related image
+                // Delete corresponding Images
                 await imageService.DeleteAsync(product.ImageId);
 
                 logger.LogInformation($"Product with id {productId} has been deleted successfully.");
