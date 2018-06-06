@@ -1,7 +1,7 @@
 <!-- @author Janina Wachendorfer -->
 <div class="product-list-container">
   <div class="row selected-container">
-    <mat-chip-list>
+    <mat-chip-list *ngIf="!disabled">
       <mat-chip *ngFor="let item of selectedGenres" [selectable]="selectable" [removable]="removable" (removed)="remove(item)">{{item}}
         <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
       </mat-chip>
@@ -23,8 +23,9 @@
             </section>
             <mat-divider></mat-divider>
             <section class="genre-selection">
-              <mat-checkbox *ngFor="let category of categories" class="row selection-row" color="$mat-yellow" [(ngModel)]="checked" [disabled]="disabled"
-                (click)="manageChips(category)">{{category.getTitle()}}</mat-checkbox>
+              <div *ngFor="let item of categories" class="row selection-row">
+                <mat-checkbox color="$mat-yellow" [disabled]="disabled" (click)="manageChips(item)">{{item.getTitle()}}</mat-checkbox>
+              </div>
             </section>
           </mat-expansion-panel>
         </mat-accordion>
@@ -34,6 +35,8 @@
       <div class="products row">
         <div *ngFor="let item of products" class="col-lg-4 col-sm-6 col-xs-12 item">
           <app-product-list-item [product]="item"></app-product-list-item>
+        </div>
+        <div class="search-results" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="50" (scrolled)="onScroll()">
         </div>
       </div>
     </div>

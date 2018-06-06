@@ -16,7 +16,6 @@ import { ActivatedRoute } from "@angular/router";
 export class ProductListComponent implements OnInit {
   products: Product[];
   categories: Category[];
-  checked = false;
   disabled = true;
   selectable: boolean = true;
   removable: boolean = true;
@@ -33,20 +32,46 @@ export class ProductListComponent implements OnInit {
     this.categories = this.route.snapshot.data["categories"];
   }
 
+  /**
+   * resets category filters etc.
+   */
   resetProducts() {
     this.productService.getProducts().subscribe(prod => (this.products = prod));
   }
 
+  /**
+   * selects products of given category - not implemented yet, but soon will be :-)
+   * @param category category after which products should be filtered
+   */
   switchCategory(category: Category) {
     this.productService
       .getProductsWithCategory(category)
       .subscribe(prod => (this.products = prod));
   }
 
+  /**
+   * adds genre to the array of selected genres
+   * @param genre genre which will be added
+   */
   addGenre(genre: string) {
     this.selectedGenres.push(genre);
   }
 
+  /**
+   * checks if array of selected genres already contains the given genre
+   * @param genre genre which should be checked
+   */
+  hasGenre(genre: string): boolean {
+    if (this.selectedGenres.indexOf(genre) > -1) {
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * remove genre from the array of selected genres
+   * @param genre genre which should be removed
+   */
   remove(genre: string): void {
     let index = this.selectedGenres.indexOf(genre);
 
@@ -55,11 +80,36 @@ export class ProductListComponent implements OnInit {
     }
   }
 
+  /**
+   * for infinity scrolling
+   */
+  onScroll() {
+    this.productService.setPage(this.productService.getPage() + +1);
+    this.productService.getProducts().subscribe(prod =>
+      prod.forEach(element => {
+        this.products.push(element);
+      })
+    );
+  }
+
+  /**
+   * manages the chips appearing on the top of the page after selecting one category
+   * @param category just selected category to be added as chip
+   */
   manageChips(category: Category) {
-    if (!this.checked) {
+    if (!this.disabled && !this.hasGenre(category.getTitle())) {
       this.addGenre(category.getTitle());
     } else {
       this.remove(category.getTitle());
     }
+  }
+
+  /**
+   * not implemented yet... but will sort the results
+   * @param sort string after which results shall be sorted (Artist, Label or ReleaseDate)
+   */
+  sortByLabel(sort: string) {
+    this.productService.setSortBy(sort);
+    this.resetProducts();
   }
 }

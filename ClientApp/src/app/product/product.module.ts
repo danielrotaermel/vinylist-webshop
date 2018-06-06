@@ -7,6 +7,7 @@ import { ProductListItemComponent } from "./product-list-item/product-list-item.
 import { ProductFilterComponent } from "./product-filter/product-filter.component";
 
 import { TranslateModule } from "@ngx-translate/core";
+import { InfiniteScrollModule } from "ngx-infinite-scroll";
 
 import { RouterModule, Routes } from "@angular/router";
 import { MaterialModule } from "../core/material.module";
@@ -40,7 +41,8 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     MaterialModule,
     TranslateModule,
-    FormsModule
+    FormsModule,
+    InfiniteScrollModule
   ],
   exports: [RouterModule],
   declarations: [

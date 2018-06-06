@@ -18,6 +18,7 @@ export class Category implements Deserializable {
   public getProducts(): Product[] {
     return this.products;
   }
+
   deserialize(input: any) {
     Object.assign(this, input);
     return this;

@@ -64,9 +64,7 @@ export class Product implements Deserializable {
       this.languages.push(new ProductTranslation().deserialize(element));
     });
 
-    this.image = new ProductImage();
-    this.image.id = input.imageId;
-
+    this.image = new ProductImage().deserialize(input.image);
     this.prices = new Array<ProductPrice>();
     input.prices.forEach(element => {
       this.prices.push(new ProductPrice().deserialize(element));
