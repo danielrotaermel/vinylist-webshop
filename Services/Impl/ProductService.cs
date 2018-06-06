@@ -93,7 +93,7 @@ namespace webspec3.Services.Impl
         public async Task DeleteAsync(Guid entityId)
         {
             logger.LogDebug($"Attempting to remove product with id {entityId}");
-            
+
             using (var transaction = await dbContext.Database.BeginTransactionAsync())
             {
                 // Remove all prices
@@ -109,7 +109,7 @@ namespace webspec3.Services.Impl
 
                 transaction.Commit();
             }
-            
+
             logger.LogInformation($"Sucessfully removed product with id {entityId}");
         }
 
@@ -127,7 +127,7 @@ namespace webspec3.Services.Impl
                 .PagedAndSorted(pagingSortingOptions)
                 .ToListAsync();
 
-            var totalProducts = products.Count();
+            var totalProducts = await dbContext.Products.CountAsync();
             var totalPages = (int)Math.Ceiling(totalProducts / (double)pagingSortingOptions.ItemsPerPage);
 
             logger.LogInformation($"Retrieved {products.Count} products from the database.");
@@ -301,7 +301,7 @@ namespace webspec3.Services.Impl
         public async Task DeleteAll(List<ProductEntity> productList)
         {
             logger.LogDebug($"Attempting to remove {productList.Count} products by category");
-            
+
             using (var transaction = await dbContext.Database.BeginTransactionAsync())
             {
                 foreach (var product in productList)
@@ -325,7 +325,7 @@ namespace webspec3.Services.Impl
         public async Task<bool> DoesProductExistByIdAsync(Guid productId)
         {
             logger.LogDebug($"Attempting to check if a product with id {productId} exists or not.");
-            
+
             return await dbContext.Products
                        .Where(x => x.Id == productId)
                        .CountAsync() > 0;
