@@ -28,14 +28,14 @@ namespace webspec3.Controllers.Api.v1
         private readonly II18nService i18nService;
         private readonly IWishlistService wishlistService;
 
-        public ApiV1ProductController(IProductService productService, ILogger<ApiV1ProductController> logger,
-            IImageService imageService, IWishlistService wishlistService)
+        public ApiV1ProductController(IProductService productService, II18nService i18nService,
+            IImageService imageService, IWishlistService wishlistService, ILogger<ApiV1ProductController> logger)
         {
             this.productService = productService;
-            this.logger = logger;
             this.imageService = imageService;
             this.i18nService = i18nService;
             this.wishlistService = wishlistService;
+            this.logger = logger;
         }
 
         /// <summary>
@@ -356,7 +356,7 @@ namespace webspec3.Controllers.Api.v1
 
                     return NotFound();
                 }
-                
+
                 // Delete corresponding wishlists
                 await wishlistService.DeleteByProductId(product.Id);
 
