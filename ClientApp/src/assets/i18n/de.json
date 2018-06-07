@@ -24,5 +24,12 @@
     "PROFILE_HEADING": "Eigene Accountdaten ändern",
     "DELETE_ACC": "Meinen Account löschen",
     "SAVE_ACC": "Speichern"
+  },
+  "PRODUCT": {
+    "TO_CART": "In den Warenkorb",
+    "WISHLIST_TOOLTIP": "Zur Wunschliste hinzufügen",
+    "BY": "von",
+    "DESCRIPTION": "Beschreibung",
+    "RELEASE_DATE": "Veröffentlichungsdatum"
   }
 }

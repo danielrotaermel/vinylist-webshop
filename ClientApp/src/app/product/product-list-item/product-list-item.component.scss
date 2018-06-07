@@ -1,0 +1,89 @@
+// @author Janina Wachendorfer
+a {
+  text-decoration: none;
+  color: white;
+  img {
+    max-width: 250px;
+  }
+  .title {
+    font-size: 15pt;
+    font-weight: 700;
+  }
+  .artist {
+    font-size: 11pt;
+    font-weight: 600;
+    padding-top: 3px;
+  }
+
+  .price {
+    font-size: 13pt;
+    font-weight: 500;
+    text-align: end;
+  }
+}
+
+.overlay-description {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: 0.5s ease;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.image-container {
+  position: relative;
+  width: 100%;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.image-container:hover .overlay-description {
+  opacity: 1;
+}
+
+.short-description {
+  color: white;
+  font-size: 14pt;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.product-container {
+  display: block;
+  padding: 10px;
+  width: 250px;
+}
+
+.product-container:hover {
+  background-color: #606060;
+}
+
+.description-container {
+  margin: 10px;
+  padding: 5px 0px;
+}
+
+.button-row {
+  padding-bottom: 10px;
+}
+
+.favorite-button {
+  text-align: start;
+}
+
+.shopping-cart-button {
+  text-align: end;
+}

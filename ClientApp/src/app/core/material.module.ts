@@ -2,7 +2,7 @@
  * @author J. Wachendorfer
  */
 
-import { NgModule } from '@angular/core';
+import { NgModule } from "@angular/core";
 
 // please put all your necessary modules from angular material in here!
 import {
@@ -14,8 +14,12 @@ import {
   MatCardModule,
   MatRadioModule,
   MatCheckboxModule,
-  MatBadgeModule
-} from '@angular/material';
+  MatBadgeModule,
+  MatTooltipModule,
+  MatExpansionModule,
+  MatDividerModule,
+  MatChipsModule
+} from "@angular/material";
 
 @NgModule({
   imports: [
@@ -27,7 +31,11 @@ import {
     MatCardModule,
     MatRadioModule,
     MatCheckboxModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatTooltipModule,
+    MatExpansionModule,
+    MatDividerModule,
+    MatChipsModule
   ],
   exports: [
     MatSelectModule,
@@ -38,7 +46,11 @@ import {
     MatCardModule,
     MatRadioModule,
     MatCheckboxModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatTooltipModule,
+    MatExpansionModule,
+    MatDividerModule,
+    MatChipsModule
   ],
   declarations: []
 })

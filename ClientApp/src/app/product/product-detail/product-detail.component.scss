@@ -1,0 +1,55 @@
+// @author Janina Wachendorfer
+img {
+  width: 300px;
+}
+
+.small {
+  font-size: 12pt;
+  color: #ccc;
+  padding: 0px 6px;
+}
+
+.artist {
+  font-weight: 500;
+}
+
+.price {
+  font-weight: 500;
+  font-size: 16pt;
+  padding: 10px;
+}
+
+.align-end {
+  text-align: end;
+}
+
+.detail-container {
+  padding: 15px;
+}
+
+.col-xs-12 {
+  padding-bottom: 20px;
+}
+
+.v-line {
+  border-left: 2px solid #ccc;
+  height: 100%;
+  padding-right: 10px;
+}
+
+h1 {
+  margin-bottom: 0;
+}
+
+h2 {
+  margin-bottom: 0;
+}
+
+.description {
+  margin-bottom: 20px;
+}
+
+.label {
+  font-size: 12pt;
+  color: #ccc;
+}

@@ -1,3 +1,54 @@
-<p>
-  product-detail works!
-</p>
+<!-- @author Janina Wachendorfer -->
+<div class="row v-line">
+  <div class="col-lg-3 col-xs-12">
+  </div>
+  <div class="col-lg-7 col-sm-12 col-xs-12">
+    <div class="detail-container">
+      <div class="row">
+        <img src="{{product.image.getImageDataString()}}">
+      </div>
+      <div class="row">
+        <h1>{{getTranslation().getTitle()}}
+          <span class="small"> {{'PRODUCT.BY' | translate }} </span>
+          <span class="artist">{{product.artist}}</span>
+        </h1>
+      </div>
+      <div class="row">
+        <div class="label">{{product.label}}</div>
+      </div>
+      <div class="row bottom-xs">
+        <div class="col-lg-8 col-xs-12">
+          <div class="row">
+            <h2>{{ 'PRODUCT.DESCRIPTION' | translate }}</h2>
+          </div>
+          <div class="row description">{{getTranslation().getDescription()}}</div>
+          <div class="row">
+            {{ 'PRODUCT.RELEASE_DATE' | translate }}: {{getReleaseDate()}}
+          </div>
+        </div>
+        <div class="col-lg-4 col-xs-12">
+          <div class="row end-lg start-xs">
+            <div class="col-lg-12 price">
+              {{getPrice().getFormattedPrice()}}
+            </div>
+
+          </div>
+          <div class="row end-lg start-xs">
+            <div class="col-lg-3 align-end">
+              <button mat-icon-button matTooltip="{{'PRODUCT.WISHLIST_TOOLTIP' | translate}}" matTooltipPosition="before">
+                <mat-icon mat-icon-button aria-label="likes">favorite</mat-icon>
+              </button>
+            </div>
+            <div class="col-lg-9 align-end">
+              <button mat-stroked-button>
+                <mat-icon aria-label="shopping_cart">shopping_cart</mat-icon>
+                {{'PRODUCT.TO_CART' | translate}}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-2 col-xs-12"></div>
+</div>

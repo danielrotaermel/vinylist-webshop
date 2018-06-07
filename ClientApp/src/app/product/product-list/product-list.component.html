@@ -1,3 +1,44 @@
-<p>
-  product-list works!
-</p>
+<!-- @author Janina Wachendorfer -->
+<div class="product-list-container">
+  <div class="row selected-container">
+    <mat-chip-list *ngIf="!disabled">
+      <mat-chip *ngFor="let item of selectedGenres" [selectable]="selectable" [removable]="removable" (removed)="remove(item)">{{item}}
+        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      </mat-chip>
+    </mat-chip-list>
+  </div>
+
+  <div class="row v-line">
+    <div class="col-lg-3 col-xs-12 genre-container">
+      <div class="border-box">
+        <mat-accordion>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Genre
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <section class="genre-selection">
+              <mat-checkbox class="row selection-row show-all" color="$mat-yellow" [(ngModel)]="disabled">Show all</mat-checkbox>
+            </section>
+            <mat-divider></mat-divider>
+            <section class="genre-selection">
+              <div *ngFor="let item of categories" class="row selection-row">
+                <mat-checkbox color="$mat-yellow" [disabled]="disabled" (click)="manageChips(item)">{{item.getTitle()}}</mat-checkbox>
+              </div>
+            </section>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+    </div>
+    <div class="col-lg-9 col-sm-12 col-xs-12">
+      <div class="products row">
+        <div *ngFor="let item of products" class="col-lg-4 col-sm-6 col-xs-12 item">
+          <app-product-list-item [product]="item"></app-product-list-item>
+        </div>
+        <div class="search-results" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="50" (scrolled)="onScroll()">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
