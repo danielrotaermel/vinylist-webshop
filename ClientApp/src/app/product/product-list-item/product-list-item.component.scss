@@ -65,10 +65,18 @@ a {
   display: block;
   padding: 10px;
   width: 250px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  background-image: linear-gradient(180deg, #9c9c9c50 0%, #83828244 100%);
+  background-size: auto 200%;
+  background-position: 0 100%;
+  transition: background-position 0.3s;
+  transition: box-shadow 0.3s;
 }
 
 .product-container:hover {
-  background-color: #606060;
+  background-position: 0 0;
+  box-shadow: 0px 4px 38px -7px rgba(0, 0, 0, 0.2);
 }
 
 .description-container {
