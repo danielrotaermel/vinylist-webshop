@@ -8,7 +8,7 @@ namespace webspec3.Services
 {
     /// <summary>
     /// Interface regaring products
-    /// 
+    ///
     /// M. Narr, J.Mauthe
     /// </summary>
     public interface IProductService : IEntityService<ProductEntity>
@@ -52,6 +52,13 @@ namespace webspec3.Services
         /// <param name="id">Product id</param>
         /// <returns>Product with the specified id/></returns>
         Task<ProductEntity> GetByIdAsync(Guid id);
+
+        /// <summary>
+        /// Returns products with the specified ids/>
+        /// </summary>
+        /// <param name="ids">Product ids</param>
+        /// <returns>Products with the specified ids/></returns>
+        Task<List<ProductEntity>> GetByIdsAsync(List<Guid> ids);
 
         /// <summary>
         /// Returns a list of all available products/>/>

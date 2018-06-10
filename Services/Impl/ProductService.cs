@@ -13,7 +13,7 @@ namespace webspec3.Services.Impl
 {
     /// <summary>
     /// Implementation of <see cref="IProductService"/>
-    /// 
+    ///
     /// M. Narr, J. Mauthe
     /// </summary>
     public sealed class ProductService : IProductService
@@ -154,6 +154,20 @@ namespace webspec3.Services.Impl
                 .FirstOrDefaultAsync();
 
             return product;
+        }
+
+        public async Task<List<ProductEntity>> GetByIdsAsync(List<Guid> entityIds)
+        {
+        logger.LogDebug($"Attempting to retrieve the product with the ids {entityIds}");
+
+        var products = await dbContext.Products
+            .Where(x => entityIds.Contains(x.Id))
+            .Include(x => x.Image)
+            .Include(x => x.Prices)
+            .Include(x => x.Translations)
+            .ToListAsync();
+
+        return products;
         }
 
         public async Task UpdateAsync(ProductEntity entity)

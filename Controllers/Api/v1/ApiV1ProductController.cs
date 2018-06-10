@@ -136,20 +136,22 @@ namespace webspec3.Controllers.Api.v1
         [ProducesResponseType(403)]
         [ProducesResponseType(404)]
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
-        public async Task<IActionResult> GetById([FromRoute] Guid id)
+        public async Task<IActionResult> GetByIds([FromRoute] List<Guid> ids)
         {
-            logger.LogDebug($"Attempting to get product with id {id}.");
+            // logger.LogDebug($"Attempting to get product with id {String.Join("; ", id)}.");
+            logger.LogDebug($"Attempting to get product with the ids {ids.ToString()}.");
 
-            var product = await productService.GetByIdAsync(id);
+            var products = await productService.GetByIdsAsync(ids);
 
-            if (product == null)
+            if (products == null)
             {
-                logger.LogWarning($"Product with id {id} could not be found.");
+                logger.LogWarning($"Product with the ids {ids.ToString()} could not be found.");
 
                 return NotFound();
             }
 
-            return Json(product.ToApiV1ProductResponseModel());
+            return Json(products.ToList());
+
         }
 
         /// <summary>
