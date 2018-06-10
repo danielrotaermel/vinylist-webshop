@@ -10,31 +10,31 @@ import { Component, Inject } from '@angular/core';
 export class ApiService {
 
   private apiUrl: string;
-  private userid : UserID;
+  private userid: UserID;
 
   constructor(
-    private http:Http, @Inject('BASE_URL') baseUrl: string) { 
-        this.apiUrl = baseUrl + 'api/v1'
+    private http: Http, @Inject('BASE_URL') baseUrl: string) {
+    this.apiUrl = baseUrl + 'api/v1';
   }
 
 /** -----------------------------------------------------------------
  *                   LOGIN / REGISTER / USER CRUD
  *------------------------------------------------------------------*/
 
-  //POST: /api/v1/login
-  public login(data: Credentials): Observable<Credentials>{
+  // POST: /api/v1/login
+  public login(data: Credentials): Observable<Credentials> {
       return this.http.post(this.apiUrl + '/login', data)
       .map(response => {
-        //Save UserId, accessible by get_UserId()
-        var a = response.json();
+        // Save UserId, accessible by get_UserId()
+        const a = response.json();
         this.userid = a.id;
         return response.json();
       })
       .catch(this.handleError);
   }
-  
-  //POST: /api/v1/user
-  public register(data: User): Observable<User>{
+
+  // POST: /api/v1/user
+  public register(data: User): Observable<User> {
       return this.http.post(this.apiUrl + '/users', data)
       .map(response => {
         return response.json();
@@ -42,8 +42,8 @@ export class ApiService {
       .catch(this.handleError);
   }
 
-  //PUT: /api/v1/user
-  public update_user(data: User, id: UserID): Observable<User>{
+  // PUT: /api/v1/user
+  public update_user(data: User, id: UserID): Observable<User> {
       return this.http.put(this.apiUrl + '/users/' + id, data)
       .map(response => {
         return response.json();
@@ -51,26 +51,26 @@ export class ApiService {
       .catch(this.handleError);
   }
 
-  //GET: /api/v1/user
-  public get_user(id: UserID): Observable<User>{
+  // GET: /api/v1/user
+  public get_user(id: UserID): Observable<User> {
       return this.http.get(this.apiUrl + '/users/' + id)
       .map(response => {
         return response.json();
       })
       .catch(this.handleError);
-  } 
+  }
 
-  //DELETE: /api/v1/user
-  public delete_user(id: UserID): Observable<string>{
+  // DELETE: /api/v1/user
+  public delete_user(id: UserID): Observable<string> {
       return this.http.delete(this.apiUrl + '/users/' + id)
       .map(response => {
-        return "Deleted successfully";
+        return 'Deleted successfully';
       })
       .catch(this.handleError);
-  } 
-  
-  //GET: /api/v1/logout
-  public logout(): Observable<void>{
+  }
+
+  // GET: /api/v1/logout
+  public logout(): Observable<void> {
       return this.http.get(this.apiUrl + '/logout')
       .map(response => {
         return response.json();
@@ -78,8 +78,8 @@ export class ApiService {
       .catch(this.handleError);
   }
 
-  //NOT AN API CALL - get id of current user
-  public get_userId(): UserID{
+  // NOT AN API CALL - get id of current user
+  public get_userId(): UserID {
       return this.userid;
   }
 
@@ -89,10 +89,10 @@ export class ApiService {
   }
 }
 
-//TODO: Rework this into UserService
+// TODO: Rework this into UserService
 interface Credentials {
-  email:string;
-  password:string;
+  email: string;
+  password: string;
 }
 interface User {
   firstName: string;
@@ -101,5 +101,5 @@ interface User {
   password: string;
 }
 interface UserID {
-  userID: string; //TODO: GUID type?
+  userID: string; // TODO: GUID type?
 }

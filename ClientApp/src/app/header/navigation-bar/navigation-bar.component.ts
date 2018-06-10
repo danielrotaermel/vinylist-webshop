@@ -24,7 +24,7 @@ export class NavigationBarComponent implements OnInit {
   }
 
   constructor(private translate: TranslateService, private router: Router) {
-    console.log(this.router.url);
+
   }
 
   ngOnInit() {}
