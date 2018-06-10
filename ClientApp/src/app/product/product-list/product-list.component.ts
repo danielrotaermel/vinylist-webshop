@@ -1,17 +1,17 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit } from '@angular/core';
 
-import { Product } from "../product";
-import { ProductService } from "../product.service";
-import { Category } from "../category";
-import { CategoriesService } from "../category.service";
+import { Product } from '../product';
+import { ProductService } from '../product.service';
+import { Category } from '../category';
+import { CategoriesService } from '../category.service';
 
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute } from '@angular/router';
 
 /** @author Janina Wachendorfer */
 @Component({
-  selector: "app-product-list",
-  templateUrl: "./product-list.component.html",
-  styleUrls: ["./product-list.component.scss"]
+  selector: 'app-product-list',
+  templateUrl: './product-list.component.html',
+  styleUrls: ['./product-list.component.scss']
 })
 export class ProductListComponent implements OnInit {
   products: Product[];
@@ -28,8 +28,8 @@ export class ProductListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.products = this.route.snapshot.data["products"];
-    this.categories = this.route.snapshot.data["categories"];
+    this.products = this.route.snapshot.data['products'];
+    this.categories = this.route.snapshot.data['categories'];
   }
 
   /**
@@ -73,7 +73,7 @@ export class ProductListComponent implements OnInit {
    * @param genre genre which should be removed
    */
   remove(genre: string): void {
-    let index = this.selectedGenres.indexOf(genre);
+    const index = this.selectedGenres.indexOf(genre);
 
     if (index >= 0) {
       this.selectedGenres.splice(index, 1);

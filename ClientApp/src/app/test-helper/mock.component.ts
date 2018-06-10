@@ -5,7 +5,7 @@ import { Component, EventEmitter } from '@angular/core';
  * Usage:
  * Import MockComponent in your test via `import { MockComponent } from '../helpers/mock-component';`
  * Add the MockComponent to the "declarations" (e.g `MockComponent({ selector: 'app-language-switcher' })`)
- * 
+ *
  * To view an example, just take a look at the navigation-bar
  */
 export function MockComponent(options: Component): Component {

@@ -4,9 +4,9 @@ import { LanguageSwitcherComponent } from './language-switcher.component';
 import { TranslateService, TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { MatSelectModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {Observable} from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 
-let translations: any = {"TESTING": "Ich teste die Komponente"};
+const translations: any = { TESTING: 'Ich teste die Komponente' };
 
 class FakeLoader implements TranslateLoader {
   getTranslation(lang: string): Observable<any> {
@@ -21,15 +21,15 @@ describe('LanguageSwitcherComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ LanguageSwitcherComponent ],
+      declarations: [LanguageSwitcherComponent],
       imports: [
         TranslateModule.forRoot({
-          loader: {provide: TranslateLoader, useClass: FakeLoader}
+          loader: { provide: TranslateLoader, useClass: FakeLoader }
         }),
         MatSelectModule,
         BrowserAnimationsModule
       ],
-      providers: [ LanguageSwitcherComponent ]
+      providers: [LanguageSwitcherComponent]
     });
     // inject both the component and the dependent service.
     component = TestBed.get(LanguageSwitcherComponent);
@@ -57,4 +57,3 @@ describe('LanguageSwitcherComponent', () => {
     expect(component.getLang()).toBe('de');
   });
 });
-

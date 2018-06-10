@@ -1,16 +1,16 @@
-import { Component, OnInit } from "@angular/core";
-import { Product } from "../product";
-import { ProductService } from "../product.service";
-import { ActivatedRoute } from "@angular/router";
-import { TranslateService } from "@ngx-translate/core";
-import { ProductPrice } from "../product-price";
-import { ProductTranslation } from "../product-translation";
+import { Component, OnInit } from '@angular/core';
+import { Product } from '../product';
+import { ProductService } from '../product.service';
+import { ActivatedRoute } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { ProductPrice } from '../product-price';
+import { ProductTranslation } from '../product-translation';
 
 /** @author Janina Wachendorfer */
 @Component({
-  selector: "app-product-detail",
-  templateUrl: "./product-detail.component.html",
-  styleUrls: ["./product-detail.component.scss"]
+  selector: 'app-product-detail',
+  templateUrl: './product-detail.component.html',
+  styleUrls: ['./product-detail.component.scss']
 })
 export class ProductDetailComponent implements OnInit {
   product: Product;
@@ -22,26 +22,26 @@ export class ProductDetailComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.product = this.route.snapshot.data["product"];
+    this.product = this.route.snapshot.data['product'];
   }
 
   isGerman(): boolean {
-    return this.translateService.currentLang.toString() === "de";
+    return this.translateService.currentLang.toString() === 'de';
   }
 
   getReleaseDate(): string {
-    let date = this.product.getFormattedDate();
+    const date = this.product.getFormattedDate();
     if (this.isGerman()) {
-      return date[2] + "." + date[1] + "." + date[0];
+      return date[2] + '.' + date[1] + '.' + date[0];
     }
-    return date[1] + "/" + date[2] + "/" + date[0];
+    return date[1] + '/' + date[2] + '/' + date[0];
   }
 
   getTranslationKey(): string {
     if (this.isGerman()) {
-      return "de_DE";
+      return 'de_DE';
     }
-    return "en_US";
+    return 'en_US';
   }
 
   getTranslation(): ProductTranslation {
@@ -50,9 +50,9 @@ export class ProductDetailComponent implements OnInit {
 
   getPrice(): ProductPrice {
     if (this.isGerman()) {
-      return this.product.getPriceByKey("EUR");
+      return this.product.getPriceByKey('EUR');
     }
-    return this.product.getPriceByKey("USD");
+    return this.product.getPriceByKey('USD');
   }
 
   getProduct(id: string): void {

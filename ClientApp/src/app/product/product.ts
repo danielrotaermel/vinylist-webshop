@@ -1,7 +1,7 @@
-import { ProductTranslation } from "./product-translation";
-import { ProductImage } from "./product-image";
-import { ProductPrice } from "./product-price";
-import { Deserializable } from "./deserializable";
+import { ProductTranslation } from './product-translation';
+import { ProductImage } from './product-image';
+import { ProductPrice } from './product-price';
+import { Deserializable } from './deserializable';
 
 /** @author Janina Wachendorfer */
 export class Product implements Deserializable {
@@ -51,8 +51,8 @@ export class Product implements Deserializable {
    * The following timestamp is ignored
    */
   public getFormattedDate(): string[] {
-    var splittedTime = this.releaseDate.split("T", 2);
-    var splittedDate = splittedTime[0].split("-", 3);
+    const splittedTime = this.releaseDate.split('T', 2);
+    const splittedDate = splittedTime[0].split('-', 3);
     return splittedDate;
   }
 
