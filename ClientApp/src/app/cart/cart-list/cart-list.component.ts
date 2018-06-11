@@ -10,13 +10,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./cart-list.component.scss']
 })
 export class CartListComponent implements OnInit {
-  public cart: Product[];
+  public cart: Observable<Product[]>;
 
   constructor(private cartService: CartService) {
-    this.cartService.getWishlist().subscribe(cart => {
-      this.cart = cart;
-      console.log(cart);
-    });
+    this.cart = this.cartService.getWishlist();
     console.log('cart-list');
   }
 
