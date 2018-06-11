@@ -1,17 +1,17 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit } from '@angular/core';
 
-import { Product } from "../product";
-import { ProductService } from "../product.service";
-import { Category } from "../category";
-import { CategoriesService } from "../category.service";
+import { Product } from '../product';
+import { ProductService } from '../product.service';
+import { Category } from '../category';
+import { CategoriesService } from '../category.service';
 
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute } from '@angular/router';
 
 /** @author Janina Wachendorfer */
 @Component({
-  selector: "app-product-list",
-  templateUrl: "./product-list.component.html",
-  styleUrls: ["./product-list.component.scss"]
+  selector: 'app-product-list',
+  templateUrl: './product-list.component.html',
+  styleUrls: ['./product-list.component.scss']
 })
 export class ProductListComponent implements OnInit {
   products: Product[];
@@ -20,6 +20,11 @@ export class ProductListComponent implements OnInit {
   selectable: boolean = true;
   removable: boolean = true;
   selectedGenres = [];
+  selectedSortBy = this.productService.getSortBy();
+  selectedSortDirection = this.productService.getSortDirection();
+  currentPage = this.productService.getCurrentPage();
+  pageSize = this.productService.getItemsPerPage();
+  total = this.productService.getTotalItems();
 
   constructor(
     private productService: ProductService,
@@ -28,8 +33,8 @@ export class ProductListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.products = this.route.snapshot.data["products"];
-    this.categories = this.route.snapshot.data["categories"];
+    this.products = this.route.snapshot.data['products'];
+    this.categories = this.route.snapshot.data['categories'];
   }
 
   /**
@@ -44,9 +49,7 @@ export class ProductListComponent implements OnInit {
    * @param category category after which products should be filtered
    */
   switchCategory(category: Category) {
-    this.productService
-      .getProductsWithCategory(category)
-      .subscribe(prod => (this.products = prod));
+    this.productService.getProductsWithCategory(category).subscribe(prod => (this.products = prod));
   }
 
   /**
@@ -108,8 +111,17 @@ export class ProductListComponent implements OnInit {
    * not implemented yet... but will sort the results
    * @param sort string after which results shall be sorted (Artist, Label or ReleaseDate)
    */
-  sortByLabel(sort: string) {
+  sortBy(sort: string) {
     this.productService.setSortBy(sort);
+    this.resetProducts();
+  }
+
+  /**
+   * changes sort direction to be ascending or descending
+   * @param dir ASC (ascending) or DESC (descending)
+   */
+  changeSortDirection(dir: string) {
+    this.productService.setSortDirection(dir);
     this.resetProducts();
   }
 }

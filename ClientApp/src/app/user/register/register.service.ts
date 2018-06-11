@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { RouterModule } from "@angular/router";
+import { RouterModule } from '@angular/router';
 import { RegisterComponent } from './register.component';
 
 import { ApiService } from '../../api.service';
@@ -8,28 +8,27 @@ import { ApiService } from '../../api.service';
 /**
  * @author Alexander Merker
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class RegisterService {
-  private instances: {[key: string]: RegisterComponent} = {};
-  
-  constructor(private apiService : ApiService){
+  private instances: { [key: string]: RegisterComponent } = {};
 
-  }
-
+  constructor(private apiService: ApiService) {}
 
   public signup(firstName, lastName, email, password) {
     var data = {
-        "firstName":firstName,
-        "lastName":lastName,
-        "email":email,
-        "password":password
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      password: password
     };
     return this.apiService.register(data);
   }
-  
+
   //
 
-  public registerInstance(name: string, instance: RegisterComponent) {  
+  public registerInstance(name: string, instance: RegisterComponent) {
     this.instances[name] = instance;
   }
 
@@ -37,5 +36,5 @@ export class RegisterService {
     if (this.instances[name] === instance) {
       delete this.instances[name];
     }
- }
+  }
 }

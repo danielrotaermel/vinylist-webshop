@@ -2,7 +2,7 @@
  * @author J. Wachendorfer
  */
 
-import { NgModule } from "@angular/core";
+import { NgModule } from '@angular/core';
 
 // please put all your necessary modules from angular material in here!
 import {
@@ -18,8 +18,9 @@ import {
   MatTooltipModule,
   MatExpansionModule,
   MatDividerModule,
-  MatChipsModule
-} from "@angular/material";
+  MatChipsModule,
+  MatButtonToggleModule
+} from '@angular/material';
 
 @NgModule({
   imports: [
@@ -35,7 +36,8 @@ import {
     MatTooltipModule,
     MatExpansionModule,
     MatDividerModule,
-    MatChipsModule
+    MatChipsModule,
+    MatButtonToggleModule
   ],
   exports: [
     MatSelectModule,
@@ -50,7 +52,8 @@ import {
     MatTooltipModule,
     MatExpansionModule,
     MatDividerModule,
-    MatChipsModule
+    MatChipsModule,
+    MatButtonToggleModule
   ],
   declarations: []
 })

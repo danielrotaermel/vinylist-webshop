@@ -8,14 +8,8 @@ import { UserDataComponent } from "./user-data/user-data.component";
 
 import { TranslateModule } from "@ngx-translate/core";
 
-import { LoginComponent } from "./login/login.component";
 import { RegisterComponent } from "./register/register.component";
-
-import { RegisterService } from "./register/register.service";
-import { LoginService } from "./login/login.service";
-import { UserDataService } from "./user-data/user-data.service";
-import { ApiService } from "../api.service";
-
+import { LoginComponent } from "./login/login.component";
 /**
  * @author Alexander Merker
  */
@@ -29,6 +23,6 @@ import { ApiService } from "../api.service";
     FormsModule
   ],
   declarations: [UserDataComponent, LoginComponent, RegisterComponent],
-  providers: [LoginService, RegisterService, UserDataService, ApiService]
+  exports: [UserDataComponent, LoginComponent, RegisterComponent]
 })
 export class UserModule {}
