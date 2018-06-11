@@ -3,6 +3,10 @@ import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Component, Inject } from '@angular/core';
 
+//Models
+import { User } from './models/user';
+
+
 /**
  * @author Alexander Merker
  */
@@ -10,7 +14,6 @@ import { Component, Inject } from '@angular/core';
 export class ApiService {
 
   private apiUrl: string;
-  private userid : UserID;
 
   constructor(
     private http:Http, @Inject('BASE_URL') baseUrl: string) { 
@@ -25,15 +28,21 @@ export class ApiService {
   public login(data: Credentials): Observable<Credentials>{
       return this.http.post(this.apiUrl + '/login', data)
       .map(response => {
-        //Save UserId, accessible by get_UserId()
-        var a = response.json();
-        this.userid = a.id;
+        return response.json();
+      })
+      .catch(this.handleError);
+  }
+
+  //GET: /api/v1/users/current
+  public get_current(): Observable<User>{
+    return this.http.get(this.apiUrl + '/users/current')
+      .map(response => {
         return response.json();
       })
       .catch(this.handleError);
   }
   
-  //POST: /api/v1/user
+  //POST: /api/v1/users
   public register(data: User): Observable<User>{
       return this.http.post(this.apiUrl + '/users', data)
       .map(response => {
@@ -42,26 +51,31 @@ export class ApiService {
       .catch(this.handleError);
   }
 
-  //PUT: /api/v1/user
-  public update_user(data: User, id: UserID): Observable<User>{
+  //PUT: /api/v1/users
+  public update_user(data: User, id: string): Observable<User>{
       return this.http.put(this.apiUrl + '/users/' + id, data)
       .map(response => {
         return response.json();
       })
       .catch(this.handleError);
   }
-
-  //GET: /api/v1/user
-  public get_user(id: UserID): Observable<User>{
-      return this.http.get(this.apiUrl + '/users/' + id)
+  
+  //GET: /api/v1/users
+  public get_users(): Observable<User[]>{
+      return this.http.get(this.apiUrl + '/users/')
       .map(response => {
+
+        //LOG - remove me
+        let a = response.json();
+        console.log(a);
+
         return response.json();
       })
       .catch(this.handleError);
   } 
 
-  //DELETE: /api/v1/user
-  public delete_user(id: UserID): Observable<string>{
+  //DELETE: /api/v1/users
+  public delete_user(id: string): Observable<string>{
       return this.http.delete(this.apiUrl + '/users/' + id)
       .map(response => {
         return "Deleted successfully";
@@ -78,11 +92,6 @@ export class ApiService {
       .catch(this.handleError);
   }
 
-  //NOT AN API CALL - get id of current user
-  public get_userId(): UserID{
-      return this.userid;
-  }
-
   private handleError (error: Response | any) {
     console.error('ApiService::handleError', error);
     return Observable.throw(error);
@@ -93,13 +102,4 @@ export class ApiService {
 interface Credentials {
   email:string;
   password:string;
-}
-interface User {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-}
-interface UserID {
-  userID: string; //TODO: GUID type?
 }

@@ -5,8 +5,11 @@ import { Router } from "@angular/router";
 
 import { MatSnackBar } from "@angular/material/snack-bar";
 
+import { User } from '../../models/user';
+
 @Component({
   selector: 'app-user-data',
+  template: '',
   templateUrl: './user-data.component.html',
   styleUrls: ['./user-data.component.scss']
 })

@@ -4,16 +4,18 @@ import { MaterialModule } from '../core/material.module';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { UserDataComponent } from './user-data/user-data.component';
-
 import { TranslateModule } from '@ngx-translate/core';
+import { MatTableModule } from '@angular/material';
 
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { UserDataComponent } from './user-data/user-data.component';
+import { AdminDataComponent } from './admin-data/admin-data.component';
 
 import { RegisterService } from './register/register.service';
 import { LoginService } from './login/login.service';
 import { UserDataService } from './user-data/user-data.service';
+import { AdminDataService } from './admin-data/admin-data.service';
 import { ApiService } from '../api.service';
 
 /**
@@ -22,14 +24,16 @@ import { ApiService } from '../api.service';
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forRoot([{ path: 'profile', component: UserDataComponent }]),
+    RouterModule.forRoot([{ path: 'profile', component: UserDataComponent },
+                          { path: 'admin', component: AdminDataComponent}]),
     AngularSvgIconModule,
     MaterialModule,
     TranslateModule,
-    FormsModule
+    FormsModule,
+    MatTableModule
   ],
-  declarations: [UserDataComponent, LoginComponent, RegisterComponent],
-  exports: [UserDataComponent, LoginComponent, RegisterComponent],
-  providers: [LoginService, RegisterService, UserDataService, ApiService]
+  declarations: [UserDataComponent, LoginComponent, RegisterComponent, AdminDataComponent],
+  exports: [UserDataComponent, LoginComponent, RegisterComponent, AdminDataComponent],
+  providers: [LoginService, RegisterService, UserDataService, AdminDataService, ApiService]
 })
 export class UserModule {}

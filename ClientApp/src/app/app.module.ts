@@ -19,6 +19,7 @@ import { FooterComponent } from './footer/footer.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { SplashscreenComponent } from './splashscreen/splashscreen.component';
 import { HeaderModule } from './header/header.module';
+import { MatTableModule } from '@angular/material';
 
 import { LoginService } from './user/login/login.service';
 import { RegisterService } from './user/register/register.service';
@@ -54,7 +55,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     MaterialModule,
     AngularSvgIconModule,
     HeaderModule,
-    UserModule
+    UserModule,
+    MatTableModule
   ],
   providers: [],
   bootstrap: [AppComponent]
