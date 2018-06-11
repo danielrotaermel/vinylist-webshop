@@ -10,6 +10,7 @@ import { SatPopoverModule } from '@ncstate/sat-popover';
 import { RegisterComponent } from '../user/register/register.component';
 import { UserModule } from '../user/user.module';
 import { CardOverlayComponent } from './card-overlay/card-overlay.component';
+import { CartModule } from '../cart/cart.module';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { CardOverlayComponent } from './card-overlay/card-overlay.component';
     TranslateModule,
     RouterModule,
     SatPopoverModule,
-    UserModule
+    UserModule,
+    CartModule
   ],
   declarations: [CategoriesComponent, NavigationBarComponent, CardOverlayComponent],
   exports: [NavigationBarComponent],

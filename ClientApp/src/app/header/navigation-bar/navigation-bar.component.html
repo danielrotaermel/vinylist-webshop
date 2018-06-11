@@ -39,6 +39,7 @@
           </content>
         </app-card-overlay>
 
+
         <app-card-overlay #favorites anchorButton="favorite" cornerButton="favorite">
           <h2>Favorites</h2>
           <content>
@@ -47,10 +48,12 @@
           </content>
         </app-card-overlay>
 
+
         <app-card-overlay #cart anchorButton="shopping_cart" cornerButton="shopping_cart">
           <h2>Products</h2>
           <content>
             <p>Products</p>
+            <app-cart-list></app-cart-list>
             <button mat-button (click)="cart.popover.close()">close</button>
           </content>
         </app-card-overlay>
