@@ -34,6 +34,12 @@ namespace webspec3.Services
         Task DeleteAsync(Guid imageId);
 
         /// <summary>
+        /// Deletes all images
+        /// </summary>
+        /// <returns></returns>
+        Task DeleteAllAsync();
+
+        /// <summary>
         /// Removes all images by a given list of products
         /// </summary>
         /// <param name="productList">The list of products which will be removed</param>

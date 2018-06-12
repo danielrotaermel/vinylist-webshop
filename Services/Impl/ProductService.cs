@@ -300,7 +300,7 @@ namespace webspec3.Services.Impl
             return products;
         }
 
-        public async Task DeleteAll(List<ProductEntity> productList)
+        public async Task DeleteAllAsync(List<ProductEntity> productList)
         {
             logger.LogDebug($"Attempting to remove {productList.Count} products by category");
 
@@ -322,6 +322,25 @@ namespace webspec3.Services.Impl
 
             logger.LogInformation(
                 $"Successfully removed {productList.Count} products by category.");
+        }
+
+        public async Task DeleteAllAsync()
+        {
+            logger.LogDebug($"Attempting to remove all products.");
+
+            using (var transaction = await dbContext.Database.BeginTransactionAsync())
+            {
+                dbContext.ProductPrices.RemoveRange(dbContext.ProductPrices);
+                dbContext.ProductTranslations.RemoveRange(dbContext.ProductTranslations);
+
+                dbContext.Products.RemoveRange(dbContext.Products);
+
+                await dbContext.SaveChangesAsync();
+
+                transaction.Commit();
+            }
+
+            logger.LogInformation($"Successfully removed all products including their prices and translations");
         }
 
         public async Task<bool> DoesProductExistByIdAsync(Guid productId)
