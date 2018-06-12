@@ -109,7 +109,7 @@ namespace webspec3.Controllers.Api.v1
                     FilterLanguage = model.LanguageCode
                 };
 
-                var productPagingInformation = await productService.GetPagedAsync(pagingSortingOptions, filterOptions);
+                var productPagingInformation = await productService.GetPagedAsync(pagingSortingOptions, filterOptions, model.FilterByCategory);
 
                 var productPagingInformationResponse = new PagingInformation<ApiV1ProductReponseModel>
                 {

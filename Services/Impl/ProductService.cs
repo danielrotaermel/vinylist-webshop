@@ -114,7 +114,7 @@ namespace webspec3.Services.Impl
         }
 
         public async Task<PagingInformation<ProductEntity>> GetPagedAsync(PagingSortingParams pagingSortingOptions,
-            FilterParams filterParams)
+            FilterParams filterParams, Guid? filterCategoryId = null)
         {
             logger.LogDebug(
                 $"Attempting to retrieve products from database: Page: {pagingSortingOptions.Page}, items per page: {pagingSortingOptions.ItemsPerPage}, sort by: {pagingSortingOptions.SortBy}, sort direction: {pagingSortingOptions.SortDirection}.");
@@ -122,8 +122,14 @@ namespace webspec3.Services.Impl
             var productsQuery = dbContext.Products
                 .Include(x => x.Image)
                 .Include(x => x.Prices)
-                .Include(x => x.Translations)
-                .ProductsAdvancedFiltered(filterParams);
+                .Include(x => x.Translations) as IQueryable<ProductEntity>;
+
+            if (filterCategoryId != null)
+            {
+                productsQuery = productsQuery.Where(x => x.CategoryId == filterCategoryId);
+            }
+
+            productsQuery.ProductsAdvancedFiltered(filterParams);
 
             var totalProducts = await productsQuery.CountAsync();
 
