@@ -28,14 +28,14 @@ export class UserDataService {
         "password":password
       };
     }
-    return this.userService.update_user(data, id);
+    return this.userService.updateUser(data, id);
   }
 
   public delete(id) {
-    return this.userService.delete_user(id);
+    return this.userService.deleteUser(id);
   }
 
   public fetch_userdata() {
-    return this.userService.get_current();
+    return this.userService.getCurrentUser();
   }
 }

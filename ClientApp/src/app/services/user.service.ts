@@ -15,17 +15,7 @@ export class UserService {
     this.apiUrl = baseUrl + 'api/v1';
   }
 
-  // GET: /api/v1/users/current
-  public get_current(): Observable<User> {
-    return this.http
-      .get(this.apiUrl + '/users/current')
-      .map(response => {
-        return response.json();
-      })
-      .catch(this.handleError);
-  }
-
-  // POST: /api/v1/users
+  // POST: /api/v1/user
   public register(data: User): Observable<User> {
     return this.http
       .post(this.apiUrl + '/users', data)
@@ -35,8 +25,18 @@ export class UserService {
       .catch(this.handleError);
   }
 
+  // GET: /api/v1/users/current
+  public getCurrentUser(): Observable<User> {
+    return this.http
+      .get(this.apiUrl + '/users/current')
+      .map(response => {
+        return response.json();
+      })
+      .catch(this.handleError);
+  }
+
   // PUT: /api/v1/users
-  public update_user(data: User, id: string): Observable<User> {
+  public updateUser(data: User, id: string): Observable<User> {
     return this.http
       .put(this.apiUrl + '/users/' + id, data)
       .map(response => {
@@ -46,7 +46,7 @@ export class UserService {
   }
 
   // GET: /api/v1/users
-  public get_users(): Observable<User[]> {
+  public getUsers(): Observable<User[]> {
     return this.http
       .get(this.apiUrl + '/users/')
       .map(response => {
@@ -56,7 +56,7 @@ export class UserService {
   }
 
   // DELETE: /api/v1/users
-  public delete_user(id: string): Observable<string> {
+  public deleteUser(id: string): Observable<string> {
     return this.http
       .delete(this.apiUrl + '/users/' + id)
       .map(response => {

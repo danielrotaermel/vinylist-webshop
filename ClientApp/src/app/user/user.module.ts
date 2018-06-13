@@ -7,8 +7,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 
 import { MaterialModule } from '../core/material.module';
-import { AuthService } from '../services/auth.service';
-import { UserService } from '../services/user.service';
 import { AdminDataComponent } from './admin-data/admin-data.component';
 import { AdminDataService } from './admin-data/admin-data.service';
 import { LoginComponent } from './login/login.component';
@@ -46,13 +44,6 @@ import { UserDataService } from './user-data/user-data.service';
     RegisterComponent,
     AdminDataComponent
   ],
-  providers: [
-    LoginService,
-    RegisterService,
-    UserDataService,
-    AdminDataService,
-    AuthService,
-    UserService
-  ]
+  providers: [LoginService, RegisterService, UserDataService, AdminDataService]
 })
 export class UserModule {}

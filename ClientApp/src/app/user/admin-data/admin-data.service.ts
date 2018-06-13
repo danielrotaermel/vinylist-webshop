@@ -1,7 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { RouterModule } from "@angular/router";
-import { AdminDataComponent } from './admin-data.component';
 
 import { UserService } from '../../services/user.service';
 
@@ -12,16 +9,16 @@ import { UserService } from '../../services/user.service';
 export class AdminDataService {
 
   constructor(private userService : UserService){
-      
+
   }
-  
+
   public all_users(){
-      return this.userService.get_users();
+      return this.userService.getUsers();
   }
 
   public save(firstName, lastName, email, password, id) {
-    var data;
-    if(password == "" || undefined){
+    let data;
+    if(password === "" || undefined){
       data = {
         "firstName": firstName,
         "lastName": lastName,
@@ -36,7 +33,7 @@ export class AdminDataService {
         "password":password
       };
     }
-    return this.userService.update_user(data, id);
+    return this.userService.updateUser(data, id);
   }
 
 }

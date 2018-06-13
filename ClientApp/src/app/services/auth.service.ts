@@ -10,7 +10,7 @@ export class AuthService {
   private isLoggedIn: boolean = false;
 
   private apiUrl: string;
-  private userid: IUserID;
+  private userid: string;
 
   constructor(private http: Http, @Inject('BASE_URL') baseUrl: string) {
     this.apiUrl = baseUrl + 'api/v1';
@@ -29,46 +29,6 @@ export class AuthService {
       .catch(this.handleError);
   }
 
-  // POST: /api/v1/user
-  public register(data: IUser): Observable<IUser> {
-    return this.http
-      .post(this.apiUrl + '/users', data)
-      .map(response => {
-        return response.json();
-      })
-      .catch(this.handleError);
-  }
-
-  // PUT: /api/v1/user
-  public update_user(data: IUser, id: IUserID): Observable<IUser> {
-    return this.http
-      .put(this.apiUrl + '/users/' + id, data)
-      .map(response => {
-        return response.json();
-      })
-      .catch(this.handleError);
-  }
-
-  // GET: /api/v1/user
-  public get_user(id: IUserID): Observable<IUser> {
-    return this.http
-      .get(this.apiUrl + '/users/' + id)
-      .map(response => {
-        return response.json();
-      })
-      .catch(this.handleError);
-  }
-
-  // DELETE: /api/v1/user
-  public delete_user(id: IUserID): Observable<string> {
-    return this.http
-      .delete(this.apiUrl + '/users/' + id)
-      .map(response => {
-        return 'Deleted successfully';
-      })
-      .catch(this.handleError);
-  }
-
   // GET: /api/v1/logout
   public logout(): Observable<void> {
     return this.http
@@ -79,8 +39,8 @@ export class AuthService {
       .catch(this.handleError);
   }
 
-  // NOT AN API CALL - get id of current user
-  public get_userId(): IUserID {
+  // get id of current user
+  public get_userId(): string {
     return this.userid;
   }
 
@@ -94,13 +54,4 @@ export class AuthService {
 interface ICredentials {
   email: string;
   password: string;
-}
-interface IUser {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-}
-interface IUserID {
-  userID: string; // TODO: GUID type?
 }

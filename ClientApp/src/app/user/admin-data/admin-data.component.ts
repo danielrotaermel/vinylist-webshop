@@ -1,14 +1,14 @@
-import { Component, Input } from "@angular/core";
-import { AdminDataService } from "./admin-data.service";
-import { TranslateService } from "@ngx-translate/core";
-import { Router } from "@angular/router";
-
-import { MatSnackBar } from "@angular/material/snack-bar";
+import 'rxjs/add/observable/of';
 
 import { DataSource } from '@angular/cdk/collections';
+import { Component } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
+
 import { User } from '../../models/user';
+import { AdminDataService } from './admin-data.service';
 
 @Component({
   selector: 'app-admin-data',
@@ -36,24 +36,28 @@ export class AdminDataComponent {
   ) {}
 
   openSnackBar(message, time) {
-    this.snackBar.open(message, "", {
+    this.snackBar.open(message, '', {
       duration: time
     });
   }
 
-  public perform_save(id, firstName, lastName, email){
-    //Empty password, will not be updated!
-    this.adminDataService.save(firstName, lastName, email, "", id).subscribe((data:any) => {
-      this.router.navigate(['/admin']);
-      this.i18nService.get("USER.PROFILE_SAVED").subscribe((res:string) => {
+  public perform_save(id, firstName, lastName, email) {
+    // Empty password, will not be updated!
+    this.adminDataService.save(firstName, lastName, email, '', id).subscribe(
+      (data: any) => {
+        this.router.navigate(['/admin']);
+        this.i18nService.get('USER.PROFILE_SAVED').subscribe((res: string) => {
           this.openSnackBar(res, 5000);
-        })
+        });
       },
       (error: any) => {
-        this.i18nService.get("USER.ERRORS.ERR_SAVE").subscribe((res:string) => {
-          this.openSnackBar(res, 5000);
-      })
-    });
+        this.i18nService
+          .get('USER.ERRORS.ERR_SAVE')
+          .subscribe((res: string) => {
+            this.openSnackBar(res, 5000);
+          });
+      }
+    );
   }
 }
 
