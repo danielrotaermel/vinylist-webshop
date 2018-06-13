@@ -5,6 +5,7 @@ import { Component, Inject } from '@angular/core';
 
 //Models
 import { User } from './models/user';
+import { Credentials } from './models/credentials';
 
 
 /**
@@ -64,11 +65,6 @@ export class ApiService {
   public get_users(): Observable<User[]>{
       return this.http.get(this.apiUrl + '/users/')
       .map(response => {
-
-        //LOG - remove me
-        let a = response.json();
-        console.log(a);
-
         return response.json();
       })
       .catch(this.handleError);
@@ -96,10 +92,4 @@ export class ApiService {
     console.error('ApiService::handleError', error);
     return Observable.throw(error);
   }
-}
-
-//TODO: Rework this into UserService
-interface Credentials {
-  email:string;
-  password:string;
 }

@@ -9,6 +9,7 @@ import { DataSource } from '@angular/cdk/collections';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import { User } from '../../models/user';
+import { getRandomString } from "selenium-webdriver/safari";
 
 @Component({
   selector: 'app-admin-data',
@@ -26,17 +27,33 @@ export class AdminDataComponent {
   lastName: string;
 
   dataSource = new AdminDataSource(this.adminDataService);
-  displayedColumns = ['firstName', 'lastName', 'email', 'password'];
+  displayedColumns = ['firstName', 'lastName', 'email', 'save'];
 
   constructor(
     private snackBar: MatSnackBar,
     private adminDataService: AdminDataService,
-    private router: Router
+    private router: Router,
+    private i18nService: TranslateService
   ) {}
 
   openSnackBar(message, time) {
     this.snackBar.open(message, "", {
       duration: time
+    });
+  }
+
+  public perform_save(id, firstName, lastName, email){
+    //Empty password, will not be updated!
+    this.adminDataService.save(firstName, lastName, email, "", id).subscribe((data:any) => {
+      this.router.navigate(['/admin']);
+      this.i18nService.get("USER.PROFILE_SAVED").subscribe((res:string) => {
+          this.openSnackBar(res, 5000);
+        })
+      },
+      (error: any) => {
+        this.i18nService.get("USER.ERRORS.ERR_SAVE").subscribe((res:string) => {
+          this.openSnackBar(res, 5000);
+      })
     });
   }
 }

@@ -9,31 +9,36 @@ import { ApiService } from '../../api.service';
  * @author Alexander Merker
  */
 @Injectable()
-export class UserDataService implements OnInit { 
-  
-  private data;
-  private id;
+export class UserDataService { 
   constructor(private apiService : ApiService){
       
   }
   
-  public save(firstName, lastName, email, password) {
-    var data = {
+  public save(firstName, lastName, email, password, id) {
+    var data;
+    if(password == "" || undefined){
+      data = {
+        "firstName": firstName,
+        "lastName": lastName,
+        "email":email
+      };
+    }
+    else{
+      data = {
         "firstName": firstName,
         "lastName": lastName,
         "email":email,
         "password":password
-    };
-    return this.apiService.update_user(data, this.id);
+      };
+    }
+    return this.apiService.update_user(data, id);
   }
 
-  public delete() {
-    return this.apiService.delete_user(this.id);
+  public delete(id) {
+    return this.apiService.delete_user(id);
   }
 
-  ngOnInit(): void {
-    this.data = this.apiService.get_current();
-    this.id = this.data.id;
+  public fetch_userdata() {
+    return this.apiService.get_current();
   }
-
 }

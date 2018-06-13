@@ -23,6 +23,13 @@
     "FIRST_NAME": "Vorname",
     "PROFILE_HEADING": "Eigene Accountdaten ändern",
     "DELETE_ACC": "Meinen Account löschen",
-    "SAVE_ACC": "Speichern"
+    "SAVE_ACC": "Speichern",
+    "PROFILE_SAVED": "Profil gespeichert",
+    "PROFILE_DELETED": "Profil gelöscht",
+    "ERRORS": {
+      "ERR_USERDATA": "Nutzerdaten konnten nicht geladen werden",
+      "ERR_SAVE": "Fehler beim Speichern der Nutzerdaten",
+      "ERR_DELETE": "Fehler beim Löschen des Accounts"
+    }
   }
 }
