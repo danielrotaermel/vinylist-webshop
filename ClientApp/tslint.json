@@ -95,7 +95,8 @@
       "@angular/common/http",
       "@angular/material",
       "@angular/platform-browser",
-      "rxjs"
+      "rxjs",
+      "@angular/core/testing"
     ]
   },
   "extends": ["tslint-config-airbnb", "tslint:latest", "tslint-config-prettier"]

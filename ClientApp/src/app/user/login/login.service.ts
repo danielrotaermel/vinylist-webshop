@@ -14,8 +14,8 @@ export class LoginService {
 
   public signin(email, password) {
     const data = {
-      email: email,
-      password: password
+      'email': email,
+      'password': password
     };
     return this.apiService.login(data);
   }

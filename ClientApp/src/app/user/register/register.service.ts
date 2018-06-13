@@ -14,10 +14,10 @@ export class RegisterService {
 
   public signup(firstName, lastName, email, password) {
     const data = {
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      password: password
+      'firstName': firstName,
+      'lastName': lastName,
+      'email': email,
+      'password': password
     };
     return this.apiService.register(data);
   }
