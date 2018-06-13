@@ -25,6 +25,7 @@ export class CartListComponent implements OnInit, OnDestroy {
   // }
 
   ngOnInit() {
+    // TODO: Check if already loggedin
     this.cart = this.cartService.getWishlist();
     // this.cartSubscription = this.cart.subscribe(cart => {
     //   this.itemCount = cart.items

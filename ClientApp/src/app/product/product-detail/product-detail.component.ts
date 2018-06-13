@@ -67,6 +67,6 @@ export class ProductDetailComponent implements OnInit {
   }
 
   addToCart() {
-    this.cartService.addToWishlist(this.product.id);
+    this.cartService.addItem(this.product);
   }
 }

@@ -14,12 +14,10 @@ const CART_KEY = 'cart';
   providedIn: 'root'
 })
 export class CartService {
-  private remoteCart: Cart = new Cart();
+  private cart: Cart = new Cart();
 
   private wishlistUrl = 'api/v1/wishlist';
 
-  private storage: Storage;
-  public cart: Cart;
   private products: Product[];
 
   constructor(
@@ -28,8 +26,17 @@ export class CartService {
     private authService: AuthService,
     private storageService: StorageService
   ) {
-    this.storage = this.storageService.get();
-    this.getWishlist().subscribe(products => (this.products = products));
+    // get local wishlist
+    const localstorage = this.storageService.get();
+    if (localstorage.getItem(CART_KEY)) {
+      this.loadFromLocalStorage();
+    }
+
+    // get remote wishlist and merge with local
+    this.getWishlist().subscribe(products => {
+      this.cart.mergeProducts(products);
+      this.saveToLocalStorage();
+    });
   }
 
   public getWishlist(): Observable<Product[]> {
@@ -42,30 +49,24 @@ export class CartService {
   }
 
   public addItem(product: Product): void {
-    const cart = this.retrieve();
     if (!this.cart.items.includes(product)) {
-      this.cart.items.push(product);
-      this.cart.itemsTotal += 1;
+      this.cart.addProduct(product);
       this.addToWishlist(product.id);
+      // TODO: notify everyone
+      // this.calculateCart(cart);
+      this.saveToLocalStorage();
+      // this.dispatch(cart);
     }
-    // this.calculateCart(cart);
-    // this.save(cart);
-    // this.dispatch(cart);
   }
 
-  private retrieve() {
-    const storedCart = this.storage.getItem(CART_KEY);
-    if (storedCart) {
-    }
-
-    return storedCart;
+  private saveToLocalStorage() {
+    this.storageService.get().setItem(CART_KEY, JSON.stringify(this.cart));
   }
-
-  private mergeCart(localcart) {}
+  private loadFromLocalStorage() {
+    this.cart.fromJson(JSON.parse(this.storageService.get().getItem(CART_KEY)));
+  }
 
   public addToWishlist(id: string) {
-    // console.log(this.apiService.isLoggedIn());
-    // console.log(this.userService.isLoggedIn());
     const url = this.wishlistUrl + '/' + id;
     this.http
       .post<any>(url, null)
