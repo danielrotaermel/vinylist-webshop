@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 
 import { LoginComponent } from './login.component';
 
-import { ApiService } from '../../api.service';
+import { AuthService } from '../../services/auth.service';
 
 /**
  * @author Alexander Merker
@@ -12,7 +12,7 @@ import { ApiService } from '../../api.service';
 export class LoginService {
   private instances: {[key: string]: LoginComponent} = {};
   
-  constructor(private apiService : ApiService){
+  constructor(private authService : AuthService){
 
   }
 
@@ -22,6 +22,6 @@ export class LoginService {
         "email":email,
         "password":password
     };
-    return this.apiService.login(data);
+    return this.authService.login(data);
   }
 }

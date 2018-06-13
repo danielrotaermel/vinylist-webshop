@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { RouterModule } from "@angular/router";
 import { AdminDataComponent } from './admin-data.component';
 
-import { ApiService } from '../../api.service';
+import { UserService } from '../../services/user.service';
 
 /**
  * @author Alexander Merker
@@ -11,12 +11,12 @@ import { ApiService } from '../../api.service';
 @Injectable()
 export class AdminDataService {
 
-  constructor(private apiService : ApiService){
+  constructor(private userService : UserService){
       
   }
   
   public all_users(){
-      return this.apiService.get_users();
+      return this.userService.get_users();
   }
 
   public save(firstName, lastName, email, password, id) {
@@ -36,7 +36,7 @@ export class AdminDataService {
         "password":password
       };
     }
-    return this.apiService.update_user(data, id);
+    return this.userService.update_user(data, id);
   }
 
 }

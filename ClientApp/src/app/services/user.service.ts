@@ -4,15 +4,15 @@ import { Observable } from 'rxjs/Observable';
 import { Component, Inject } from '@angular/core';
 
 //Models
-import { User } from './models/user';
-import { Credentials } from './models/credentials';
+import { User } from '../models/user';
+import { Credentials } from '../models/credentials';
 
 
 /**
  * @author Alexander Merker
  */
 @Injectable()
-export class ApiService {
+export class UserService {
 
   private apiUrl: string;
 
@@ -21,21 +21,12 @@ export class ApiService {
         this.apiUrl = baseUrl + 'api/v1'
   }
 
-/** -----------------------------------------------------------------
- *                   LOGIN / REGISTER / USER CRUD
+ /** -----------------------------------------------------------------
+ *                          USER CRUD
  *------------------------------------------------------------------*/
 
-  //POST: /api/v1/login
-  public login(data: Credentials): Observable<Credentials>{
-      return this.http.post(this.apiUrl + '/login', data)
-      .map(response => {
-        return response.json();
-      })
-      .catch(this.handleError);
-  }
-
-  //GET: /api/v1/users/current
-  public get_current(): Observable<User>{
+   //GET: /api/v1/users/current
+   public get_current(): Observable<User>{
     return this.http.get(this.apiUrl + '/users/current')
       .map(response => {
         return response.json();
@@ -77,17 +68,8 @@ export class ApiService {
         return "Deleted successfully";
       })
       .catch(this.handleError);
-  } 
-  
-  //GET: /api/v1/logout
-  public logout(): Observable<void>{
-      return this.http.get(this.apiUrl + '/logout')
-      .map(response => {
-        return response.json();
-      })
-      .catch(this.handleError);
   }
-
+  
   private handleError (error: Response | any) {
     console.error('ApiService::handleError', error);
     return Observable.throw(error);

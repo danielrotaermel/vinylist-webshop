@@ -9,7 +9,6 @@ import { DataSource } from '@angular/cdk/collections';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import { User } from '../../models/user';
-import { getRandomString } from "selenium-webdriver/safari";
 
 @Component({
   selector: 'app-admin-data',

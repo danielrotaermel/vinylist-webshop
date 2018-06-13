@@ -23,7 +23,6 @@ import { MatTableModule } from '@angular/material';
 
 import { LoginService } from './user/login/login.service';
 import { RegisterService } from './user/register/register.service';
-import { ApiService } from './api.service';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
