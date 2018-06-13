@@ -16,7 +16,7 @@ import { FooterComponent } from './footer/footer.component';
 import { HeaderModule } from './header/header.module';
 import { LanguageSwitcherComponent } from './language-switcher/language-switcher.component';
 import { ProductModule } from './product/product.module';
-import { LocalStorageServie, StorageService } from './services/storage.service';
+import { LocalStorageService, StorageService } from './services/storage.service';
 import { SplashscreenComponent } from './splashscreen/splashscreen.component';
 import { UserModule } from './user/user.module';
 
@@ -55,8 +55,8 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   providers: [
     CookieService,
-    LocalStorageServie,
-    { provide: StorageService, useClass: LocalStorageServie }
+    LocalStorageService,
+    { provide: StorageService, useClass: LocalStorageService }
   ],
   bootstrap: [AppComponent]
 })
