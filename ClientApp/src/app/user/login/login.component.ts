@@ -36,6 +36,7 @@ export class LoginComponent {
     this.loginService.signin(this.email, this.password).subscribe(
       (data: any) => {
         this.popover.close();
+        //localStorage.setItem('userToken', data.access_token);
         this.router.navigate(['/']);
         this.openSnackBar('Login successful', 1500);
       },

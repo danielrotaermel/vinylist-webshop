@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { AuthService } from './../../services/auth.service';
+import { UserService } from '../../services/user.service';
 import { RegisterComponent } from './register.component';
 
 /**
@@ -10,7 +10,7 @@ import { RegisterComponent } from './register.component';
 export class RegisterService {
   private instances: { [key: string]: RegisterComponent } = {};
 
-  constructor(private apiService: AuthService) {}
+  constructor(private userService: UserService) {}
 
   public signup(firstName, lastName, email, password) {
     const data = {
@@ -19,7 +19,7 @@ export class RegisterService {
       'email': email,
       'password': password
     };
-    return this.apiService.register(data);
+    return this.userService.register(data);
   }
 
   public registerInstance(name: string, instance: RegisterComponent) {

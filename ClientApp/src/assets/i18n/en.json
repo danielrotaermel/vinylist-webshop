@@ -23,7 +23,14 @@
     "FIRST_NAME": "First name",
     "PROFILE_HEADING": "Change account information",
     "DELETE_ACC": "Delete my Account",
-    "SAVE_ACC": "Save"
+    "SAVE_ACC": "Save",
+    "PROFILE_SAVED": "Profile saved",
+    "PROFILE_DELETED": "Profile deleted",
+    "ERRORS": {
+      "ERR_USERDATA": "Error while loading userdata",
+      "ERR_SAVE": "Error while saving userdata",
+      "ERR_DELETE": "Error while deleting account"
+    }
   },
   "PRODUCT": {
     "TO_CART": "Add to cart",

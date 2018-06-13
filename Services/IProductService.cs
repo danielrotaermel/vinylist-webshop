@@ -64,15 +64,22 @@ namespace webspec3.Services
         /// </summary>
         /// <param name="pagingSortingOptions">Instance of <see cref="PagingSortingParams"/> to handle paging and sorting</param>
         /// <param name="filterOptions">Instance of <see cref="FilterParams"/> to handle filtering</param>
+        /// <param name="filterCategoryId">Additional, optional category id. If specified, all products will be pre-filered by this category</param>
         /// <returns>Paged list of available products/></returns>
-        Task<PagingInformation<ProductEntity>> GetPagedAsync(PagingSortingParams pagingSortingOptions, FilterParams filterOptions);
+        Task<PagingInformation<ProductEntity>> GetPagedAsync(PagingSortingParams pagingSortingOptions, FilterParams filterOptions, Guid? filterCategoryId = null);
 
         /// <summary>
-        /// Removes the all given products
+        /// Removes the all specified products, including their prices and translations
         /// </summary>
         /// <param name="productList">List of products to be removed</param>
         /// <returns></returns>
-        Task DeleteAll(List<ProductEntity> productList);
+        Task DeleteAllAsync(List<ProductEntity> productList);
+
+        /// <summary>
+        /// Removes all products including their prices and translations
+        /// </summary>
+        /// <returns></returns>
+        Task DeleteAllAsync();
 
         /// <summary>
         /// Returns a boolean indicating if a given product id exists in the database

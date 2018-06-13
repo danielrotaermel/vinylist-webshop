@@ -192,7 +192,7 @@ namespace webspec3.Controllers.Api.v1
                 await wishlistService.DeleteWishlistsByProductsAsync(productList);
                 
                 // Remove all products with the specified category
-                await productService.DeleteAll(productList);
+                await productService.DeleteAllAsync(productList);
 
                 //Remove all images of the products of this category
                 await imageService.DeleteImagesByCategoryAsync(productList);

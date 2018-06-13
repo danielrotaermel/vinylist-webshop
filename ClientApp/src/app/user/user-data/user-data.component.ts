@@ -1,9 +1,9 @@
-import { Component, Input } from '@angular/core';
-import { UserDataService } from './user-data.service';
-import { TranslateService } from '@ngx-translate/core';
-import { Router } from '@angular/router';
-
+import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+
+import { UserDataService } from './user-data.service';
 
 @Component({
   selector: 'app-user-data',
@@ -14,7 +14,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 /**
  * @author Alexander Merker
  */
-export class UserDataComponent {
+export class UserDataComponent implements OnInit {
+  id: string;
   email: string;
   password: string;
   firstName: string;
@@ -23,7 +24,8 @@ export class UserDataComponent {
   constructor(
     private snackBar: MatSnackBar,
     private userDataService: UserDataService,
-    private router: Router
+    private router: Router,
+    private i18nService: TranslateService
   ) {}
 
   openSnackBar(message, time) {
@@ -32,25 +34,61 @@ export class UserDataComponent {
     });
   }
 
-  performSave() {
-    this.userDataService.save(this.firstName, this.lastName, this.email, this.password).subscribe(
+  ngOnInit(): void {
+    this.userDataService.fetch_userdata().subscribe(
       (data: any) => {
-        // TODO: i18n
-        this.openSnackBar('Profile saved', 1500);
+        this.id = data.id;
+        this.email = data.email;
+        this.password = data.password;
+        this.firstName = data.firstName;
+        this.lastName = data.lastName;
       },
       (error: any) => {
-        this.openSnackBar('Saving gone wrong', 1500);
+        this.i18nService
+          .get('USER.ERRORS.ERR_USERDATA')
+          .subscribe((res: string) => {
+            this.openSnackBar(res, 5000);
+          });
       }
     );
   }
+
+  performSave() {
+    this.userDataService
+      .save(this.firstName, this.lastName, this.email, this.password, this.id)
+      .subscribe(
+        (data: any) => {
+          this.i18nService
+            .get('USER.PROFILE_SAVED')
+            .subscribe((res: string) => {
+              this.openSnackBar(res, 5000);
+            });
+        },
+        (error: any) => {
+          this.i18nService
+            .get('USER.ERRORS.ERR_SAVE')
+            .subscribe((res: string) => {
+              this.openSnackBar(res, 5000);
+            });
+        }
+      );
+  }
+
   performDelete() {
-    this.userDataService.delete().subscribe(
+    this.userDataService.delete(this.id).subscribe(
       (data: any) => {
-        // TODO: i18n
-        this.openSnackBar('Profile saved', 1500);
+        this.i18nService
+          .get('USER.PROFILE_DELETED')
+          .subscribe((res: string) => {
+            this.openSnackBar(res, 5000);
+          });
       },
       (error: any) => {
-        this.openSnackBar('Deletion gone wrong', 1500);
+        this.i18nService
+          .get('USER.ERRORS.ERR_DELETE')
+          .subscribe((res: string) => {
+            this.openSnackBar(res, 5000);
+          });
       }
     );
   }

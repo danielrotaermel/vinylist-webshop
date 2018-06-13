@@ -10,13 +10,13 @@ import { LoginComponent } from './login.component';
 export class LoginService {
   private instances: { [key: string]: LoginComponent } = {};
 
-  constructor(private apiService: AuthService) {}
+  constructor(private authService: AuthService) {}
 
   public signin(email, password) {
     const data = {
       'email': email,
       'password': password
     };
-    return this.apiService.login(data);
+    return this.authService.login(data);
   }
 }

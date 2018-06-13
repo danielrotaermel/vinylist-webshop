@@ -1,0 +1,14 @@
+// Author: Alexander Merker + Daniel Rotärmel
+
+@import '../../../sass/_variables';
+
+.bordered{
+    border-style: 2px solid #000;
+}
+.base-icon {
+    margin: 20px 10px 0px 0px;
+  }
+
+  .mat-column-select {
+    overflow: initial;
+  }

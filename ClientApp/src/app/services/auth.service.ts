@@ -16,10 +16,6 @@ export class AuthService {
     this.apiUrl = baseUrl + 'api/v1';
   }
 
-  /** -----------------------------------------------------------------
-   *                   LOGIN / REGISTER / USER CRUD
-   *------------------------------------------------------------------*/
-
   // POST: /api/v1/login
   public login(data: ICredentials): Observable<ICredentials> {
     return this.http

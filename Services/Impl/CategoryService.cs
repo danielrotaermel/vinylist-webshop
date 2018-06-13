@@ -53,10 +53,20 @@ namespace webspec3.Services.Impl
         public async Task<List<ProductEntity>> GetAllProductyByCategoryIdAsync(Guid categoryId)
         {
             logger.LogDebug($"Attempting to retrieve all Products for the category id {categoryId}.");
-            
+
             return await dbContext.Products
                 .Where(x => x.CategoryId == categoryId)
                 .ToListAsync();
+        }
+
+        public async Task DeleteAllAsync()
+        {
+            logger.LogDebug($"Attempting to remove all categories.");
+
+            dbContext.Categories.RemoveRange(dbContext.Categories);
+            await dbContext.SaveChangesAsync();
+
+            logger.LogInformation($"Successfully removed all categories.");
         }
     }
 }
