@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from '../product';
-import { ProductService } from '../product.service';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+
+import { Product } from '../product';
 import { ProductPrice } from '../product-price';
 import { ProductTranslation } from '../product-translation';
+import { ProductService } from '../product.service';
+import { CartService } from './../../cart/cart.service';
 
 /** @author Janina Wachendorfer */
 @Component({
@@ -18,7 +20,8 @@ export class ProductDetailComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private route: ActivatedRoute,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private cartService: CartService
   ) {}
 
   ngOnInit() {
@@ -57,5 +60,13 @@ export class ProductDetailComponent implements OnInit {
 
   getProduct(id: string): void {
     this.productService.getProduct(id).subscribe(prod => (this.product = prod));
+  }
+
+  addToWishlist() {
+    this.cartService.addToWishlist(this.product.id);
+  }
+
+  addToCart() {
+    this.cartService.addToWishlist(this.product.id);
   }
 }

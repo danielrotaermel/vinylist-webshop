@@ -1,20 +1,18 @@
-import { NgModule } from '@angular/core';
-import { AngularSvgIconModule } from 'angular-svg-icon';
-import { MaterialModule } from '../core/material.module';
-import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { UserDataComponent } from './user-data/user-data.component';
-
 import { TranslateModule } from '@ngx-translate/core';
+import { AngularSvgIconModule } from 'angular-svg-icon';
 
+import { MaterialModule } from '../core/material.module';
+import { AuthService } from './../services/auth.service';
 import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-
-import { RegisterService } from './register/register.service';
 import { LoginService } from './login/login.service';
+import { RegisterComponent } from './register/register.component';
+import { RegisterService } from './register/register.service';
+import { UserDataComponent } from './user-data/user-data.component';
 import { UserDataService } from './user-data/user-data.service';
-import { ApiService } from '../api.service';
 
 /**
  * @author Alexander Merker
@@ -30,6 +28,6 @@ import { ApiService } from '../api.service';
   ],
   declarations: [UserDataComponent, LoginComponent, RegisterComponent],
   exports: [UserDataComponent, LoginComponent, RegisterComponent],
-  providers: [LoginService, RegisterService, UserDataService, ApiService]
+  providers: [LoginService, RegisterService, UserDataService, AuthService]
 })
 export class UserModule {}

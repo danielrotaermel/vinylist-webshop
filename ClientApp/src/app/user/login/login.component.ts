@@ -1,9 +1,8 @@
-import { Component, Input, ElementRef } from '@angular/core';
-import { LoginService } from './login.service';
-import { TranslateService } from '@ngx-translate/core';
+import { Component, Input } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { LoginService } from './login.service';
 
 @Component({
   selector: 'app-login',
@@ -37,7 +36,6 @@ export class LoginComponent {
     this.loginService.signin(this.email, this.password).subscribe(
       (data: any) => {
         this.popover.close();
-        localStorage.setItem('userToken', data.access_token);
         this.router.navigate(['/']);
         this.openSnackBar('Login successful', 1500);
       },

@@ -1,7 +1,7 @@
-import { ProductTranslation } from './product-translation';
+import { Deserializable } from './deserializable';
 import { ProductImage } from './product-image';
 import { ProductPrice } from './product-price';
-import { Deserializable } from './deserializable';
+import { ProductTranslation } from './product-translation';
 
 /** @author Janina Wachendorfer */
 export class Product implements Deserializable {
@@ -58,14 +58,14 @@ export class Product implements Deserializable {
 
   deserialize(input: any) {
     Object.assign(this, input);
-    this.languages = new Array<ProductTranslation>();
+    this.languages = [];
 
     input.languages.forEach(element => {
       this.languages.push(new ProductTranslation().deserialize(element));
     });
 
     this.image = new ProductImage().deserialize(input.image);
-    this.prices = new Array<ProductPrice>();
+    this.prices = [];
     input.prices.forEach(element => {
       this.prices.push(new ProductPrice().deserialize(element));
     });

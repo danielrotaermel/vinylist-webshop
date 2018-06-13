@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 
+import { AuthService } from '../../services/auth.service';
 import { LoginComponent } from './login.component';
-
-import { ApiService } from '../../api.service';
 
 /**
  * @author Alexander Merker
@@ -12,7 +10,7 @@ import { ApiService } from '../../api.service';
 export class LoginService {
   private instances: { [key: string]: LoginComponent } = {};
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: AuthService) {}
 
   public signin(email, password) {
     const data = {
