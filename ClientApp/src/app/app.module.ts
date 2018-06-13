@@ -1,28 +1,22 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-//HttpModule is deprecated but still required somehow
 import { HttpModule } from '@angular/http';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 
 import { AppComponent } from './app.component';
-import { UserModule } from './user/user.module';
 import { MaterialModule } from './core/material.module';
-import { LanguageSwitcherComponent } from './language-switcher/language-switcher.component';
 import { FooterComponent } from './footer/footer.component';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { SplashscreenComponent } from './splashscreen/splashscreen.component';
 import { HeaderModule } from './header/header.module';
-import { MatTableModule } from '@angular/material';
-
-import { LoginService } from './user/login/login.service';
-import { RegisterService } from './user/register/register.service';
+import { LanguageSwitcherComponent } from './language-switcher/language-switcher.component';
+import { ProductModule } from './product/product.module';
+import { SplashscreenComponent } from './splashscreen/splashscreen.component';
+import { UserModule } from './user/user.module';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -39,11 +33,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     FormsModule,
     HttpClientModule,
-    //HttpModule is deprecated but still required somehow
+    // HttpModule is deprecated but still required somehow
     HttpModule,
     BrowserAnimationsModule,
     RouterModule,
-    MatSnackBarModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -55,7 +48,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     AngularSvgIconModule,
     HeaderModule,
     UserModule,
-    MatTableModule
+    ProductModule
   ],
   providers: [],
   bootstrap: [AppComponent]
