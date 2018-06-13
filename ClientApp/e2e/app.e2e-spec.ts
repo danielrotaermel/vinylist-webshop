@@ -15,10 +15,14 @@ describe('App', () => {
     page = new AppPage();
   });
 
-  //TODO: Configure protractor.conf so the testing doesnt crash when this is missing or implement a suitable global test
+  //Sample test
   it('dummy test', () => {
     page.navigateTo();
-    expect(page.getMainHeading()).toEqual('Hello, world!');
+    
+    let home = element(By.id("home"));
+
+    expect(home).toBeDefined();
+    home.click();
   });
 
 });

@@ -1,5 +1,6 @@
 import {browser, element, by, By, $, $$, ExpectedConditions, ProtractorExpectedConditions} from 'protractor';
-import { UserPage } from './user.page'
+import { UserPage } from './user.page';
+import { Globals } from '../globals';
 
 /**
  * @author Alexander Merker
@@ -7,32 +8,33 @@ import { UserPage } from './user.page'
 describe('User Testcases', () => {
     
     let userPage : UserPage;
-    let EC : ProtractorExpectedConditions;
-
-    //TODO: REFACTOR THIS INTO PAGE FILE
-    const link = element(By.id("login_link"));
+    let globals : Globals;
 
     beforeAll(() => {
         userPage = new UserPage();
+        globals = new Globals();
     });
 
-    //TODO: Button click doesnt work yet. Form locked?
-    xit('should locate the login dialogue', () => {
-        link.click().then(() => {
-            userPage.email_login.sendKeys("admin@example.com");
-            userPage.pw_login.sendKeys("admin");
-            browser.wait(EC.elementToBeClickable(userPage.submit), 5000);
-            userPage.submit.click();
+    it('should locate the login dialogue', () => {
+        userPage.login_btn.click();
 
-            browser.sleep(5000);
-            expect(userPage.snackbar).toBeDefined;
-            expect(userPage.snackbar.getText()).toBe("Logged in successfully")
-        });
+        expect(userPage.email_field).toBeDefined();
+        expect(userPage.login_btn).toBeDefined();
+
+        userPage.closeOverlay.click();
     });
 
-    xit('should locate the register dialogue', () => {
+    it('should login to vinylist', () => {
+        
+        userPage.login_btn.click();
 
+        //Using globally declared testuser : email/pw
+        userPage.email_field.sendKeys(globals.g_login_email);
+        userPage.password_field.sendKeys(globals.g_login_pw);
+
+        userPage.submit.click();
+
+        expect(userPage.snackbar).toBeDefined();
     });
-
 
 });
