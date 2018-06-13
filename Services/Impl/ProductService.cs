@@ -129,7 +129,7 @@ namespace webspec3.Services.Impl
                 productsQuery = productsQuery.Where(x => x.CategoryId == filterCategoryId);
             }
 
-            productsQuery.ProductsAdvancedFiltered(filterParams);
+            productsQuery = productsQuery.ProductsAdvancedFiltered(filterParams);
 
             var totalProducts = await productsQuery.CountAsync();
 
