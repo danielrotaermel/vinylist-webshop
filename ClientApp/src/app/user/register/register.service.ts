@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { RouterModule } from '@angular/router';
-import { RegisterComponent } from './register.component';
 
-import { ApiService } from '../../api.service';
+import { UserService } from '../../services/user.service';
+import { RegisterComponent } from './register.component';
 
 /**
  * @author Alexander Merker
@@ -12,7 +10,7 @@ import { ApiService } from '../../api.service';
 export class RegisterService {
   private instances: { [key: string]: RegisterComponent } = {};
 
-  constructor(private apiService: ApiService) {}
+  constructor(private userService: UserService) {}
 
   public signup(firstName, lastName, email, password) {
     const data = {
@@ -21,7 +19,7 @@ export class RegisterService {
       email: email,
       password: password
     };
-    return this.apiService.register(data);
+    return this.userService.register(data);
   }
 
   public registerInstance(name: string, instance: RegisterComponent) {

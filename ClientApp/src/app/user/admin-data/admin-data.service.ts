@@ -1,7 +1,7 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { RouterModule } from "@angular/router";
-import { UserDataComponent } from './user-data.component';
+import { AdminDataComponent } from './admin-data.component';
 
 import { UserService } from '../../services/user.service';
 
@@ -9,18 +9,23 @@ import { UserService } from '../../services/user.service';
  * @author Alexander Merker
  */
 @Injectable()
-export class UserDataService { 
+export class AdminDataService {
+
   constructor(private userService : UserService){
       
   }
   
+  public all_users(){
+      return this.userService.get_users();
+  }
+
   public save(firstName, lastName, email, password, id) {
     var data;
     if(password == "" || undefined){
       data = {
         "firstName": firstName,
         "lastName": lastName,
-        "email":email
+        "email":email,
       };
     }
     else{
@@ -34,11 +39,4 @@ export class UserDataService {
     return this.userService.update_user(data, id);
   }
 
-  public delete(id) {
-    return this.userService.delete_user(id);
-  }
-
-  public fetch_userdata() {
-    return this.userService.get_current();
-  }
 }
