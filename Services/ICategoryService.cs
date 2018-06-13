@@ -31,5 +31,11 @@ namespace webspec3.Services
         /// <param name="categoryId">The Id of the category</param>
         /// <returns>List of all Products for a given category</returns>
         Task<List<ProductEntity>> GetAllProductyByCategoryIdAsync(Guid categoryId);
+
+        /// <summary>
+        /// Removes all categories
+        /// </summary>
+        /// <returns></returns>
+        Task DeleteAllAsync();
     }
 }

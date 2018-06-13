@@ -114,20 +114,28 @@ namespace webspec3.Services.Impl
         }
 
         public async Task<PagingInformation<ProductEntity>> GetPagedAsync(PagingSortingParams pagingSortingOptions,
-            FilterParams filterParams)
+            FilterParams filterParams, Guid? filterCategoryId = null)
         {
             logger.LogDebug(
                 $"Attempting to retrieve products from database: Page: {pagingSortingOptions.Page}, items per page: {pagingSortingOptions.ItemsPerPage}, sort by: {pagingSortingOptions.SortBy}, sort direction: {pagingSortingOptions.SortDirection}.");
 
-            var products = await dbContext.Products
+            var productsQuery = dbContext.Products
                 .Include(x => x.Image)
                 .Include(x => x.Prices)
-                .Include(x => x.Translations)
-                .ProductsAdvancedFiltered(filterParams)
-                .PagedAndSorted(pagingSortingOptions)
+                .Include(x => x.Translations) as IQueryable<ProductEntity>;
+
+            if (filterCategoryId != null)
+            {
+                productsQuery = productsQuery.Where(x => x.CategoryId == filterCategoryId);
+            }
+
+            productsQuery.ProductsAdvancedFiltered(filterParams);
+
+            var totalProducts = await productsQuery.CountAsync();
+
+            var products = await productsQuery.PagedAndSorted(pagingSortingOptions)
                 .ToListAsync();
 
-            var totalProducts = await dbContext.Products.CountAsync();
             var totalPages = (int)Math.Ceiling(totalProducts / (double)pagingSortingOptions.ItemsPerPage);
 
             logger.LogInformation($"Retrieved {products.Count} products from the database.");
@@ -298,7 +306,7 @@ namespace webspec3.Services.Impl
             return products;
         }
 
-        public async Task DeleteAll(List<ProductEntity> productList)
+        public async Task DeleteAllAsync(List<ProductEntity> productList)
         {
             logger.LogDebug($"Attempting to remove {productList.Count} products by category");
 
@@ -320,6 +328,25 @@ namespace webspec3.Services.Impl
 
             logger.LogInformation(
                 $"Successfully removed {productList.Count} products by category.");
+        }
+
+        public async Task DeleteAllAsync()
+        {
+            logger.LogDebug($"Attempting to remove all products.");
+
+            using (var transaction = await dbContext.Database.BeginTransactionAsync())
+            {
+                dbContext.ProductPrices.RemoveRange(dbContext.ProductPrices);
+                dbContext.ProductTranslations.RemoveRange(dbContext.ProductTranslations);
+
+                dbContext.Products.RemoveRange(dbContext.Products);
+
+                await dbContext.SaveChangesAsync();
+
+                transaction.Commit();
+            }
+
+            logger.LogInformation($"Successfully removed all products including their prices and translations");
         }
 
         public async Task<bool> DoesProductExistByIdAsync(Guid productId)

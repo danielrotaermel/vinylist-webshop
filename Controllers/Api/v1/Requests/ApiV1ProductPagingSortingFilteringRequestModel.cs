@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace webspec3.Controllers.Api.v1.Requests
 {
@@ -15,5 +16,10 @@ namespace webspec3.Controllers.Api.v1.Requests
 
         [RegularExpression("^.*(Artist|Label|ReleaseDate|Description|DescriptionShort|Title)$", ErrorMessage = "The parameter filter by must match one of 'Artist', 'Label', 'ReleaseDate', 'Description', 'DescriptionShort' and 'Title'")]
         public override string FilterBy { get; set; }
+
+        /// <summary>
+        /// Specifies an optional category id. Products will be pre-filtered by this id before applying the other filters
+        /// </summary>
+        public Guid? FilterByCategory { get; set; }
     }
 }

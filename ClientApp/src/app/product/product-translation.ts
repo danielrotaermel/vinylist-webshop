@@ -1,4 +1,4 @@
-import { Deserializable } from "./deserializable";
+import { Deserializable } from './deserializable';
 
 /** @author Janina Wachendorfer */
 export class ProductTranslation implements Deserializable {

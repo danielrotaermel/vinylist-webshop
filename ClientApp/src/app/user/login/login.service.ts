@@ -17,7 +17,7 @@ export class LoginService {
   constructor(private apiService: ApiService) {}
 
   public signin(email, password) {
-    var data = {
+    const data = {
       email: email,
       password: password
     };

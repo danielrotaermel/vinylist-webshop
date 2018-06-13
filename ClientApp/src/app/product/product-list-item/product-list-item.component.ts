@@ -1,14 +1,14 @@
 /** @author Janina Wachendorfer */
-import { Component, OnInit, Input } from "@angular/core";
-import { Product } from "../product";
-import { ProductTranslation } from "../product-translation";
-import { ProductPrice } from "../product-price";
-import { TranslateService } from "@ngx-translate/core";
+import { Component, OnInit, Input } from '@angular/core';
+import { Product } from '../product';
+import { ProductTranslation } from '../product-translation';
+import { ProductPrice } from '../product-price';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: "app-product-list-item",
-  templateUrl: "./product-list-item.component.html",
-  styleUrls: ["./product-list-item.component.scss"]
+  selector: 'app-product-list-item',
+  templateUrl: './product-list-item.component.html',
+  styleUrls: ['./product-list-item.component.scss']
 })
 export class ProductListItemComponent implements OnInit {
   @Input() product: Product;
@@ -18,10 +18,10 @@ export class ProductListItemComponent implements OnInit {
   ngOnInit() {}
 
   getTranslationKey(): string {
-    if (this.translateService.currentLang.toString() === "de") {
-      return "de_DE";
+    if (this.translateService.currentLang.toString() === 'de') {
+      return 'de_DE';
     } else {
-      return "en_US";
+      return 'en_US';
     }
   }
 
@@ -30,9 +30,9 @@ export class ProductListItemComponent implements OnInit {
   }
 
   getPrice(): ProductPrice {
-    if (this.translateService.currentLang.toString() === "de") {
-      return this.product.getPriceByKey("EUR");
+    if (this.translateService.currentLang.toString() === 'de') {
+      return this.product.getPriceByKey('EUR');
     }
-    return this.product.getPriceByKey("USD");
+    return this.product.getPriceByKey('USD');
   }
 }

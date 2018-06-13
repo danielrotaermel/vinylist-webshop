@@ -9,7 +9,6 @@ using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.IO;
 using Newtonsoft.Json;
-using webspec3.Core.I18n;
 using webspec3.Database;
 using webspec3.Services;
 using webspec3.Services.Impl;
@@ -61,6 +60,7 @@ namespace webspec3
                 c.IncludeXmlComments(filePath);
 
                 c.OperationFilter<AddCustomI18NParameters>();
+                c.OperationFilter<FormFileOperationFilter>();
             });
 
             // In production, the Angular files will be served from this directory
@@ -83,8 +83,9 @@ namespace webspec3
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IImageService, ImageService>();
             services.AddTransient<IWishlistService, WishlistService>();
-            
-            services.AddMvc().AddJsonOptions(options => {
+
+            services.AddMvc().AddJsonOptions(options =>
+            {
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             });
         }

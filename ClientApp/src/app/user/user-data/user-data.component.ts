@@ -1,9 +1,9 @@
-import { Component, Input } from "@angular/core";
-import { UserDataService } from "./user-data.service";
-import { TranslateService } from "@ngx-translate/core";
-import { Router } from "@angular/router";
+import { Component, Input } from '@angular/core';
+import { UserDataService } from './user-data.service';
+import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 
-import { MatSnackBar } from "@angular/material/snack-bar";
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-user-data',
@@ -27,7 +27,7 @@ export class UserDataComponent {
   ) {}
 
   openSnackBar(message, time) {
-    this.snackBar.open(message, "", {
+    this.snackBar.open(message, '', {
       duration: time
     });
   }
@@ -35,22 +35,22 @@ export class UserDataComponent {
   performSave() {
     this.userDataService.save(this.firstName, this.lastName, this.email, this.password).subscribe(
       (data: any) => {
-        //TODO: i18n
-        this.openSnackBar("Profile saved", 1500);
+        // TODO: i18n
+        this.openSnackBar('Profile saved', 1500);
       },
       (error: any) => {
-        this.openSnackBar("Saving gone wrong", 1500);
+        this.openSnackBar('Saving gone wrong', 1500);
       }
     );
   }
   performDelete() {
     this.userDataService.delete().subscribe(
       (data: any) => {
-        //TODO: i18n
-        this.openSnackBar("Profile saved", 1500);
+        // TODO: i18n
+        this.openSnackBar('Profile saved', 1500);
       },
       (error: any) => {
-        this.openSnackBar("Deletion gone wrong", 1500);
+        this.openSnackBar('Deletion gone wrong', 1500);
       }
     );
   }

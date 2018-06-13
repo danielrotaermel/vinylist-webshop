@@ -1,4 +1,4 @@
-import { Deserializable } from "./deserializable";
+import { Deserializable } from './deserializable';
 
 /** @author Janina Wachendorfer */
 export class ProductImage implements Deserializable {
@@ -29,6 +29,6 @@ export class ProductImage implements Deserializable {
   }
 
   getImageDataString(): string {
-    return "data:image/" + this.imageType + ";base64," + this.base64String;
+    return 'data:image/' + this.imageType + ';base64,' + this.base64String;
   }
 }

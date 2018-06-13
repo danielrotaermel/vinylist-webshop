@@ -1,8 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using webspec3.Controllers.Api.v1.Requests;
 using webspec3.Controllers.Api.v1.Responses;
@@ -22,19 +28,22 @@ namespace webspec3.Controllers.Api.v1
     [Route("api/v1/products")]
     public sealed class ApiV1ProductController : Controller
     {
-        private readonly IProductService productService;
-        private readonly ILogger logger;
+        private readonly ICategoryService categoryService;
         private readonly IImageService imageService;
-        private readonly II18nService i18nService;
+        private readonly IProductService productService;
         private readonly IWishlistService wishlistService;
+        private readonly II18nService i18nService;
 
-        public ApiV1ProductController(IProductService productService, II18nService i18nService,
-            IImageService imageService, IWishlistService wishlistService, ILogger<ApiV1ProductController> logger)
+        private readonly ILogger logger;
+
+        public ApiV1ProductController(ICategoryService categoryService, IImageService imageService, IProductService productService, IWishlistService wishlistService, II18nService i18nService,
+             ILogger<ApiV1ProductController> logger)
         {
-            this.productService = productService;
+            this.categoryService = categoryService;
             this.imageService = imageService;
-            this.i18nService = i18nService;
+            this.productService = productService;
             this.wishlistService = wishlistService;
+            this.i18nService = i18nService;
             this.logger = logger;
         }
 
@@ -100,7 +109,7 @@ namespace webspec3.Controllers.Api.v1
                     FilterLanguage = model.LanguageCode
                 };
 
-                var productPagingInformation = await productService.GetPagedAsync(pagingSortingOptions, filterOptions);
+                var productPagingInformation = await productService.GetPagedAsync(pagingSortingOptions, filterOptions, model.FilterByCategory);
 
                 var productPagingInformationResponse = new PagingInformation<ApiV1ProductReponseModel>
                 {
@@ -375,6 +384,187 @@ namespace webspec3.Controllers.Api.v1
 
                 return BadRequest(ModelState.ToApiV1ErrorResponseModel());
             }
+        }
+
+        /// <summary>
+        /// Imports all products from the supplied zip file creatd by the data-crawler
+        /// This route is considered EXPERIMENTAL and supports only de_DE and en_US language codes and EUR and USD as currencies.
+        /// All other data will be omitted.
+        /// 
+        /// For later usage, import of existing data will be handled otherwise.
+        /// 
+        /// Please note that ALL EXISTING DATA of the following categories will be REMOVED during importing the new data:
+        /// 
+        /// - Products, including images, translations and prices
+        /// - Categories
+        /// 
+        /// </summary>
+        /// <param name="file"></param>
+        /// <response code="200">Products successfully imported</response>
+        /// <response code="400">The specified file is not a zip file, an empty file or you did not specify a file at all</response>
+        /// <response code="403">No permissions to delete products</response>
+        /// <response code="500">An internal error occurred</response>
+        [HttpPost("import")]
+        [AdminRightsRequired]
+        [DisableRequestSizeLimit]
+        public async Task<IActionResult> Import([FromForm]IFormFile file)
+        {
+            if (file == null || file.Length == 0 || file.ContentType != "application/x-zip-compressed")
+            {
+                logger.LogWarning("Cannot import the specified file. Either it is null, length 0 or not a zip file.");
+                return BadRequest(new ApiV1ErrorResponseModel("No file is supplied, the supplied file is empty or the supplied file is not a zip file."));
+            }
+
+            var productsDe = new List<(ProductEntity productEntity, ImageEntity image, ProductTranslationEntity translation, ProductPriceEntity price, string category)>();
+            var prodcutsEn = new List<(ProductEntity productEntity, ImageEntity image, ProductTranslationEntity translation, ProductPriceEntity price, string category)>();
+
+            var jsonSerializer = new JsonSerializer();
+
+            using (var stream = file.OpenReadStream())
+            using (var zip = new ZipArchive(stream))
+            {
+                // Process german entries
+                foreach (var entry in zip.Entries.Where(x => x.FullName.StartsWith("crawled-data/de/")))
+                {
+                    if (!string.IsNullOrEmpty(entry.Name))
+                    {
+                        if (entry.FullName.StartsWith("crawled-data/de/") || entry.FullName.StartsWith("crawled-data/en/"))
+                        {
+                            var isGermanEntry = entry.FullName.StartsWith("crawled-data/de/");
+
+                            using (var entryStream = entry.Open())
+                            using (var textReader = new StreamReader(entryStream))
+                            {
+                                var jsonString = textReader.ReadToEnd();
+                                var json = JObject.Parse(jsonString);
+
+                                if (!json.ContainsKey("artist") || !json.ContainsKey("label") || !json.ContainsKey("genre") || !json.ContainsKey("release-date"))
+                                {
+                                    continue;
+                                }
+
+                                // General information
+                                var artist = json["artist"].Value<string>();
+                                var label = json["label"].Value<string>();
+                                var genre = json["genre"].Value<string>();
+
+                                var releaseDateRaw = json["release-date"].Value<string>();
+                                var releaseDate = new DateTime(int.Parse(releaseDateRaw), 1, 1);
+
+                                var productEntity = new ProductEntity
+                                {
+                                    Artist = artist,
+                                    Label = label,
+                                    ReleaseDate = releaseDate
+                                };
+
+
+                                // Euro price
+                                var priceEuros = json["price"].Value<decimal>();
+
+                                var priceEurosEntity = new ProductPriceEntity
+                                {
+                                    CurrencyId = isGermanEntry ? "EUR" : "USD",
+                                    Price = priceEuros
+                                };
+
+                                // German translation
+                                var descriptionShort = json["short_description"].Value<string>();
+                                var description = json.ContainsKey("article_decription") ? json["article_description"].Value<string>() : string.Empty;
+                                var title = json["title"].Value<string>();
+
+                                var translationEntity = new ProductTranslationEntity
+                                {
+                                    DescriptionShort = descriptionShort,
+                                    Description = description,
+                                    Title = title,
+                                    LanguageId = isGermanEntry ? "de_DE" : "en_US"
+                                };
+
+                                // Try to get image
+                                var itemId = json["item_id"].ToString();
+                                var imageDescription = json["picture_alt"].Value<string>();
+
+                                var imageEntry = zip.Entries.Where(x => x.Name.EndsWith($"{itemId}.jpg")).FirstOrDefault();
+
+                                // Continue of no image has been found
+                                if (imageEntry == null)
+                                {
+                                    continue;
+                                }
+
+                                byte[] imageBytes = null;
+
+                                // Copy image to byte array
+                                using (var imageStream = imageEntry.Open())
+                                using (var memoryStream = new MemoryStream())
+                                {
+                                    await imageStream.CopyToAsync(memoryStream);
+                                    imageBytes = memoryStream.ToArray();
+                                }
+
+                                var imageEntity = new ImageEntity
+                                {
+                                    Description = imageDescription,
+                                    ImageType = "image/jpeg",
+                                    Base64String = Convert.ToBase64String(imageBytes)
+                                };
+
+                                if (isGermanEntry)
+                                {
+                                    productsDe.Add((productEntity, imageEntity, translationEntity, priceEurosEntity, genre));
+                                }
+                                else
+                                {
+                                    prodcutsEn.Add((productEntity, imageEntity, translationEntity, priceEurosEntity, genre));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (productsDe.Count > 0)
+            {
+                // Remove all products, categories and images
+                await productService.DeleteAllAsync();
+                await categoryService.DeleteAllAsync();
+                await imageService.DeleteAllAsync();
+
+                var addedCategories = new List<CategoryEntity>();
+
+                // Add all new products
+                foreach (var (productEntity, image, translation, price, genre) in productsDe)
+                {
+                    // Check if category was added, else add id
+                    var categoryEntity = addedCategories.FirstOrDefault(x => x.Title == genre);
+
+                    if (categoryEntity == null)
+                    {
+                        categoryEntity = new CategoryEntity
+                        {
+                            Title = genre
+                        };
+
+                        await categoryService.AddAsync(categoryEntity);
+
+                        addedCategories.Add(categoryEntity);
+                    }
+
+
+                    // Set category id
+                    productEntity.CategoryId = categoryEntity.Id;
+
+                    await imageService.AddAsync(image);
+
+                    productEntity.ImageId = image.Id;
+
+                    await productService.AddAsync(productEntity, new List<ProductPriceEntity>() { price }, new List<ProductTranslationEntity>() { translation });
+                }
+            }
+
+
+            return Ok();
         }
     }
 }

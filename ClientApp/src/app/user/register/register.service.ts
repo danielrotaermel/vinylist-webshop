@@ -17,7 +17,7 @@ export class RegisterService {
   constructor(private apiService: ApiService) {}
 
   public signup(firstName, lastName, email, password) {
-    var data = {
+    const data = {
       firstName: firstName,
       lastName: lastName,
       email: email,
@@ -25,8 +25,6 @@ export class RegisterService {
     };
     return this.apiService.register(data);
   }
-
-  //
 
   public registerInstance(name: string, instance: RegisterComponent) {
     this.instances[name] = instance;

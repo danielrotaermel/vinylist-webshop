@@ -1,5 +1,5 @@
-import { Deserializable } from "./deserializable";
-import { Product } from "./product";
+import { Deserializable } from './deserializable';
+import { Product } from './product';
 
 /** @author Janina Wachendorfer */
 export class Category implements Deserializable {

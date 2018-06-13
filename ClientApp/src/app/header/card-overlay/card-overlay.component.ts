@@ -28,7 +28,6 @@ export class CardOverlayComponent implements OnInit {
     if (this.badgeCount > 0) {
       this.hideBadge = false;
     }
-    console.log(this.popover);
   }
 
   // ngAfterViewInit() {
@@ -36,17 +35,4 @@ export class CardOverlayComponent implements OnInit {
   //     this.popover.open();
   //   }
   // }
-}
-
-@Directive({
-  selector: '[onClickClose]'
-})
-class onClickClose {
-  constructor(private el: ElementRef) {}
-
-  @HostListener('click')
-  onClick() {
-    console.log('hi');
-    window.alert('hi');
-  }
 }

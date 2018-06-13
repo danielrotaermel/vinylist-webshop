@@ -1,4 +1,4 @@
-import { Deserializable } from "./deserializable";
+import { Deserializable } from './deserializable';
 
 /** @author Janina Wachendorfer */
 export class ProductPrice implements Deserializable {
@@ -11,10 +11,10 @@ export class ProductPrice implements Deserializable {
    * if the currencyId is not "EUR", the default currency (Dollar) is used
    */
   getFormattedPrice(): string {
-    if (this.currencyId === "EUR") {
-      return this.price.toFixed(2) + "€";
+    if (this.currencyId === 'EUR') {
+      return this.price.toFixed(2) + '€';
     }
-    return this.price.toFixed(2) + "$";
+    return this.price.toFixed(2) + '$';
   }
 
   deserialize(input: any) {

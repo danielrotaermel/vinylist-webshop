@@ -76,7 +76,7 @@ export class ProductListComponent implements OnInit {
    * @param genre genre which should be removed
    */
   remove(genre: string): void {
-    let index = this.selectedGenres.indexOf(genre);
+    const index = this.selectedGenres.indexOf(genre);
 
     if (index >= 0) {
       this.selectedGenres.splice(index, 1);

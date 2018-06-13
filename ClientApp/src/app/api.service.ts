@@ -21,20 +21,20 @@ export class ApiService {
    *                   LOGIN / REGISTER / USER CRUD
    *------------------------------------------------------------------*/
 
-  //POST: /api/v1/login
+  // POST: /api/v1/login
   public login(data: Credentials): Observable<Credentials> {
     return this.http
       .post(this.apiUrl + '/login', data)
       .map(response => {
-        //Save UserId, accessible by get_UserId()
-        var a = response.json();
+        // Save UserId, accessible by get_UserId()
+        const a = response.json();
         this.userid = a.id;
         return response.json();
       })
       .catch(this.handleError);
   }
 
-  //POST: /api/v1/user
+  // POST: /api/v1/user
   public register(data: User): Observable<User> {
     return this.http
       .post(this.apiUrl + '/users', data)
@@ -44,7 +44,7 @@ export class ApiService {
       .catch(this.handleError);
   }
 
-  //PUT: /api/v1/user
+  // PUT: /api/v1/user
   public update_user(data: User, id: UserID): Observable<User> {
     return this.http
       .put(this.apiUrl + '/users/' + id, data)
@@ -54,7 +54,7 @@ export class ApiService {
       .catch(this.handleError);
   }
 
-  //GET: /api/v1/user
+  // GET: /api/v1/user
   public get_user(id: UserID): Observable<User> {
     return this.http
       .get(this.apiUrl + '/users/' + id)
@@ -64,7 +64,7 @@ export class ApiService {
       .catch(this.handleError);
   }
 
-  //DELETE: /api/v1/user
+  // DELETE: /api/v1/user
   public delete_user(id: UserID): Observable<string> {
     return this.http
       .delete(this.apiUrl + '/users/' + id)
@@ -74,7 +74,7 @@ export class ApiService {
       .catch(this.handleError);
   }
 
-  //GET: /api/v1/logout
+  // GET: /api/v1/logout
   public logout(): Observable<void> {
     return this.http
       .get(this.apiUrl + '/logout')
@@ -84,7 +84,7 @@ export class ApiService {
       .catch(this.handleError);
   }
 
-  //NOT AN API CALL - get id of current user
+  // NOT AN API CALL - get id of current user
   public get_userId(): UserID {
     return this.userid;
   }
@@ -95,7 +95,7 @@ export class ApiService {
   }
 }
 
-//TODO: Rework this into UserService
+// TODO: Rework this into UserService
 interface Credentials {
   email: string;
   password: string;
@@ -107,5 +107,5 @@ interface User {
   password: string;
 }
 interface UserID {
-  userID: string; //TODO: GUID type?
+  userID: string; // TODO: GUID type?
 }

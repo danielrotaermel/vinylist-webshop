@@ -14,6 +14,9 @@ import { Category } from './category';
 export class ProductService {
   constructor(private http: HttpClient) {}
 
+  private productUrl = 'api/v1/products/paged';
+  private productIdUrl = 'api/v1/products';
+
   private sortBy: string = 'Artist';
   private sortDirection: string = 'ASC';
   private languageCode: string = 'de_DE';
@@ -99,12 +102,9 @@ export class ProductService {
     return url;
   }
 
-  private productUrl = 'api/v1/products/paged';
-  private productIdUrl = 'api/v1/products';
-
   deserializeProducts(productsPages: any): Product[] {
     this.pageCount = productsPages.pageCount;
-    let products = new Array<Product>();
+    const products = new Array<Product>();
     productsPages.items.forEach(element => {
       products.push(new Product().deserialize(element));
     });
@@ -117,7 +117,7 @@ export class ProductService {
    * @param category
    */
   getProductsWithCategory(category: Category): Observable<Product[]> {
-    var url = this.productUrl + '?categoryId=' + category.getId();
+    const url = this.productUrl + '?categoryId=' + category.getId();
     return this.http.get<Product[]>(this.applyParameters(url)).pipe(
       map(products => this.deserializeProducts(products)),
       catchError(this.handleError<Product[]>('getProducts'))
@@ -160,7 +160,7 @@ export class ProductService {
   }
 
   setPage(newPage: number) {
-    //&& newPage <= this.pageCount if backend is able to tell the correct counts
+    // && newPage <= this.pageCount if backend is able to tell the correct counts
     if (newPage >= 1) {
       this.page = newPage;
     }
