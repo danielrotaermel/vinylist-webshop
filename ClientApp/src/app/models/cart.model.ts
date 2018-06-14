@@ -9,6 +9,8 @@ export class Cart {
     this.items = jsonCart.items;
     this.grossTotal = jsonCart.grossTotal;
     this.itemsTotal = jsonCart.itemsTotal;
+
+    return this;
   }
 
   public updateFrom(src: Cart) {

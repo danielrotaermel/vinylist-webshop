@@ -9,8 +9,4 @@ export class UserService {
     // this.cookieService.set('some_cookie', 'some_cookie');
     console.log(this.cookieService.getAll());
   }
-
-  isLoggedIn() {
-    // const allCookies: {} = this.cookieService.get('.AspNetCore.Session');
-  }
 }

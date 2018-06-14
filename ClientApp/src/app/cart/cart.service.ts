@@ -25,14 +25,43 @@ export class CartService {
     private userService: UserService,
     private authService: AuthService,
     private storageService: StorageService
-  ) {
+  ) {}
+
+  private saveToLocalStorage() {
+    this.storageService.setItem(CART_KEY, this.cart);
+  }
+  private loadFromLocalStorage() {
+    this.cart.fromJson(this.storageService.getItem(CART_KEY));
+  }
+
+  /**
+   *
+   */
+  public resolve() {
+    this.loadWishlist();
+    this.updateWishlist();
+  }
+
+  /**
+   * initWishlist()
+   * reads wishlist from localStorage if there is one
+   */
+  public loadWishlist() {
     // get local wishlist
-    const localstorage = this.storageService.get();
-    if (localstorage.getItem(CART_KEY)) {
+    // console.log(this.storageService.get());
+    if (this.storageService.getItem(CART_KEY)) {
       this.loadFromLocalStorage();
     }
 
-    // get remote wishlist and merge with local
+    if (this.authService.isLoggedIn()) {
+      this.updateWishlist();
+    }
+  }
+
+  public updateWishlist() {
+    // if loggedin get remote wishlist and merge with localstorage
+    console.log('callingremote');
+
     this.getWishlist().subscribe(products => {
       this.cart.mergeProducts(products);
       this.saveToLocalStorage();
@@ -57,13 +86,6 @@ export class CartService {
       this.saveToLocalStorage();
       // this.dispatch(cart);
     }
-  }
-
-  private saveToLocalStorage() {
-    this.storageService.get().setItem(CART_KEY, JSON.stringify(this.cart));
-  }
-  private loadFromLocalStorage() {
-    this.cart.fromJson(JSON.parse(this.storageService.get().getItem(CART_KEY)));
   }
 
   public addToWishlist(id: string) {

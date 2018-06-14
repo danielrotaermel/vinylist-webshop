@@ -2,18 +2,36 @@ import { Inject, Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
+import { User } from './../models/user';
+import { SessionService } from './session.service';
+import { StorageService } from './storage.service';
+
 /**
  * @author Alexander Merker
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root' // makes this a singleton
+})
 export class AuthService {
-  private isLoggedIn: boolean = false;
-
   private apiUrl: string;
-  private userid: string;
 
-  constructor(private http: Http, @Inject('BASE_URL') baseUrl: string) {
+  private user: User;
+
+  constructor(
+    private http: Http,
+    @Inject('BASE_URL') baseUrl: string,
+    private storageService: StorageService,
+    private sessionService: SessionService
+  ) {
     this.apiUrl = baseUrl + 'api/v1';
+    // if (this.storageService.get().getItem('isLoggedIn')) {
+    //   // this.isLoggedIn = this.storageService.getItem('isLoggedIn');
+    //   // console.log(localStorage.getItem('isLoggedIn'));
+    // }
+  }
+
+  public isLoggedIn() {
+    return this.sessionService.getUser() !== null;
   }
 
   // POST: /api/v1/login
@@ -22,8 +40,10 @@ export class AuthService {
       .post(this.apiUrl + '/login', data)
       .map(response => {
         // Save UserId, accessible by get_UserId()
-        const a = response.json();
-        this.userid = a.id;
+        this.user = new User().deserialize(response.json());
+        console.log(this.user);
+
+        this.sessionService.setUser(this.user);
         return response.json();
       })
       .catch(this.handleError);
@@ -41,7 +61,7 @@ export class AuthService {
 
   // get id of current user
   public get_userId(): string {
-    return this.userid;
+    return this.user.userid;
   }
 
   private handleError(error: Response | any) {
