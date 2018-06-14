@@ -50,6 +50,7 @@ mat-panel-description {
 
 .mat-divider {
   border-top-color: #ccc;
+  margin: 15px 0px;
 }
 
 .mat-button-toggle-group {
@@ -57,4 +58,14 @@ mat-panel-description {
   border-color: #ccc;
   border-style: solid;
   border-width: thin;
+}
+
+.radio-group {
+  display: inline-flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.radio-button {
+  margin: 5px;
 }

@@ -16,6 +16,7 @@ export class ProductService {
 
   private productUrl = 'api/v1/products/paged';
   private productIdUrl = 'api/v1/products';
+  private currentUrl = '';
 
   private sortBy: string = 'Artist';
   private sortDirection: string = 'ASC';
@@ -95,7 +96,7 @@ export class ProductService {
       url += this.addParam(this.sortByField, this.sortBy);
     }
     url += this.addParam(this.pageField, this.page);
-    url += this.addParam(this.itemsPerPageField, this.itemsPerPage);
+    //url += this.addParam(this.itemsPerPageField, this.itemsPerPage);
     url += this.addParam(this.sortDirectionField, this.sortDirection);
     url += this.addParam(this.launguageCodeField, this.languageCode);
 
@@ -112,12 +113,12 @@ export class ProductService {
   }
 
   /**
-   * gets products by category
-   * attention! doesn't work yet! Will be fixed soon :-)
-   * @param category
+   * gets products by category; simply appends given category ID to the current url
+   * @param category the category to filter the products
    */
   getProductsWithCategory(category: Category): Observable<Product[]> {
-    const url = this.productUrl + '?categoryId=' + category.getId();
+    const url = this.productUrl + '?FilterByCategory=' + category.getId();
+    this.currentUrl = this.applyParameters(url);
     return this.http.get<Product[]>(this.applyParameters(url)).pipe(
       map(products => this.deserializeProducts(products)),
       catchError(this.handleError<Product[]>('getProducts'))

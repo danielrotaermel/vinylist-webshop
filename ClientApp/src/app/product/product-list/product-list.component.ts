@@ -96,6 +96,7 @@ export class ProductListComponent implements OnInit {
   }
 
   /**
+   * !CURRENTLY NOT USED!
    * manages the chips appearing on the top of the page after selecting one category
    * @param category just selected category to be added as chip
    */
@@ -108,7 +109,7 @@ export class ProductListComponent implements OnInit {
   }
 
   /**
-   * not implemented yet... but will sort the results
+   * will sort the results by a specific string
    * @param sort string after which results shall be sorted (Artist, Label or ReleaseDate)
    */
   sortBy(sort: string) {

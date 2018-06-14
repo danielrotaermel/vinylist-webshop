@@ -49,30 +49,42 @@
               </mat-panel-title>
             </mat-expansion-panel-header>
             <section class="genre-selection">
-              <mat-checkbox class="row selection-row show-all" color="$mat-yellow" [(ngModel)]="disabled">Show all</mat-checkbox>
+              <mat-radio-group class="radio-group">
+                <mat-radio-button class="radio-button" (click)="resetProducts()">
+                  Select all
+                </mat-radio-button>
+                <mat-divider></mat-divider>
+                <mat-radio-button class="radio-button" *ngFor="let item of categories" [value]="item" (click)="switchCategory(item)">
+                  {{item.getTitle()}}
+                </mat-radio-button>
+              </mat-radio-group>
+            </section>
+            <!--<section class=" genre-selection ">
+              <mat-checkbox class="row selection-row show-all " color="$mat-yellow " [(ngModel)]="disabled ">Show all</mat-checkbox>
             </section>
             <mat-divider></mat-divider>
-            <section class="genre-selection">
-              <div *ngFor="let item of categories" class="row selection-row">
-                <mat-checkbox color="$mat-yellow" [disabled]="disabled" (click)="manageChips(item)">{{item.getTitle()}}</mat-checkbox>
+            <section class="genre-selection ">
+              <div *ngFor="let item of categories " class="row selection-row ">
+                <mat-checkbox color="$mat-yellow " [disabled]="disabled " (click)="manageChips(item) ">{{item.getTitle()}}</mat-checkbox>
               </div>
-            </section>
+            </section>-->
           </mat-expansion-panel>
         </mat-accordion>
-      </div>
-      <div class="border-box">
+
 
       </div>
     </div>
-    <div class="col-lg-9 col-sm-12 col-xs-12">
-      <div class="products row">
-        <div *ngFor="let item of products" class="col-lg-4 col-sm-6 col-xs-12 item">
-          <app-product-list-item [product]="item"></app-product-list-item>
+
+    <div class="col-lg-9 col-sm-12 col-xs-12 ">
+      <div class="products row ">
+        <div *ngFor="let item of products " class="col-lg-4 col-sm-6 col-xs-12 item ">
+          <app-product-list-item [product]="item "></app-product-list-item>
         </div>
-        <!--<div class="search-results" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="50" (scrolled)="onScroll()">
-        </div>-->
-        <div paging page="currentPage" page-size="pageSize" total="total">
+        <div class="search-results " infiniteScroll [infiniteScrollDistance]="1 " [infiniteScrollThrottle]="50
+                  " (scrolled)="onScroll() ">
         </div>
+        <!--<div paging page="currentPage " page-size="pageSize " total="total ">
+      </div>-->
       </div>
     </div>
   </div>
