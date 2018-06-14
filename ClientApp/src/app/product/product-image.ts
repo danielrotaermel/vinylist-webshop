@@ -1,7 +1,7 @@
-import { Deserializable } from './deserializable';
+import { IDeserializable } from './../models/deserializable.model';
 
 /** @author Janina Wachendorfer */
-export class ProductImage implements Deserializable {
+export class ProductImage implements IDeserializable {
   id: string;
   description: string;
   base64String: string;

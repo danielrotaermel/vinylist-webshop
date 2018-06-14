@@ -7,12 +7,11 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 
 import { MaterialModule } from '../core/material.module';
+import { UserService } from '../services/user.service';
 import { AdminDataComponent } from './admin-data/admin-data.component';
 import { AdminDataService } from './admin-data/admin-data.service';
 import { LoginComponent } from './login/login.component';
-import { LoginService } from './login/login.service';
 import { RegisterComponent } from './register/register.component';
-import { RegisterService } from './register/register.service';
 import { UserDataComponent } from './user-data/user-data.component';
 import { UserDataService } from './user-data/user-data.service';
 
@@ -44,6 +43,6 @@ import { UserDataService } from './user-data/user-data.service';
     RegisterComponent,
     AdminDataComponent
   ],
-  providers: [LoginService, RegisterService, UserDataService, AdminDataService]
+  providers: [UserService, UserDataService, AdminDataService]
 })
 export class UserModule {}

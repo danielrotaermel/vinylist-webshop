@@ -6,7 +6,7 @@ import { Product } from '../product/product';
 import { StorageService } from '../services/storage.service';
 import { Cart } from './../models/cart.model';
 import { AuthService } from './../services/auth.service';
-import { UserService } from './../user/user.service';
+import { UserService } from './../services/user.service';
 
 const CART_KEY = 'cart';
 

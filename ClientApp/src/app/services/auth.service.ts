@@ -2,12 +2,13 @@ import { Inject, Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
-import { User } from './../models/user';
+import { Credentials } from './../models/credentials.model';
+import { User } from './../models/user.model';
 import { SessionService } from './session.service';
 import { StorageService } from './storage.service';
 
 /**
- * @author Alexander Merker
+ * @author Alexander Merker, Daniel Rotärmel
  */
 @Injectable({
   providedIn: 'root' // makes this a singleton
@@ -24,10 +25,6 @@ export class AuthService {
     private sessionService: SessionService
   ) {
     this.apiUrl = baseUrl + 'api/v1';
-    // if (this.storageService.get().getItem('isLoggedIn')) {
-    //   // this.isLoggedIn = this.storageService.getItem('isLoggedIn');
-    //   // console.log(localStorage.getItem('isLoggedIn'));
-    // }
   }
 
   public isLoggedIn() {
@@ -35,15 +32,14 @@ export class AuthService {
   }
 
   // POST: /api/v1/login
-  public login(data: ICredentials): Observable<ICredentials> {
+  public login(data: Credentials): Observable<Credentials> {
     return this.http
       .post(this.apiUrl + '/login', data)
       .map(response => {
-        // Save UserId, accessible by get_UserId()
+        // Save user in session
         this.user = new User().deserialize(response.json());
-        console.log(this.user);
-
         this.sessionService.setUser(this.user);
+        console.log(this.user);
         return response.json();
       })
       .catch(this.handleError);
@@ -54,13 +50,14 @@ export class AuthService {
     return this.http
       .get(this.apiUrl + '/logout')
       .map(response => {
+        this.sessionService.destroy();
         return response.json();
       })
       .catch(this.handleError);
   }
 
   // get id of current user
-  public get_userId(): string {
+  public getUserId(): string {
     return this.user.userid;
   }
 
@@ -68,10 +65,4 @@ export class AuthService {
     console.error('ApiService::handleError', error);
     return Observable.throw(error);
   }
-}
-
-// TODO: Rework this into UserService
-interface ICredentials {
-  email: string;
-  password: string;
 }

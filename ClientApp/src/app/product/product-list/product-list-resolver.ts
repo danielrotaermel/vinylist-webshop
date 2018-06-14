@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-
 import { Resolve } from '@angular/router';
-
 import { Observable } from 'rxjs/Observable';
-import { ProductService } from '../product.service';
-import { Product } from '../product';
-import { CategoriesService } from '../category.service';
+
 import { Category } from '../category';
+import { CategoriesService } from '../category.service';
+import { Product } from '../product';
+import { ProductService } from '../product.service';
 
 /** @author Janina Wachendorfer */
 @Injectable()

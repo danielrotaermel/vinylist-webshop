@@ -2,17 +2,17 @@ import { Component, Input } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
-import { LoginService } from './login.service';
+import { Credentials } from './../../models/credentials.model';
+import { AuthService } from './../../services/auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
-  providers: [LoginService]
+  styleUrls: ['./login.component.scss']
 })
 
 /**
- * @author Alexander Merker, Janina Wachendorfer
+ * @author Alexander Merker, Janina Wachendorfer, Daniel Rotärmel
  */
 export class LoginComponent {
   email: string;
@@ -22,7 +22,7 @@ export class LoginComponent {
 
   constructor(
     private snackBar: MatSnackBar,
-    private loginService: LoginService,
+    private authService: AuthService,
     private router: Router
   ) {}
 
@@ -32,11 +32,14 @@ export class LoginComponent {
     });
   }
 
-  performLogin() {
-    this.loginService.signin(this.email, this.password).subscribe(
+  public signin() {
+    const credentials = new Credentials();
+    credentials.setEmail(this.email);
+    credentials.setPassword(this.password);
+    this.authService.login(credentials).subscribe(
       (data: any) => {
         this.popover.close();
-        //localStorage.setItem('userToken', data.access_token);
+        // localStorage.setItem('userToken', data.access_token);
         this.router.navigate(['/']);
         this.openSnackBar('Login successful', 1500);
       },
@@ -44,5 +47,9 @@ export class LoginComponent {
         this.openSnackBar('Wrong username or password', 5000);
       }
     );
+  }
+
+  public signout() {
+    this.authService.logout();
   }
 }

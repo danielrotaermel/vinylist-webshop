@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 
-import { User } from '../../models/user';
+import { User } from './../../models/user.model';
 import { AdminDataService } from './admin-data.service';
 
 @Component({

@@ -1,15 +1,14 @@
 import { Component, Input } from '@angular/core';
-import { RegisterService } from './register.service';
-import { TranslateService } from '@ngx-translate/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { CreateUser } from '../../models/create-user.model';
+import { UserService } from './../../services/user.service';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss'],
-  providers: [RegisterService]
+  styleUrls: ['./register.component.scss']
 })
 
 /**
@@ -17,6 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
  */
 export class RegisterComponent {
   isVisible = false;
+
   firstName: string;
   lastName: string;
   email: string;
@@ -26,7 +26,7 @@ export class RegisterComponent {
 
   constructor(
     private snackBar: MatSnackBar,
-    private registerService: RegisterService,
+    private userService: UserService,
     private router: Router
   ) {}
 
@@ -37,7 +37,14 @@ export class RegisterComponent {
   }
 
   performRegistration() {
-    this.registerService.signup(this.firstName, this.lastName, this.email, this.password).subscribe(
+    const formData = {
+      firstName: this.firstName,
+      lastName: this.lastName,
+      email: this.email,
+      password: this.password
+    };
+    const userData: CreateUser = new CreateUser().deserialize(formData);
+    this.userService.createUser(userData).subscribe(
       (data: any) => {
         this.popover.close();
         localStorage.setItem('userToken', data.access_token);

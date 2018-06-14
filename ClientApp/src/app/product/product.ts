@@ -1,10 +1,10 @@
-import { Deserializable } from './deserializable';
+import { IDeserializable } from './../models/deserializable.model';
 import { ProductImage } from './product-image';
 import { ProductPrice } from './product-price';
 import { ProductTranslation } from './product-translation';
 
 /** @author Janina Wachendorfer */
-export class Product implements Deserializable {
+export class Product implements IDeserializable {
   artist: string;
   label: string;
   releaseDate: string;

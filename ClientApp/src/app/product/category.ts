@@ -1,8 +1,8 @@
-import { Deserializable } from './deserializable';
+import { IDeserializable } from './../models/deserializable.model';
 import { Product } from './product';
 
 /** @author Janina Wachendorfer */
-export class Category implements Deserializable {
+export class Category implements IDeserializable {
   title: string;
   products: Product[];
   id: string;

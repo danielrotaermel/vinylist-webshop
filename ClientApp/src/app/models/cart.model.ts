@@ -1,6 +1,11 @@
+/**
+ * @author Daniel Rotärmel
+ */
 import { Product } from './../product/product';
+import { IDeserializable } from './deserializable.model';
 
-export class Cart {
+
+export class Cart implements IDeserializable {
   public items: Product[] = [];
   public grossTotal: number = 0;
   public itemsTotal: number = 0;
@@ -29,5 +34,10 @@ export class Cart {
       this.items.push(product);
       this.itemsTotal = this.items.length;
     }
+  }
+
+  deserialize(input: any) {
+    Object.assign(this, input);
+    return this;
   }
 }

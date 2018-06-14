@@ -2,10 +2,11 @@ import { Inject, Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
-import { User } from '../models/user';
+import { CreateUser } from './../models/create-user.model';
+import { User } from './../models/user.model';
 
 /**
- * @author Alexander Merker
+ * @author Alexander Merker, Daniel Rotärmel
  */
 @Injectable()
 export class UserService {
@@ -16,9 +17,9 @@ export class UserService {
   }
 
   // POST: /api/v1/user
-  public register(data: User): Observable<User> {
+  public createUser(user: CreateUser): Observable<User> {
     return this.http
-      .post(this.apiUrl + '/users', data)
+      .post(this.apiUrl + '/users', user)
       .map(response => {
         return response.json();
       })
@@ -36,7 +37,7 @@ export class UserService {
   }
 
   // PUT: /api/v1/users
-  public updateUser(data: User, id: string): Observable<User> {
+  public updateUser(data: CreateUser, id: string): Observable<User> {
     return this.http
       .put(this.apiUrl + '/users/' + id, data)
       .map(response => {
