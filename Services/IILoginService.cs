@@ -33,9 +33,9 @@ namespace webspec3.Services
         void Logout();
 
         /// <summary>
-        /// Weather a juser is admin or not
+        /// Whether a user is admin or not
         /// </summary>
-        /// <returns>True if a user is admin, else flase</returns>
+        /// <returns>True if a user is admin, else false</returns>
         bool IsAdmin();
     }
 }

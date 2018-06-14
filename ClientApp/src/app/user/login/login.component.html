@@ -1,4 +1,5 @@
 <!-- Authors: Alexander Merker, Janina Wachendorfer, Daniel Rotärmel -->
+
 <form #loginForm="ngForm">
   <div>
     <mat-form-field appearance="outline">
@@ -18,8 +19,8 @@
     </mat-form-field>
   </div>
 
-  <div id="loginButton">
-    <button [disabled]="!loginForm.valid" (click)="performLogin()" mat-raised-button color="primary">{{'USER.LOGIN' | translate}}</button>
+  <div>
+    <button id="loginButton" [disabled]="!loginForm.valid" (click)="performLogin()" mat-raised-button color="primary">{{'USER.LOGIN' | translate}}</button>
   </div>
 
 </form>

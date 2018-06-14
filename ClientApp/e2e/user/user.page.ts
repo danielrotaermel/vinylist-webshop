@@ -1,5 +1,3 @@
-
-
 import {browser, element, by, By, $, $$, ExpectedConditions} from 'protractor';
 
 /**
@@ -7,19 +5,14 @@ import {browser, element, by, By, $, $$, ExpectedConditions} from 'protractor';
  */
 export class UserPage{
 
-    //LOGIN
-    public email_login = element (By.id("login_email"));
-    public pw_login = element(By.id("login_pw"));
+    public login_btn = element(By.id("sign_in_btn"));
 
-    //REGISTER
-    public fN_register = element(By.id("register_firstName"));
-    public lN_register = element(By.id("register_lastName"));
-    public email_register = element(By.id("register_email"));
-    public pw_register = element(By.id("register_password"));
+    public closeOverlay = $(".close-overlay-button");
 
-    //SUBMIT BTN
-    public submit = element(By.id("submit"));
+    public email_field = element(By.id("mat-input-0"));
+    public password_field = element(By.id("mat-input-1"));
 
-    //SUCCESS_SNACK_BAR
+    public submit = element(By.id("loginButton"));
+
     public snackbar = $("mat-simple-snackbar");
 }

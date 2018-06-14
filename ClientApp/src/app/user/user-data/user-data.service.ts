@@ -1,33 +1,41 @@
-import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
-import { RouterModule } from "@angular/router";
-import { UserDataComponent } from "./user-data.component";
+import { Injectable, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { RouterModule } from '@angular/router';
+import { UserDataComponent } from './user-data.component';
 
-import { ApiService } from "../../api.service";
+import { UserService } from '../../services/user.service';
 
 /**
  * @author Alexander Merker
  */
-@Injectable({
-  providedIn: "root"
-})
+@Injectable()
 export class UserDataService {
-  private id;
-  constructor(private apiService: ApiService) {
-    this.id = this.apiService.get_userId();
+  constructor(private userService: UserService) {}
+
+  public save(firstName, lastName, email, password, id) {
+    var data;
+    if (password == '' || undefined) {
+      data = {
+        firstName: firstName,
+        lastName: lastName,
+        email: email
+      };
+    } else {
+      data = {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password
+      };
+    }
+    return this.userService.update_user(data, id);
   }
 
-  public save(firstName, lastName, email, password) {
-    var data = {
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      password: password
-    };
-    return this.apiService.update_user(data, this.id);
+  public delete(id) {
+    return this.userService.delete_user(id);
   }
 
-  public delete() {
-    return this.apiService.delete_user(this.id);
+  public fetch_userdata() {
+    return this.userService.get_current();
   }
 }

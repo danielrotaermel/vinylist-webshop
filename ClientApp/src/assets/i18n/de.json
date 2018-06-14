@@ -12,6 +12,13 @@
   "FOOTER": {
     "IMPRINT": "Impressum"
   },
+  "PRODUCT": {
+    "TO_CART": "In den Warenkorb",
+    "WISHLIST_TOOLTIP": "Zur Wunschliste hinzufügen",
+    "BY": "von",
+    "DESCRIPTION": "Beschreibung",
+    "RELEASE_DATE": "Veröffentlichungsdatum"
+  },
   "USER": {
     "REGISTER_SWITCH": "Bereits einen Account? Einloggen",
     "LOGIN_SWITCH": "Noch keinen Account? Registrieren",
@@ -23,13 +30,13 @@
     "FIRST_NAME": "Vorname",
     "PROFILE_HEADING": "Eigene Accountdaten ändern",
     "DELETE_ACC": "Meinen Account löschen",
-    "SAVE_ACC": "Speichern"
-  },
-  "PRODUCT": {
-    "TO_CART": "In den Warenkorb",
-    "WISHLIST_TOOLTIP": "Zur Wunschliste hinzufügen",
-    "BY": "von",
-    "DESCRIPTION": "Beschreibung",
-    "RELEASE_DATE": "Veröffentlichungsdatum"
+    "SAVE_ACC": "Speichern",
+    "PROFILE_SAVED": "Profil gespeichert",
+    "PROFILE_DELETED": "Profil gelöscht",
+    "ERRORS": {
+      "ERR_USERDATA": "Nutzerdaten konnten nicht geladen werden",
+      "ERR_SAVE": "Fehler beim Speichern der Nutzerdaten",
+      "ERR_DELETE": "Fehler beim Löschen des Accounts"
+    }
   }
 }

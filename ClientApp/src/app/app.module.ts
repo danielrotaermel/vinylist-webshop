@@ -1,9 +1,7 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-//HttpModule is deprecated but still required somehow
 import { HttpModule } from '@angular/http';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -29,11 +27,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     FormsModule,
     HttpClientModule,
-    //HttpModule is deprecated but still required somehow
+    // HttpModule is deprecated but still required somehow
     HttpModule,
     BrowserAnimationsModule,
     RouterModule,
-    MatSnackBarModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

@@ -1,27 +1,31 @@
 /**
  * @author J. Wachendorfer
  */
-
 import { NgModule } from '@angular/core';
-
-// please put all your necessary modules from angular material in here!
 import {
-  MatSelectModule,
-  MatToolbarModule,
-  MatIconModule,
-  MatButtonModule,
-  MatInputModule,
-  MatCardModule,
-  MatRadioModule,
-  MatCheckboxModule,
   MatBadgeModule,
-  MatTooltipModule,
-  MatExpansionModule,
-  MatDividerModule,
+  MatButtonModule,
+  MatCardModule,
+  MatCheckboxModule,
   MatChipsModule,
-  MatButtonToggleModule
+  MatDividerModule,
+  MatButtonToggleModule,
+  MatExpansionModule,
+  MatIconModule,
+  MatInputModule,
+  MatRadioModule,
+  MatSelectModule,
+  MatSnackBarModule,
+  MatTableModule,
+  MatToolbarModule,
+  MatTooltipModule
 } from '@angular/material';
 
+/**
+ * @author J. Wachendorfer
+ */
+
+// please put all your necessary modules from angular material in here!
 @NgModule({
   imports: [
     MatSelectModule,
@@ -37,7 +41,9 @@ import {
     MatExpansionModule,
     MatDividerModule,
     MatChipsModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatTableModule,
+    MatSnackBarModule
   ],
   exports: [
     MatSelectModule,
@@ -53,7 +59,9 @@ import {
     MatExpansionModule,
     MatDividerModule,
     MatChipsModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatTableModule,
+    MatSnackBarModule
   ],
   declarations: []
 })
