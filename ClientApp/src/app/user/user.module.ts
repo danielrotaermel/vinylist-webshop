@@ -13,7 +13,6 @@ import { AdminDataService } from './admin-data/admin-data.service';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { UserDataComponent } from './user-data/user-data.component';
-import { UserDataService } from './user-data/user-data.service';
 
 /**
  * @author Alexander Merker
@@ -43,6 +42,6 @@ import { UserDataService } from './user-data/user-data.service';
     RegisterComponent,
     AdminDataComponent
   ],
-  providers: [UserService, UserDataService, AdminDataService]
+  providers: [UserService, AdminDataService]
 })
 export class UserModule {}
