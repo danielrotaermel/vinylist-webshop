@@ -1,3 +1,5 @@
+import 'rxjs/add/observable/empty';
+
 import { Inject, Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
@@ -30,10 +32,16 @@ export class UserService {
   public getCurrentUser(): Observable<User> {
     return this.http
       .get(this.apiUrl + '/users/current')
-      .map(response => {
+      .map((response: Response) => {
+        // set current user in local storage session
         return response.json();
       })
-      .catch(this.handleError);
+      .catch((err: Response) => {
+        if (err.status === 403) {
+          return Observable.empty();
+        }
+        return this.handleError(err);
+      });
   }
 
   // PUT: /api/v1/users
@@ -66,7 +74,7 @@ export class UserService {
       .catch(this.handleError);
   }
 
-  private handleError(error: Response | any) {
+  private handleError(error: Response) {
     console.error('ApiService::handleError', error);
     return Observable.throw(error);
   }

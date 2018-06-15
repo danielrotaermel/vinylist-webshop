@@ -5,7 +5,7 @@ import { Observable, throwError } from 'rxjs';
 import { Product } from '../product/product';
 import { StorageService } from '../services/storage.service';
 import { Cart } from './../models/cart.model';
-import { AuthService } from './../services/auth.service';
+import { SessionService } from './../services/session.service';
 import { UserService } from './../services/user.service';
 
 const CART_KEY = 'cart';
@@ -23,7 +23,7 @@ export class CartService {
   constructor(
     private http: HttpClient,
     private userService: UserService,
-    private authService: AuthService,
+    private sessionService: SessionService,
     private storageService: StorageService
   ) {}
 
@@ -53,7 +53,7 @@ export class CartService {
       this.loadFromLocalStorage();
     }
 
-    if (this.authService.isLoggedIn()) {
+    if (this.sessionService.isLoggedIn()) {
       this.updateWishlist();
     }
   }

@@ -5,7 +5,6 @@ import { Observable } from 'rxjs/Observable';
 import { Credentials } from './../models/credentials.model';
 import { User } from './../models/user.model';
 import { SessionService } from './session.service';
-import { StorageService } from './storage.service';
 
 /**
  * @author Alexander Merker, Daniel Rotärmel
@@ -16,30 +15,22 @@ import { StorageService } from './storage.service';
 export class AuthService {
   private apiUrl: string;
 
-  private user: User;
-
   constructor(
     private http: Http,
     @Inject('BASE_URL') baseUrl: string,
-    private storageService: StorageService,
     private sessionService: SessionService
   ) {
     this.apiUrl = baseUrl + 'api/v1';
   }
 
-  public isLoggedIn() {
-    return this.sessionService.getUser() !== null;
-  }
-
   // POST: /api/v1/login
-  public login(data: Credentials): Observable<Credentials> {
+  public login(data: Credentials): Observable<User> {
     return this.http
       .post(this.apiUrl + '/login', data)
       .map(response => {
         // Save user in session
-        this.user = new User().deserialize(response.json());
-        this.sessionService.setUser(this.user);
-        console.log(this.user);
+        const user: User = new User().deserialize(response.json());
+        this.sessionService.setUser(user);
         return response.json();
       })
       .catch(this.handleError);
@@ -54,11 +45,6 @@ export class AuthService {
         return response.json();
       })
       .catch(this.handleError);
-  }
-
-  // get id of current user
-  public getUserId(): string {
-    return this.user.userid;
   }
 
   private handleError(error: Response | any) {

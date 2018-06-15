@@ -1,7 +1,8 @@
 /* tslint:disable:no-unused-variable */
+import { inject, TestBed } from '@angular/core/testing';
 
-import { TestBed, async, inject } from '@angular/core/testing';
 import { SessionService } from './session.service';
+
 
 describe('Service: Session', () => {
   beforeEach(() => {
