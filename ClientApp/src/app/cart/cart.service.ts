@@ -35,35 +35,27 @@ export class CartService {
   }
 
   /**
-   *
-   */
-  public resolve() {
-    this.loadWishlist();
-    this.updateWishlist();
-  }
-
-  /**
    * initWishlist()
    * reads wishlist from localStorage if there is one
    */
-  public loadWishlist() {
+  public initWishlist(): Observable<Cart> {
     // get local wishlist
-    // console.log(this.storageService.get());
     if (this.storageService.getItem(CART_KEY)) {
       this.loadFromLocalStorage();
     }
-
+    // if user is logged in get remote list and merge them
     if (this.sessionService.isLoggedIn()) {
-      this.updateWishlist();
+      this.mergeRemoteWishlist();
     }
+    return Observable.of(this.cart);
   }
 
-  public updateWishlist() {
+  public mergeRemoteWishlist() {
     // if loggedin get remote wishlist and merge with localstorage
-    console.log('callingremote');
-
     this.getWishlist().subscribe(products => {
       this.cart.mergeProducts(products);
+      console.log(products);
+
       this.saveToLocalStorage();
     });
   }
