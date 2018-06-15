@@ -1,7 +1,7 @@
-import { Deserializable } from './deserializable';
+import { IDeserializable } from './../models/deserializable.model';
 
 /** @author Janina Wachendorfer */
-export class ProductTranslation implements Deserializable {
+export class ProductTranslation implements IDeserializable {
   private description: string;
   private descriptionShort: string;
   private languageId: string;

@@ -13,7 +13,7 @@ namespace webspec3.Controllers.Api.v1
 {
     /// <summary>
     /// Controller providing api access to wishlist
-    /// 
+    ///
     /// J. Mauthe
     /// </summary>
     [Route("api/v1/wishlist")]
@@ -39,6 +39,7 @@ namespace webspec3.Controllers.Api.v1
         /// <param name="productId">The id of the Product</param>
         /// <response code="200">Product added to wishlist successfully</response>
         /// <response code="400">Invalid model</response>
+        /// <response code="409">Product already on the wishlist</response>
         /// <response code="500">An internal error occurred</response>
         [HttpPost("{productId}")]
         [ProducesResponseType(200)]
@@ -68,7 +69,7 @@ namespace webspec3.Controllers.Api.v1
                 if (await WishlistService.DoesWishlistItemExistsAsync(wishlistEntity))
                 {
                     logger.LogDebug($"Failed to add product with id {productId} to a wishlist. The item already is on the wishlist");
-                    return BadRequest("The item already is on the wishlist");
+                    return Conflict("The item already is on the wishlist");
                 }
 
                 await WishlistService.AddAsync(wishlistEntity);
@@ -120,7 +121,7 @@ namespace webspec3.Controllers.Api.v1
                 await WishlistService.DeleteAsync(wishlistEntity);
 
                 logger.LogInformation($"Successfully removed product from the wishlist.");
-                
+
                 return Ok(wishlistEntity);
             }
             else
@@ -151,9 +152,9 @@ namespace webspec3.Controllers.Api.v1
                 var userId = loginService.GetLoggedInUserId();
 
                 var products = await WishlistService.GetAllProductsAsync(userId);
-                
+
                 logger.LogInformation($"Successfully retrieved all products from the wishlist.");
-                
+
                 return Json(products.Select(x => x.ToApiV1ProductResponseModel()).ToList());
             }
             else
@@ -183,7 +184,7 @@ namespace webspec3.Controllers.Api.v1
                 var userId = loginService.GetLoggedInUserId();
 
                 await WishlistService.DeleteAll(userId);
-                
+
                 logger.LogInformation($"Successfully removed all products from the wishlist.");
 
                 return Ok();

@@ -176,7 +176,7 @@ namespace webspec3.Controllers.Api.v1
         /// Updates the specified user.
         /// Generally the currently logged in user is allowed to update himself.
         /// Admins are allowed to update all users.
-        /// 
+        ///
         /// If the password field within the model is left blank, the password will not be updated.
         /// </summary>
         /// <response code="200">User successfully updated</response>

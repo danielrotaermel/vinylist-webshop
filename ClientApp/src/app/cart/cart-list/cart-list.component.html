@@ -1,3 +1,5 @@
-<p>
-  cart-list works!
-</p>
+<ul>
+  <li *ngFor="let product of cart | async">
+    {{product.artist}}
+  </li>
+</ul>

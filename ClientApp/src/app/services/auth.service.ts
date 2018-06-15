@@ -1,49 +1,53 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { Component, Inject } from '@angular/core';
 
-//Models
-import { User } from '../models/user';
-import { Credentials } from '../models/credentials';
-
+import { Credentials } from './../models/credentials.model';
+import { User } from './../models/user.model';
+import { SessionService } from './session.service';
 
 /**
- * @author Alexander Merker
+ * @author Alexander Merker, Daniel Rotärmel
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root' // makes this a singleton
+})
 export class AuthService {
-
   private apiUrl: string;
 
   constructor(
-    private http:Http, @Inject('BASE_URL') baseUrl: string) { 
-        this.apiUrl = baseUrl + 'api/v1'
+    private http: Http,
+    @Inject('BASE_URL') baseUrl: string,
+    private sessionService: SessionService
+  ) {
+    this.apiUrl = baseUrl + 'api/v1';
   }
 
-/** -----------------------------------------------------------------
- *                      LOGIN / REGISTER
- *------------------------------------------------------------------*/
-
-  //POST: /api/v1/login
-  public login(data: Credentials): Observable<Credentials>{
-      return this.http.post(this.apiUrl + '/login', data)
+  // POST: /api/v1/login
+  public login(data: Credentials): Observable<User> {
+    return this.http
+      .post(this.apiUrl + '/login', data)
       .map(response => {
-        return response.json();
-      })
-      .catch(this.handleError);
-  }
-  
-  //GET: /api/v1/logout
-  public logout(): Observable<void>{
-      return this.http.get(this.apiUrl + '/logout')
-      .map(response => {
+        // Save user in session
+        const user: User = new User().deserialize(response.json());
+        this.sessionService.setUser(user);
         return response.json();
       })
       .catch(this.handleError);
   }
 
-  private handleError (error: Response | any) {
+  // GET: /api/v1/logout
+  public logout(): Observable<void> {
+    return this.http
+      .get(this.apiUrl + '/logout')
+      .map(response => {
+        this.sessionService.destroy();
+        return response.json();
+      })
+      .catch(this.handleError);
+  }
+
+  private handleError(error: Response | any) {
     console.error('ApiService::handleError', error);
     return Observable.throw(error);
   }

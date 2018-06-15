@@ -1,5 +1,4 @@
-import { Router } from '@angular/router';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 /**
  * @author J. Wachendorfer
  */
@@ -10,7 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-navigation-bar',
   templateUrl: './navigation-bar.component.html',
-  styleUrls: ['./navigation-bar.component.scss']
+  styleUrls: ['./navigation-bar.component.scss'],
 })
 export class NavigationBarComponent implements OnInit {
   @ViewChild('profile') profile;

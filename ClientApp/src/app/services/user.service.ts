@@ -1,11 +1,14 @@
+import 'rxjs/add/observable/empty';
+
 import { Inject, Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
-import { User } from '../models/user';
+import { CreateUser } from './../models/create-user.model';
+import { User } from './../models/user.model';
 
 /**
- * @author Alexander Merker
+ * @author Alexander Merker, Daniel Rotärmel
  */
 @Injectable()
 export class UserService {
@@ -15,28 +18,35 @@ export class UserService {
     this.apiUrl = baseUrl + 'api/v1';
   }
 
-  // GET: /api/v1/users/current
-  public get_current(): Observable<User> {
+  // POST: /api/v1/user
+  public createUser(user: CreateUser): Observable<User> {
     return this.http
-      .get(this.apiUrl + '/users/current')
+      .post(this.apiUrl + '/users', user)
       .map(response => {
         return response.json();
       })
       .catch(this.handleError);
   }
 
-  // POST: /api/v1/users
-  public register(data: User): Observable<User> {
+  // GET: /api/v1/users/current
+  public getCurrentUser(): Observable<User> {
     return this.http
-      .post(this.apiUrl + '/users', data)
-      .map(response => {
+      .get(this.apiUrl + '/users/current')
+      .map((response: Response) => {
+        // set current user in local storage session
         return response.json();
       })
-      .catch(this.handleError);
+      .catch((err: Response) => {
+        // return null if forbidden 403
+        if (err.status === 403) {
+          return Observable.of(null);
+        }
+        return this.handleError(err);
+      });
   }
 
   // PUT: /api/v1/users
-  public update_user(data: User, id: string): Observable<User> {
+  public updateUser(data: CreateUser, id: string): Observable<User> {
     return this.http
       .put(this.apiUrl + '/users/' + id, data)
       .map(response => {
@@ -46,7 +56,7 @@ export class UserService {
   }
 
   // GET: /api/v1/users
-  public get_users(): Observable<User[]> {
+  public getUsers(): Observable<User[]> {
     return this.http
       .get(this.apiUrl + '/users/')
       .map(response => {
@@ -56,7 +66,7 @@ export class UserService {
   }
 
   // DELETE: /api/v1/users
-  public delete_user(id: string): Observable<string> {
+  public deleteUser(id: string): Observable<string> {
     return this.http
       .delete(this.apiUrl + '/users/' + id)
       .map(response => {
@@ -65,7 +75,7 @@ export class UserService {
       .catch(this.handleError);
   }
 
-  private handleError(error: Response | any) {
+  private handleError(error: Response) {
     console.error('ApiService::handleError', error);
     return Observable.throw(error);
   }
