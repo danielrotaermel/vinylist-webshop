@@ -7,8 +7,10 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 
+import { CreateUser } from './../../models/create-user.model';
 import { User } from './../../models/user.model';
-import { AdminDataService } from './admin-data.service';
+
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-admin-data',
@@ -25,12 +27,12 @@ export class AdminDataComponent {
   firstName: string;
   lastName: string;
 
-  dataSource = new AdminDataSource(this.adminDataService);
+  dataSource = new AdminDataSource(this.userService);
   displayedColumns = ['firstName', 'lastName', 'email', 'save'];
 
   constructor(
     private snackBar: MatSnackBar,
-    private adminDataService: AdminDataService,
+    private userService: UserService,
     private router: Router,
     private i18nService: TranslateService
   ) {}
@@ -41,11 +43,16 @@ export class AdminDataComponent {
     });
   }
 
-  public perform_save(id, firstName, lastName, email) {
-    // Empty password, will not be updated!
-    this.adminDataService.save(firstName, lastName, email, '', id).subscribe(
+  perform_save(id, firstName, lastName, email) {
+    const formData = {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+    };
+
+    const userData: CreateUser = new CreateUser().deserialize(formData);
+    this.userService.updateUser(userData, id).subscribe(
       (data: any) => {
-        this.router.navigate(['/admin']);
         this.i18nService.get('USER.PROFILE_SAVED').subscribe((res: string) => {
           this.openSnackBar(res, 5000);
         });
@@ -62,11 +69,11 @@ export class AdminDataComponent {
 }
 
 export class AdminDataSource extends DataSource<any> {
-  constructor(private adminDataService: AdminDataService) {
+  constructor(private userService: UserService) {
     super();
   }
   connect(): Observable<User[]> {
-    return this.adminDataService.all_users();
+    return this.userService.getUsers();
   }
   disconnect() {}
 }

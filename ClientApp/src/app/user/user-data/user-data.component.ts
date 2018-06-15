@@ -36,7 +36,7 @@ export class UserDataComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.getUsers().subscribe(
+    this.userService.getCurrentUser().subscribe(
       (data: any) => {
         this.id = data.id;
         this.email = data.email;

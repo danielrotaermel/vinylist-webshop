@@ -9,7 +9,6 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
 import { MaterialModule } from '../core/material.module';
 import { UserService } from '../services/user.service';
 import { AdminDataComponent } from './admin-data/admin-data.component';
-import { AdminDataService } from './admin-data/admin-data.service';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { UserDataComponent } from './user-data/user-data.component';
@@ -42,6 +41,6 @@ import { UserDataComponent } from './user-data/user-data.component';
     RegisterComponent,
     AdminDataComponent
   ],
-  providers: [UserService, AdminDataService]
+  providers: [UserService]
 })
 export class UserModule {}
