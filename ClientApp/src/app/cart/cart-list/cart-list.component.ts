@@ -25,6 +25,6 @@ export class CartListComponent implements OnInit {
   ngOnInit() {
     // read wishlit from localstorage
     // resolve wishlist if loggedin
-    // this.cartService.resolveWishlist();
+    // this.cartService.resolve();
   }
 }

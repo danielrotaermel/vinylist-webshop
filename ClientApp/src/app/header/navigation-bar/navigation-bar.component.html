@@ -22,10 +22,10 @@
 
       <div class="col-xs-6 col-sm-6 col-lg-6 end-xs end-lg">
 
-        <app-card-overlay #profile anchorButton="account_circle" cornerButton="account_circle" badgeCount=2>
+        <app-card-overlay #profile anchorButton="account_circle" cornerButton="account_circle">
           <h2>Profile</h2>
           <sub-title>
-            <a routerLink="/profile" (click)="profile.popover.close()">edit profile</a>
+            <a *ngIf="loggedIn" routerLink="/profile" (click)="profile.popover.close()">{{'USER.EDIT' | translate}}</a>
           </sub-title>
           <content>
             <div>
@@ -35,6 +35,7 @@
             <div>
               <app-login *ngIf="showLogin" [popover]="profile.popover"></app-login>
               <a mat-button *ngIf="showLogin" (click)="toggleAuthView()">{{'USER.LOGIN_SWITCH' | translate}}</a>
+              <button *ngIf="loggedIn" (click)="signout()" mat-raised-button color="primary">signout</button>
             </div>
           </content>
         </app-card-overlay>

@@ -1,12 +1,4 @@
-import {
-  Component,
-  Input,
-  OnInit,
-  Directive,
-  ElementRef,
-  HostListener,
-  ViewChild
-} from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-card-overlay',
