@@ -1,15 +1,16 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CategoriesComponent } from './categories/categories.component';
-import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
-import { AngularSvgIconModule } from 'angular-svg-icon';
-import { TranslateModule } from '@ngx-translate/core';
-import { MaterialModule } from '../core/material.module';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SatPopoverModule } from '@ncstate/sat-popover';
-import { RegisterComponent } from '../user/register/register.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { AngularSvgIconModule } from 'angular-svg-icon';
+
+import { CartModule } from '../cart/cart.module';
+import { MaterialModule } from '../core/material.module';
 import { UserModule } from '../user/user.module';
 import { CardOverlayComponent } from './card-overlay/card-overlay.component';
+import { CategoriesComponent } from './categories/categories.component';
+import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
 
 @NgModule({
   imports: [
@@ -19,9 +20,14 @@ import { CardOverlayComponent } from './card-overlay/card-overlay.component';
     TranslateModule,
     RouterModule,
     SatPopoverModule,
-    UserModule
+    UserModule,
+    CartModule
   ],
-  declarations: [CategoriesComponent, NavigationBarComponent, CardOverlayComponent],
+  declarations: [
+    CategoriesComponent,
+    NavigationBarComponent,
+    CardOverlayComponent
+  ],
   exports: [NavigationBarComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA] // add this line
 })

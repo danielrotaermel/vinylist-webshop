@@ -19,8 +19,8 @@
     </mat-form-field>
   </div>
 
-  <div>
-    <button id="loginButton" [disabled]="!loginForm.valid" (click)="performLogin()" mat-raised-button color="primary">{{'USER.LOGIN' | translate}}</button>
+  <div id="loginButton">
+    <button [disabled]="!loginForm.valid" (click)="signin()" mat-raised-button color="primary">{{'USER.LOGIN' | translate}}</button>
   </div>
 
 </form>

@@ -14,9 +14,11 @@ import { FooterComponent } from './footer/footer.component';
 import { HeaderModule } from './header/header.module';
 import { LanguageSwitcherComponent } from './language-switcher/language-switcher.component';
 import { ProductModule } from './product/product.module';
+import { LocalStorageService, StorageService } from './services/storage.service';
 import { SplashscreenComponent } from './splashscreen/splashscreen.component';
 import { UserModule } from './user/user.module';
 
+// HttpModule is deprecated but still required somehow
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
@@ -44,7 +46,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     UserModule,
     ProductModule
   ],
-  providers: [],
+  providers: [
+    LocalStorageService,
+    { provide: StorageService, useClass: LocalStorageService }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

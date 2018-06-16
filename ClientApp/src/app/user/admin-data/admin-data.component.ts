@@ -1,14 +1,15 @@
-import { Component, Input } from "@angular/core";
-import { AdminDataService } from "./admin-data.service";
-import { TranslateService } from "@ngx-translate/core";
-import { Router } from "@angular/router";
-
-import { MatSnackBar } from "@angular/material/snack-bar";
+import 'rxjs/add/observable/of';
 
 import { DataSource } from '@angular/cdk/collections';
+import { Component } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
-import { User } from '../../models/user';
+
+import { UserService } from '../../services/user.service';
+import { CreateUser } from './../../models/create-user.model';
+import { User } from './../../models/user.model';
 
 @Component({
   selector: 'app-admin-data',
@@ -20,49 +21,54 @@ import { User } from '../../models/user';
  * @author Alexander Merker
  */
 export class AdminDataComponent {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-
-  dataSource = new AdminDataSource(this.adminDataService);
+  dataSource = new AdminDataSource(this.userService);
   displayedColumns = ['firstName', 'lastName', 'email', 'save'];
 
   constructor(
     private snackBar: MatSnackBar,
-    private adminDataService: AdminDataService,
+    private userService: UserService,
     private router: Router,
     private i18nService: TranslateService
   ) {}
 
   openSnackBar(message, time) {
-    this.snackBar.open(message, "", {
+    this.snackBar.open(message, '', {
       duration: time
     });
   }
 
-  public perform_save(id, firstName, lastName, email){
-    //Empty password, will not be updated!
-    this.adminDataService.save(firstName, lastName, email, "", id).subscribe((data:any) => {
-      this.router.navigate(['/admin']);
-      this.i18nService.get("USER.PROFILE_SAVED").subscribe((res:string) => {
+  perform_save(id, firstName, lastName, email) {
+    const formData = {
+      'firstName': firstName,
+      'lastName': lastName,
+      'email': email
+    };
+
+    const userData: CreateUser = new CreateUser().deserialize(formData);
+    this.userService.updateUser(userData, id).subscribe(
+      (data: any) => {
+        this.i18nService.get('USER.PROFILE_SAVED').subscribe((res: string) => {
           this.openSnackBar(res, 5000);
-        })
+        });
       },
       (error: any) => {
-        this.i18nService.get("USER.ERRORS.ERR_SAVE").subscribe((res:string) => {
-          this.openSnackBar(res, 5000);
-      })
-    });
+        this.i18nService
+          .get('USER.ERRORS.ERR_SAVE')
+          .subscribe((res: string) => {
+            this.openSnackBar(res, 5000);
+          });
+      }
+    );
   }
 }
 
+// tslint:disable-next-line:max-classes-per-file
 export class AdminDataSource extends DataSource<any> {
-  constructor(private adminDataService: AdminDataService) {
+  constructor(private userService: UserService) {
     super();
   }
   connect(): Observable<User[]> {
-    return this.adminDataService.all_users();
+    return this.userService.getUsers();
   }
   disconnect() {}
 }
