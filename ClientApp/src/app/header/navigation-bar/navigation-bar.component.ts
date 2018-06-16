@@ -51,6 +51,7 @@ export class NavigationBarComponent implements OnInit, DoCheck {
   }
 
   public signout() {
+    this.router.navigate(['/']);
     this.authService.logout().subscribe();
   }
 
