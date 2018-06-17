@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using StackExchange.Redis;
 using webspec3.Entities;
 
 namespace webspec3.Database
@@ -27,6 +28,9 @@ namespace webspec3.Database
 
         public DbSet<WishlistEntity> Wishlists { get; set; }
 
+        public DbSet<OrderEntity> Orders { get; set; }
+        
+        public DbSet<OrderProductEntity> OrdersProducts { get; set; }
 
         public DbSet<UserEntity> Users { get; set; }
 
@@ -79,6 +83,16 @@ namespace webspec3.Database
                 .Entity<WishlistEntity>()
                 .ToTable("wishlist_products")
                 .HasKey(x => new { x.ProductId, x.UserId});
+
+            // Orders
+            modelBuilder
+                .Entity<OrderEntity>()
+                .ToTable("orders");
+
+            modelBuilder
+                .Entity<OrderProductEntity>()
+                .ToTable("orders_products")
+                .HasKey(x => new {x.OrderId, x.ProductId});
 
 
             // Users

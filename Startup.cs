@@ -83,6 +83,7 @@ namespace webspec3
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IImageService, ImageService>();
             services.AddTransient<IWishlistService, WishlistService>();
+            services.AddTransient<IOrderService, OrderService>();
 
             services.AddMvc().AddJsonOptions(options =>
             {

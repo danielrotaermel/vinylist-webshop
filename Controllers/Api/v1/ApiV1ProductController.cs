@@ -409,7 +409,7 @@ namespace webspec3.Controllers.Api.v1
         [DisableRequestSizeLimit]
         public async Task<IActionResult> Import([FromForm]IFormFile file)
         {
-            if (file == null || file.Length == 0 || file.ContentType != "application/x-zip-compressed")
+            if (file == null || file.Length == 0 || file.ContentType != "application/zip")
             {
                 logger.LogWarning("Cannot import the specified file. Either it is null, length 0 or not a zip file.");
                 return BadRequest(new ApiV1ErrorResponseModel("No file is supplied, the supplied file is empty or the supplied file is not a zip file."));
