@@ -50,6 +50,10 @@ CREATE TABLE users (
     ,is_admin           BOOLEAN         NOT NULL
 );
 
+-- Insert default admin user (password: test123)
+INSERT INTO users (id, first_name, last_name, email, password, is_admin) VALUES ('7f6bb374-4362-4fef-a072-778a86cb8155', 'Max', 'Mustermann', 'max@mustermann.de', '3/JZB8DNw/I5RXOsrPCyyt2cNo4598GSqpfBg40Qcjc=$/5KvnmvDJsSTU3ZQlaT5TWdxGikt7IoRla9SNuPFf5E=', TRUE);
+
+
 CREATE TABLE product_categories (
     id      UUID        PRIMARY KEY
     ,title  TEXT        NOT NULL

@@ -142,7 +142,7 @@ namespace webspec3.Controllers.Api.v1
                         LastName = model.LastName,
                         Email = model.Email,
                         Password = passwordService.HashPassword(model.Password),
-                        IsAdmin = model.IsAdmin
+                        IsAdmin = false
                     };
 
                     await userService.AddAsync(user);
