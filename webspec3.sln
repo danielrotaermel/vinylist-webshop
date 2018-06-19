@@ -5,6 +5,11 @@ VisualStudioVersion = 15.0.27428.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "webspec3", "webspec3.csproj", "{BAB5C82A-21B5-4163-9451-CA9FA1999370}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{10A5BDFE-3D0E-4AAC-B84D-08E304A8413A}"
+	ProjectSection(SolutionItems) = preProject
+		webspec.service = webspec.service
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
