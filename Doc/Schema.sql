@@ -89,8 +89,9 @@ CREATE TABLE product_translations (
 
 CREATE TABLE orders (
     id          	UUID            PRIMARY KEY
-    ,total_price	NUMERIC(2)		NOT NULL
-    ,user_id        UUID            NOT NULL REFERENCES users(id)
+    ,total_price	DECIMAL		NOT NULL
+    ,user_id        UUID            NOT NULL REFERENCES users(id),
+    currency_id    CHAR(3)      NOT NULL REFERENCES currencies(id)
 );
 
 CREATE TABLE orders_products (
