@@ -1,7 +1,7 @@
-import { Deserializable } from './deserializable';
+import { IDeserializable } from './../models/deserializable.model';
 
 /** @author Janina Wachendorfer */
-export class ProductPrice implements Deserializable {
+export class ProductPrice implements IDeserializable {
   currencyId: string;
   price: number;
 

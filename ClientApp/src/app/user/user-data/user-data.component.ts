@@ -3,7 +3,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
-import { UserDataService } from './user-data.service';
+import { CreateUser } from './../../models/create-user.model';
+import { UserService } from './../../services/user.service';
 
 @Component({
   selector: 'app-user-data',
@@ -12,7 +13,7 @@ import { UserDataService } from './user-data.service';
 })
 
 /**
- * @author Alexander Merker
+ * @author Alexander Merker, Daniel Rotärmel
  */
 export class UserDataComponent implements OnInit {
   id: string;
@@ -23,9 +24,9 @@ export class UserDataComponent implements OnInit {
 
   constructor(
     private snackBar: MatSnackBar,
-    private userDataService: UserDataService,
     private router: Router,
-    private i18nService: TranslateService
+    private i18nService: TranslateService,
+    private userService: UserService
   ) {}
 
   openSnackBar(message, time) {
@@ -35,7 +36,7 @@ export class UserDataComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userDataService.fetch_userdata().subscribe(
+    this.userService.getCurrentUser().subscribe(
       (data: any) => {
         this.id = data.id;
         this.email = data.email;
@@ -54,28 +55,32 @@ export class UserDataComponent implements OnInit {
   }
 
   performSave() {
-    this.userDataService
-      .save(this.firstName, this.lastName, this.email, this.password, this.id)
-      .subscribe(
-        (data: any) => {
-          this.i18nService
-            .get('USER.PROFILE_SAVED')
-            .subscribe((res: string) => {
-              this.openSnackBar(res, 5000);
-            });
-        },
-        (error: any) => {
-          this.i18nService
-            .get('USER.ERRORS.ERR_SAVE')
-            .subscribe((res: string) => {
-              this.openSnackBar(res, 5000);
-            });
-        }
-      );
+    const formData = {
+      firstName: this.firstName,
+      lastName: this.lastName,
+      email: this.email,
+      password: this.password
+    };
+
+    const userData: CreateUser = new CreateUser().deserialize(formData);
+    this.userService.updateUser(userData, this.id).subscribe(
+      (data: any) => {
+        this.i18nService.get('USER.PROFILE_SAVED').subscribe((res: string) => {
+          this.openSnackBar(res, 5000);
+        });
+      },
+      (error: any) => {
+        this.i18nService
+          .get('USER.ERRORS.ERR_SAVE')
+          .subscribe((res: string) => {
+            this.openSnackBar(res, 5000);
+          });
+      }
+    );
   }
 
   performDelete() {
-    this.userDataService.delete(this.id).subscribe(
+    this.userService.deleteUser(this.id).subscribe(
       (data: any) => {
         this.i18nService
           .get('USER.PROFILE_DELETED')
