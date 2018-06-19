@@ -1,15 +1,38 @@
 <div class="navbar row between-xs">
 
-  <div class="col-lg-4 col-xs-12 start-lg center-xs">
+  <div class="col-lg-3 col-xs-12 start-lg center-xs">
     <a id="home" routerLink="/">
       <svg-icon id="logo" src="../assets/vinylist-logo.svg" [stretch]="true" [stretch]="true" [svgStyle]="{'width.px':170,'padding.px':1,'margin.px':3}">
       </svg-icon>
     </a>
   </div>
 
-  <div class="search-box col-lg-4 col-xs-12 start-xs center-lg">
-    <input class="col-xs-12 col-sm-12 col-lg-10" style='width:100%' id="search-input" aria-label="search" type="search" placeholder="{{'NAVIGATION_BAR.SEARCH' | translate}}">
-    <button class="hidden-xs hidden-sm hidden-md" mat-icon-button>
+  <div class="col-lg-2 col-xs-12 start-xs end-lg">
+    <mat-form-field>
+      <mat-select [(value)]="selectedFilterBy" placeholder="{{ 'NAVIGATION_BAR.FILTER_BY' | translate}}">
+        <mat-option value="Artist" (click)='filterBy("Artist")'>
+          {{ 'NAVIGATION_BAR.ARTIST' | translate}}
+        </mat-option>
+        <mat-option value="Label" (click)='filterBy("Label")'>
+          {{ 'NAVIGATION_BAR.LABEL' | translate}}
+        </mat-option>
+        <!--<mat-option value="Release Date" (click)='filterBy("ReleaseDate")'>
+          Release Date
+        </mat-option>-->
+        <mat-option value="Description" (click)='filterBy("Description")'>
+          {{ 'NAVIGATION_BAR.DESCRIPTION' | translate}}
+        </mat-option>
+        <mat-option value="Title" (click)='filterBy("Title")'>
+          {{ 'NAVIGATION_BAR.TITLE' | translate}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="search-box col-lg-3 col-xs-10 end-xs start-lg">
+    <input class="col-xs-12 col-sm-12 col-lg-10" style='width:100%' id="search-input" aria-label="search" type="search" placeholder="{{'NAVIGATION_BAR.SEARCH' | translate}}"
+      #searchInput (keyup.enter)="setFilterQuery(searchInput.value)">
+    <button class="hidden-xs hidden-sm hidden-md" mat-icon-button (click)="setFilterQuery(searchInput.value)">
       <i class="material-icons white">search</i>
     </button>
   </div>

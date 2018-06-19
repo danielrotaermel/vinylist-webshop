@@ -1,25 +1,20 @@
 <!-- @author Janina Wachendorfer -->
 <div class="product-list-container">
   <div class="row end-lg">
-    <div class="col-lg-7 selected-container">
-      <mat-chip-list *ngIf="!disabled">
-        <mat-chip *ngFor="let item of selectedGenres" [selectable]="selectable" [removable]="removable" (removed)="remove(item)">{{item}}
-          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-        </mat-chip>
-      </mat-chip-list>
+    <div class="col-lg-7">
     </div>
 
     <div class="col-lg-4">
       <mat-form-field>
-        <mat-select [(value)]="selectedSortBy" placeholder="Sort By">
+        <mat-select [(value)]="selectedSortBy" placeholder="{{ 'PRODUCT.SORT_BY' | translate}}">
           <mat-option value="Artist" (click)='sortBy("Artist")'>
-            Artist
+            {{ 'PRODUCT.ARTIST' | translate}}
           </mat-option>
           <mat-option value="Label" (click)='sortBy("Label")'>
-            Label
+            {{ 'PRODUCT.LABEL' | translate}}
           </mat-option>
           <mat-option value="Release Date" (click)='sortBy("ReleaseDate")'>
-            Release Date
+            {{ 'PRODUCT.RELEASE_DATE' | translate}}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -27,10 +22,10 @@
 
     <div class="col-lg-1">
       <mat-button-toggle-group #group="matButtonToggleGroup" [(value)]="selectedSortDirection">
-        <mat-button-toggle value="ASC" (click)='changeSortDirection("ASC")' aria-label="ascending" matTooltip="ascending">
+        <mat-button-toggle value="ASC" (click)='changeSortDirection("ASC")' aria-label="ascending" matTooltip="{{ 'PRODUCT.ASC' | translate}}">
           <mat-icon>arrow_upward</mat-icon>
         </mat-button-toggle>
-        <mat-button-toggle value="DESC" (click)='changeSortDirection("DESC")' aria-label="descending" matTooltip="descending">
+        <mat-button-toggle value="DESC" (click)='changeSortDirection("DESC")' aria-label="descending" matTooltip="{{ 'PRODUCT.DESC' | translate}}">
           <mat-icon>arrow_downward</mat-icon>
         </mat-button-toggle>
       </mat-button-toggle-group>
@@ -51,40 +46,30 @@
             <section class="genre-selection">
               <mat-radio-group class="radio-group">
                 <mat-radio-button class="radio-button" (click)="resetProducts()">
-                  Select all
+                  {{ 'PRODUCT.SELECT_ALL' | translate }}
                 </mat-radio-button>
                 <mat-divider></mat-divider>
-                <mat-radio-button class="radio-button" *ngFor="let item of categories" [value]="item" (click)="switchCategory(item)">
+                <mat-radio-button class="radio-button" [value]="item" (click)="switchCategory(item)" *ngFor="let item of categories">
                   {{item.getTitle()}}
                 </mat-radio-button>
               </mat-radio-group>
             </section>
-            <!--<section class=" genre-selection ">
-              <mat-checkbox class="row selection-row show-all " color="$mat-yellow " [(ngModel)]="disabled ">Show all</mat-checkbox>
-            </section>
-            <mat-divider></mat-divider>
-            <section class="genre-selection ">
-              <div *ngFor="let item of categories " class="row selection-row ">
-                <mat-checkbox color="$mat-yellow " [disabled]="disabled " (click)="manageChips(item) ">{{item.getTitle()}}</mat-checkbox>
-              </div>
-            </section>-->
           </mat-expansion-panel>
         </mat-accordion>
-
-
       </div>
     </div>
 
     <div class="col-lg-9 col-sm-12 col-xs-12 ">
-      <div class="products row ">
-        <div *ngFor="let item of products " class="col-lg-4 col-sm-6 col-xs-12 item ">
+      <div class="products row">
+        <div *ngFor="let item of products | paginate: paginatorOptions" class="col-lg-4 col-sm-6 col-xs-12 item ">
           <app-product-list-item [product]="item "></app-product-list-item>
         </div>
-        <div class="search-results " infiniteScroll [infiniteScrollDistance]="1 " [infiniteScrollThrottle]="50
-                  " (scrolled)="onScroll() ">
+
+      </div>
+      <div class="row center-lg center-xs">
+        <div class="col-lg-12 col-xs-12">
+          <pagination-controls class="pagination" (pageChange)="pageChange($event)" previousLabel="" nextLabel=""></pagination-controls>
         </div>
-        <!--<div paging page="currentPage " page-size="pageSize " total="total ">
-      </div>-->
       </div>
     </div>
   </div>

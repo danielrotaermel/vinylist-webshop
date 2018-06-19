@@ -5,6 +5,7 @@ import { ProductListComponent } from './product-list/product-list.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { ProductListItemComponent } from './product-list-item/product-list-item.component';
 import { ProductFilterComponent } from './product-filter/product-filter.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { TranslateModule } from '@ngx-translate/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
@@ -14,10 +15,7 @@ import { MaterialModule } from '../core/material.module';
 
 import { ProductDetailResolver } from './product-detail/product-detail-resolvers';
 
-import {
-  ProductListResolver,
-  CategoriesResolver
-} from './product-list/product-list-resolver';
+import { ProductListResolver, CategoriesResolver } from './product-list/product-list-resolver';
 const routes: Routes = [
   {
     path: '',
@@ -42,7 +40,8 @@ const routes: Routes = [
     MaterialModule,
     TranslateModule,
     FormsModule,
-    InfiniteScrollModule
+    InfiniteScrollModule,
+    NgxPaginationModule
   ],
   exports: [RouterModule],
   declarations: [
@@ -51,6 +50,6 @@ const routes: Routes = [
     ProductListItemComponent,
     ProductFilterComponent
   ],
-  providers: [ProductDetailResolver, ProductListResolver, CategoriesResolver]
+  providers: [ProductDetailResolver, ProductListResolver, CategoriesResolver, ProductListComponent]
 })
 export class ProductModule {}

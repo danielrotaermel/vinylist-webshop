@@ -4,7 +4,12 @@
   },
   "NAVIGATION_BAR": {
     "SIGN_IN": "Anmelden",
-    "SEARCH": "Suche"
+    "SEARCH": "Suche",
+    "ARTIST": "Künstler",
+    "LABEL": "Label",
+    "DESCRIPTION": "Beschreibung",
+    "TITLE": "Titel",
+    "FILTER_BY": "Filtern nach"
   },
   "LANGUAGE_SWITCHER": {
     "LANG": "Sprache"
@@ -17,7 +22,13 @@
     "WISHLIST_TOOLTIP": "Zur Wunschliste hinzufügen",
     "BY": "von",
     "DESCRIPTION": "Beschreibung",
-    "RELEASE_DATE": "Veröffentlichungsdatum"
+    "RELEASE_DATE": "Veröffentlichungsdatum",
+    "ARTIST": "Künstler",
+    "LABEL": "Label",
+    "SORT_BY": "Sortieren nach",
+    "ASC": "Aufsteigend",
+    "DESC": "Absteigend",
+    "SELECT_ALL": "Alle auswählen"
   },
   "USER": {
     "REGISTER_SWITCH": "Bereits einen Account? Einloggen",

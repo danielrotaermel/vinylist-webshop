@@ -1,3 +1,5 @@
+@import '../../../sass/styles';
+
 // @author Janina Wachendorfer
 .product-list-container {
   padding-top: 20px;
@@ -22,6 +24,10 @@
 .mat-expansion-panel {
   background: none;
   box-shadow: none !important;
+}
+
+.mat-expansion-panel-header-title {
+  color: white;
 }
 
 .border-box {
@@ -68,4 +74,11 @@ mat-panel-description {
 
 .radio-button {
   margin: 5px;
+}
+
+.pagination /deep/ .ngx-pagination .current {
+  border-style: solid !important;
+  border: thin;
+  border-color: $focus;
+  background: none;
 }

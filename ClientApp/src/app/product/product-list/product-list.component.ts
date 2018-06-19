@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Product } from '../product';
 import { ProductService } from '../product.service';
@@ -6,6 +6,7 @@ import { Category } from '../category';
 import { CategoriesService } from '../category.service';
 
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 /** @author Janina Wachendorfer */
 @Component({
@@ -13,18 +14,23 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.scss']
 })
-export class ProductListComponent implements OnInit {
+export class ProductListComponent implements OnInit, OnDestroy {
   products: Product[];
   categories: Category[];
   disabled = true;
   selectable: boolean = true;
   removable: boolean = true;
-  selectedGenres = [];
   selectedSortBy = this.productService.getSortBy();
   selectedSortDirection = this.productService.getSortDirection();
   currentPage = this.productService.getCurrentPage();
-  pageSize = this.productService.getItemsPerPage();
-  total = this.productService.getTotalItems();
+  totalItems = this.productService.getTotalItems();
+  subscription: Subscription;
+
+  paginatorOptions = {
+    itemsPerPage: 9,
+    currentPage: this.currentPage,
+    totalItems: this.totalItems
+  };
 
   constructor(
     private productService: ProductService,
@@ -35,13 +41,28 @@ export class ProductListComponent implements OnInit {
   ngOnInit() {
     this.products = this.route.snapshot.data['products'];
     this.categories = this.route.snapshot.data['categories'];
+    this.subscription = this.productService.productsChanged.subscribe(prod => {
+      this.products = prod;
+      this.paginatorOptions.currentPage = this.productService.getCurrentPage();
+      this.paginatorOptions.totalItems = this.productService.getTotalItems();
+    });
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+    this.resetProducts();
+  }
+
+  refreshProducts() {
+    this.productService.getProducts().subscribe(prod => (this.products = prod));
   }
 
   /**
    * resets category filters etc.
    */
   resetProducts() {
-    this.productService.getProducts().subscribe(prod => (this.products = prod));
+    this.productService.setCategoryFilter(null);
+    this.refreshProducts();
   }
 
   /**
@@ -49,63 +70,16 @@ export class ProductListComponent implements OnInit {
    * @param category category after which products should be filtered
    */
   switchCategory(category: Category) {
-    this.productService.getProductsWithCategory(category).subscribe(prod => (this.products = prod));
+    this.productService.setCategoryFilter(category);
+    this.refreshProducts();
   }
 
   /**
-   * adds genre to the array of selected genres
-   * @param genre genre which will be added
+   * for pagination
    */
-  addGenre(genre: string) {
-    this.selectedGenres.push(genre);
-  }
-
-  /**
-   * checks if array of selected genres already contains the given genre
-   * @param genre genre which should be checked
-   */
-  hasGenre(genre: string): boolean {
-    if (this.selectedGenres.indexOf(genre) > -1) {
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * remove genre from the array of selected genres
-   * @param genre genre which should be removed
-   */
-  remove(genre: string): void {
-    const index = this.selectedGenres.indexOf(genre);
-
-    if (index >= 0) {
-      this.selectedGenres.splice(index, 1);
-    }
-  }
-
-  /**
-   * for infinity scrolling
-   */
-  onScroll() {
-    this.productService.setPage(this.productService.getPage() + +1);
-    this.productService.getProducts().subscribe(prod =>
-      prod.forEach(element => {
-        this.products.push(element);
-      })
-    );
-  }
-
-  /**
-   * !CURRENTLY NOT USED!
-   * manages the chips appearing on the top of the page after selecting one category
-   * @param category just selected category to be added as chip
-   */
-  manageChips(category: Category) {
-    if (!this.disabled && !this.hasGenre(category.getTitle())) {
-      this.addGenre(category.getTitle());
-    } else {
-      this.remove(category.getTitle());
-    }
+  pageChange(newPage) {
+    this.productService.setPage(newPage);
+    this.refreshProducts();
   }
 
   /**
@@ -114,7 +88,7 @@ export class ProductListComponent implements OnInit {
    */
   sortBy(sort: string) {
     this.productService.setSortBy(sort);
-    this.resetProducts();
+    this.refreshProducts();
   }
 
   /**
@@ -123,6 +97,6 @@ export class ProductListComponent implements OnInit {
    */
   changeSortDirection(dir: string) {
     this.productService.setSortDirection(dir);
-    this.resetProducts();
+    this.refreshProducts();
   }
 }
