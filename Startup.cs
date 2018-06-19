@@ -13,6 +13,7 @@ using webspec3.Database;
 using webspec3.Services;
 using webspec3.Services.Impl;
 using webspec3.Swagger;
+using Microsoft.AspNetCore.Antiforgery;
 
 namespace webspec3
 {
@@ -45,7 +46,16 @@ namespace webspec3
                 options.Cookie.HttpOnly = true;
 
                 // Should be considered for prodcution mode !!!
-                options.Cookie.SameSite = SameSiteMode.None;
+                options.Cookie.SameSite = SameSiteMode.Strict;
+            });
+
+            services.AddAntiforgery(options =>
+            {
+                // Should be considered for prodcution mode !!!
+                options.Cookie.SecurePolicy = CookieSecurePolicy.None;
+
+                options.HeaderName = "X-XSRF-TOKEN";
+                options.SuppressXFrameOptionsHeader = false;
             });
 
             services.AddSwaggerGen(c =>
@@ -92,7 +102,7 @@ namespace webspec3
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IAntiforgery antiforgery, IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -105,6 +115,28 @@ namespace webspec3
 
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+            // Add XSRF token to all non-api requests
+            app.Use(async (context, next) =>
+            {
+                string path = context.Request.Path.Value;
+
+                if (path != null && !path.ToLower().Contains("/api"))
+                {
+                    var tokens = antiforgery.GetAndStoreTokens(context);
+                    context.Response.Cookies.Append("XSRF-TOKEN", tokens.RequestToken,
+                        new CookieOptions
+                        {
+                            HttpOnly = false,
+
+                            // Should be considered for production mode !!!
+                            Secure = false
+                        }
+                    );
+                }
+
+                await next();
+            });
 
             // Consider for production mode !!!
             app.UseCors(builder => builder

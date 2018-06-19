@@ -13,6 +13,7 @@ namespace webspec3.Controllers.Api.v1
     /// J. Mauthe
     /// </summary>
     [Route("api/v1/images")]
+    [AutoValidateAntiforgeryToken]
     public sealed class ApiV1ImageController : Controller
     {
         private readonly ILogger logger;
