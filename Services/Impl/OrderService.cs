@@ -64,5 +64,37 @@ namespace webspec3.Services.Impl
 
 			return orders;
 		}
+
+		public async Task DeleteAsync(OrderEntity entity)
+		{
+			logger.LogDebug($"Attempting to remove Order with id {entity.Id}");
+
+			using (var transaction = await dbContext.Database.BeginTransactionAsync())
+			{
+				dbContext.Orders.Remove(entity);
+
+				await dbContext.SaveChangesAsync();
+
+				transaction.Commit();
+			}
+
+			logger.LogDebug($"Successfully removed order with id {entity.Id}");
+		}
+
+		public async Task DeleteAll(Guid userId)
+		{
+			logger.LogDebug($"Attempting to remove all orders for user with id {userId}");
+
+			var orders = await dbContext.Orders
+				.Where(x => x.UserId == userId)
+				.ToListAsync();
+
+			foreach (var order in orders)
+			{
+				await DeleteAsync(order);
+			}
+
+			logger.LogDebug($"Successfully removed all order for user with id {userId}");
+		}
 	}
 }

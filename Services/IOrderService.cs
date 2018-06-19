@@ -38,5 +38,20 @@ namespace webspec3.Services
 		/// </summary>
 		/// <returns>List of all orders of the current logged in user/></returns>
 		Task<List<OrderEntity>> GetAllAsync(Guid userId);
+		      
+		/// <summary>
+		/// Removes a given order from the database
+		/// </summary>
+		/// <param name="entity">Entity of Order</param>
+		/// <returns></returns>
+		Task DeleteAsync(OrderEntity entity);
+		
+		/// <summary>
+		/// Removes all orders for a given user
+		/// </summary>
+		/// <param name="userId">Id of the user</param>
+		/// <returns></returns>
+		Task DeleteAll(Guid userId);
+
 	}
 }

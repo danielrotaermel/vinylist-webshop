@@ -138,5 +138,78 @@ namespace webspec3.Controllers.Api.v1
 
 			return Json(order);
 		}
+
+		/// <summary>
+		/// Removes the order with the given id
+		/// </summary>
+		/// <param name="orderId">Id of the order</param>
+		/// <response code="200">Order removed successfully</response>
+		/// <response code="400">Invalid model</response>
+		/// <response code="500">An internal error occurred</response>
+		[HttpDelete("{orderId}")]
+		[ProducesResponseType(200)]
+		[ProducesResponseType(400)]
+		[LoginRequired]
+		[ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
+		public async Task<IActionResult> Delete([FromRoute] Guid orderId)
+		{
+			if (ModelState.IsValid)
+			{
+				logger.LogDebug($"Attempting to remove orde with orderId {orderId}.");
+
+				var userId = loginService.GetLoggedInUserId();
+
+				var order = await orderService.GetByIdAsync(orderId);
+
+				if (order == null)
+				{
+					logger.LogWarning($"Erorr while removing Order. No order with id {orderId} found");
+
+					return BadRequest("No order with this id available");
+				}
+
+				await orderService.DeleteAsync(order);
+
+				logger.LogInformation($"Successfully removed Order.");
+
+				return Ok(order);
+			}
+			else
+			{
+				logger.LogWarning($"Erorr while removing order. Validation failed");
+
+				return BadRequest(ModelState.ToApiV1ErrorResponseModel());
+			}
+		}
+
+		/// <summary>
+		/// Deletes all orders of the current logged in user.
+		/// </summary>
+		/// <response code="200">Orders removed successfully</response>
+		/// <response code="400">Invalid model</response>
+		/// <response code="500">An internal error occurred</response>
+		[HttpDelete]
+		[ProducesResponseType(200)]
+		[ProducesResponseType(400)]
+		[LoginRequired]
+		[AdminRightsRequired]
+		[ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
+		public async Task<IActionResult> DeleteAll()
+		{
+			if (ModelState.IsValid)
+			{
+				var userId = loginService.GetLoggedInUserId();
+
+				await orderService.DeleteAll(userId);
+
+				logger.LogInformation($"Successfully removed all orders.");
+
+				return Ok();
+			}
+			else
+			{
+				return BadRequest(ModelState.ToApiV1ErrorResponseModel());
+			}
+		}
 	}
 }
