@@ -63,7 +63,6 @@ namespace webspec3.Controllers.Api.v1
 				var orderEntity = new OrderEntity
 				{
 					CurrencyId = model.CurrencyId,
-					Id = Guid.NewGuid(),
 					UserId = userId
 				};
 
@@ -89,11 +88,14 @@ namespace webspec3.Controllers.Api.v1
 					};
 					orderProductList.Add(orderProductEntity);
 
-					totalPrice += currentProduct.Prices.Find(x => x.CurrencyId == model.CurrencyId).Price * keyValuePair.Value;
+					totalPrice += currentProduct.Prices.Find(x => x.CurrencyId == model.CurrencyId).Price *
+					              keyValuePair.Value;
 				}
 
 				orderEntity.TotalPrice = totalPrice;
 				await orderService.AddOrderAsync(orderEntity);
+
+				orderProductList.ForEach(x => x.OrderId = orderEntity.Id);
 
 				logger.LogInformation($"Successfully added new order.");
 
