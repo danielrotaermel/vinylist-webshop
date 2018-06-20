@@ -9,6 +9,7 @@ import {
   MatCheckboxModule,
   MatChipsModule,
   MatDividerModule,
+  MatButtonToggleModule,
   MatExpansionModule,
   MatIconModule,
   MatInputModule,
@@ -17,7 +18,7 @@ import {
   MatSnackBarModule,
   MatTableModule,
   MatToolbarModule,
-  MatTooltipModule,
+  MatTooltipModule
 } from '@angular/material';
 
 /**
@@ -40,6 +41,7 @@ import {
     MatExpansionModule,
     MatDividerModule,
     MatChipsModule,
+    MatButtonToggleModule,
     MatTableModule,
     MatSnackBarModule
   ],
@@ -57,6 +59,7 @@ import {
     MatExpansionModule,
     MatDividerModule,
     MatChipsModule,
+    MatButtonToggleModule,
     MatTableModule,
     MatSnackBarModule
   ],

@@ -2,13 +2,13 @@ import { Component, DoCheck, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
+import { ProductService } from '../../product/product.service';
 import { AuthService } from './../../services/auth.service';
 import { SessionService } from './../../services/session.service';
 
 /**
  * @author J. Wachendorfer, Daniel Rotärmel
  */
-
 @Component({
   selector: 'app-navigation-bar',
   templateUrl: './navigation-bar.component.html',
@@ -25,7 +25,8 @@ export class NavigationBarComponent implements OnInit, DoCheck {
     private translate: TranslateService,
     private router: Router,
     private session: SessionService,
-    private authService: AuthService
+    private authService: AuthService,
+    private productService: ProductService
   ) {}
 
   ngOnInit() {}
@@ -34,6 +35,8 @@ export class NavigationBarComponent implements OnInit, DoCheck {
     this.loggedIn = this.session.isLoggedIn();
     this.loggedIn ? this.hideAuthView() : this.showAuthView();
   }
+
+  selectedFilterBy = this.productService.getFilterBy();
 
   toggleAuthView() {
     this.showLogin = !this.showLogin;
@@ -57,5 +60,14 @@ export class NavigationBarComponent implements OnInit, DoCheck {
 
   test() {
     alert('Callback Test');
+  }
+
+  filterBy(filter: string) {
+    this.productService.setFilterBy(filter);
+  }
+
+  setFilterQuery(value: string) {
+    this.productService.setFilterQuery(value);
+    this.productService.getProducts();
   }
 }

@@ -29,6 +29,6 @@ export class ProductImage implements IDeserializable {
   }
 
   getImageDataString(): string {
-    return 'data:image/' + this.imageType + ';base64,' + this.base64String;
+    return 'data:' + this.imageType + ';base64,' + this.base64String;
   }
 }
