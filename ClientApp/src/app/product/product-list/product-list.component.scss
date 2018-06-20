@@ -79,6 +79,24 @@ mat-panel-description {
 .pagination /deep/ .ngx-pagination .current {
   border-style: solid !important;
   border: thin;
-  border-color: $focus;
+  border-radius: 5px;
+  border-color: white;
   background: none;
+}
+
+.pagination /deep/ .ngx-pagination a:hover {
+  background: none;
+  border: solid 1px white;
+  color: white;
+  border-radius: 5px;
+}
+
+// focus styling
+.pagination /deep/ .ng-star-inserted:focus {
+  background-color: #585758;
+  outline: none;
+  border: 1px solid;
+  border-radius: 5px;
+  border-color: white !important;
+  color: white;
 }
