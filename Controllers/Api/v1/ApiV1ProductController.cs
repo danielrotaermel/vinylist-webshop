@@ -22,11 +22,11 @@ namespace webspec3.Controllers.Api.v1
 {
     /// <summary>
     /// Controller providing api access to products
-    /// 
+    ///
     /// M. Narr, J. Mauthe
     /// </summary>
     [Route("api/v1/products")]
-    [AutoValidateAntiforgeryToken]
+    // [AutoValidateAntiforgeryToken]
     public sealed class ApiV1ProductController : Controller
     {
         private readonly ICategoryService categoryService;
@@ -391,14 +391,14 @@ namespace webspec3.Controllers.Api.v1
         /// Imports all products from the supplied zip file creatd by the data-crawler
         /// This route is considered EXPERIMENTAL and supports only de_DE and en_US language codes and EUR and USD as currencies.
         /// All other data will be omitted.
-        /// 
+        ///
         /// For later usage, import of existing data will be handled otherwise.
-        /// 
+        ///
         /// Please note that ALL EXISTING DATA of the following categories will be REMOVED during importing the new data:
-        /// 
+        ///
         /// - Products, including images, translations and prices
         /// - Categories
-        /// 
+        ///
         /// </summary>
         /// <param name="file"></param>
         /// <response code="200">Products successfully imported</response>

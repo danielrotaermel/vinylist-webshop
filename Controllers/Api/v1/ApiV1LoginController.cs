@@ -12,11 +12,11 @@ namespace webspec3.Controllers.Api.v1
 {
     /// <summary>
     /// Controller providing api access to login and logout
-    /// 
+    ///
     /// M. Narr
     /// </summary>
     [Route("api/v1")]
-    [AutoValidateAntiforgeryToken]
+    // [AutoValidateAntiforgeryToken]
     public sealed class ApiV1LoginController : Controller
     {
         private readonly ILoginService loginService;
