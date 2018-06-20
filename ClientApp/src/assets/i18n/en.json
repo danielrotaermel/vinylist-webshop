@@ -45,6 +45,7 @@
     "RELEASE_DATE": "Release Date",
     "ARTIST": "Artist",
     "LABEL": "Label",
+    "PRICE": "Price",
     "SORT_BY": "Sort by",
     "ASC": "Ascending",
     "DESC": "Descending",

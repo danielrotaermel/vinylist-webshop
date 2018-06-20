@@ -1,4 +1,4 @@
-<!-- @author Janina Wachendorfer -->
+<!-- @author Janina Wachendorfer, Alexander Merker -->
 <div class="product-list-container">
   <div class="row end-lg">
     <div class="col-lg-7">
@@ -63,6 +63,38 @@
       <div class="products row">
         <div *ngFor="let item of products | paginate: paginatorOptions" class="col-lg-4 col-sm-6 col-xs-12 item ">
           <app-product-list-item [product]="item "></app-product-list-item>
+          <!--
+            <div>
+              <mat-table [dataSource]="dataSource">
+                <ng-container matColumnDef="artist">
+                  <mat-header-cell *matHeaderCellDef> {{ 'PRODUCT.ARTIST' | translate }} </mat-header-cell>
+                  <mat-cell *matCellDef="let product">
+                    <mat-form-field floatLabel="never">
+                      <input matInput placeholder=" {{ 'PRODUCT.ARTIST' | translate }}" [value]="product.artist" [(ngModel)]="product.artist">
+                    </mat-form-field>
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="label">
+                  <mat-header-cell *matHeaderCellDef> {{ 'PRODUCT.LABEL' | translate }} </mat-header-cell>
+                  <mat-cell *matCellDef="let product">
+                    <mat-form-field floatLabel="never">
+                      <input matInput placeholder=" {{ 'PRODUCT.LABEL' | translate }}" [value]="product.label" [(ngModel)]="product.label">
+                    </mat-form-field>
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="price">
+                  <mat-header-cell *matHeaderCellDef> {{ 'PRODUCT.PRICE' | translate }}</mat-header-cell>
+                  <mat-cell *matCellDef="let product">
+                    <mat-form-field floatLabel="never">
+                      <input matInput placeholder=" {{ 'PRODUCT.PRICE' | translate }}" [value]="product.price" [(ngModel)]="product.price">
+                    </mat-form-field>
+                  </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+              </mat-table>
+          </div>
+        -->
         </div>
 
       </div>

@@ -1,4 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { DataSource } from '@angular/cdk/collections';
+import { Observable } from 'rxjs/Observable';
 
 import { Product } from '../product';
 import { ProductService } from '../product.service';
@@ -8,7 +10,7 @@ import { CategoriesService } from '../category.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-/** @author Janina Wachendorfer */
+/** @author Janina Wachendorfer, Alexander Merker */
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
@@ -25,6 +27,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
   currentPage = this.productService.getCurrentPage();
   totalItems = this.productService.getTotalItems();
   subscription: Subscription;
+
+  dataSource = new ProductListDataSource(this.productService);
+  displayedColumns = ['artist', 'label', 'price'];
 
   paginatorOptions = {
     itemsPerPage: 9,
@@ -99,4 +104,15 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.productService.setSortDirection(dir);
     this.refreshProducts();
   }
+}
+
+// tslint:disable-next-line:max-classes-per-file
+export class ProductListDataSource extends DataSource<any> {
+  constructor(private productService: ProductService) {
+    super();
+  }
+  connect(): Observable<Product[]> {
+    return this.productService.getProducts();
+  }
+  disconnect() {}
 }

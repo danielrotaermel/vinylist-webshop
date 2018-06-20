@@ -178,7 +178,7 @@ export class ProductService {
   deserializePagedProducts(productsPages: any): Product[] {
     this.pageCount = productsPages.pageCount;
     this.totalItems = productsPages.totalItems;
-    console.log(this.totalItems);
+    //console.log(this.totalItems);
     const products = new Array<Product>();
     productsPages.items.forEach(element => {
       products.push(new Product().deserialize(element));
