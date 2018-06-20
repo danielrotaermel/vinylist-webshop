@@ -16,6 +16,7 @@ namespace webspec3.Controllers.Api.v1
     /// M. Narr
     /// </summary>
     [Route("api/v1")]
+    [AutoValidateAntiforgeryToken]
     public sealed class ApiV1LoginController : Controller
     {
         private readonly ILoginService loginService;
@@ -38,7 +39,7 @@ namespace webspec3.Controllers.Api.v1
         /// Logs in the specified user
         /// </summary>
         /// <response code="200">Successfully logged in</response>
-        /// <response code="400">Invalid request model</response>
+        /// <response code="400">Invalid request model or already logged in</response>
         /// <response code="403">Password and/or username was incorrect</response>
         /// <response code="500">An internal error occurred</response>
         [HttpPost("login")]
@@ -55,6 +56,12 @@ namespace webspec3.Controllers.Api.v1
                 try
                 {
                     var error = new ApiV1ErrorResponseModel("The combination of password an username is wrong or the user does not exist at all.");
+
+                    // Throw bad request if a user is logged-in already
+                    if (loginService.IsLoggedIn())
+                    {
+                        return BadRequest(new ApiV1ErrorResponseModel("Cannot login twice. Please logout first."));
+                    }
 
                     // Try to get user from database
                     var user = await userService.GetByEMailAsync(model.EMail);

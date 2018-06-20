@@ -50,6 +50,10 @@ CREATE TABLE users (
     ,is_admin           BOOLEAN         NOT NULL
 );
 
+-- Insert default admin user (password: test123)
+INSERT INTO users (id, first_name, last_name, email, password, is_admin) VALUES ('7f6bb374-4362-4fef-a072-778a86cb8155', 'Max', 'Mustermann', 'max@mustermann.de', '3/JZB8DNw/I5RXOsrPCyyt2cNo4598GSqpfBg40Qcjc=$/5KvnmvDJsSTU3ZQlaT5TWdxGikt7IoRla9SNuPFf5E=', TRUE);
+
+
 CREATE TABLE product_categories (
     id      UUID        PRIMARY KEY
     ,title  TEXT        NOT NULL
@@ -89,8 +93,9 @@ CREATE TABLE product_translations (
 
 CREATE TABLE orders (
     id          	UUID            PRIMARY KEY
-    ,total_price	NUMERIC(2)		NOT NULL
-    ,user_id        UUID            NOT NULL REFERENCES users(id)
+    ,total_price	DECIMAL		NOT NULL
+    ,user_id        UUID            NOT NULL REFERENCES users(id),
+    currency_id    CHAR(3)      NOT NULL REFERENCES currencies(id)
 );
 
 CREATE TABLE orders_products (
