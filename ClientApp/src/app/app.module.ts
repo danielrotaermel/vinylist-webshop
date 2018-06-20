@@ -8,7 +8,6 @@ import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AngularSvgIconModule } from 'angular-svg-icon';
-
 import { AppComponent } from './app.component';
 import { MaterialModule } from './core/material.module';
 import { FooterComponent } from './footer/footer.component';
@@ -25,12 +24,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    LanguageSwitcherComponent,
-    FooterComponent,
-    SplashscreenComponent
-  ],
+  declarations: [AppComponent, LanguageSwitcherComponent, FooterComponent, SplashscreenComponent],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     FormsModule,

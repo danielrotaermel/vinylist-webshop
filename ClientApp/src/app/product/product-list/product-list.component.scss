@@ -1,3 +1,5 @@
+@import '../../../sass/styles';
+
 // @author Janina Wachendorfer
 .product-list-container {
   padding-top: 20px;
@@ -22,6 +24,10 @@
 .mat-expansion-panel {
   background: none;
   box-shadow: none !important;
+}
+
+.mat-expansion-panel-header-title {
+  color: white;
 }
 
 .border-box {
@@ -50,4 +56,29 @@ mat-panel-description {
 
 .mat-divider {
   border-top-color: #ccc;
+  margin: 15px 0px;
+}
+
+.mat-button-toggle-group {
+  box-shadow: none;
+  border-color: #ccc;
+  border-style: solid;
+  border-width: thin;
+}
+
+.radio-group {
+  display: inline-flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.radio-button {
+  margin: 5px;
+}
+
+.pagination /deep/ .ngx-pagination .current {
+  border-style: solid !important;
+  border: thin;
+  border-color: $focus;
+  background: none;
 }
