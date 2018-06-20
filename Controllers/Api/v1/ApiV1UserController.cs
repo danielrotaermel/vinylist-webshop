@@ -17,6 +17,7 @@ namespace webspec3.Controllers.Api.v1
     /// M. Narr
     /// </summary>
     [Route("api/v1/users")]
+    [AutoValidateAntiforgeryToken]
     public sealed class ApiV1UserController : Controller
     {
         private readonly IPasswordService passwordService;
@@ -141,7 +142,7 @@ namespace webspec3.Controllers.Api.v1
                         LastName = model.LastName,
                         Email = model.Email,
                         Password = passwordService.HashPassword(model.Password),
-                        IsAdmin = model.IsAdmin
+                        IsAdmin = false
                     };
 
                     await userService.AddAsync(user);

@@ -1,0 +1,14 @@
+[Unit]
+Description=Webspec systemd service
+
+[Service]
+WorkingDirectory=/path/to-the-project
+ExecStart=/usr/bin/dotnet run
+Restart=always
+RestartSec=10
+SyslogIdentifier=webspec
+User=webspec
+Environment=ASPNETCORE_ENVIRONMENT=Production
+
+[Install]
+WantedBy=multi-user.target
