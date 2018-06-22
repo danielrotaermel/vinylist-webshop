@@ -26,7 +26,7 @@ namespace webspec3.Controllers.Api.v1
     /// M. Narr, J. Mauthe
     /// </summary>
     [Route("api/v1/products")]
-    [AutoValidateAntiforgeryToken]
+    //[AutoValidateAntiforgeryToken]
     public sealed class ApiV1ProductController : Controller
     {
         private readonly ICategoryService categoryService;
@@ -471,7 +471,7 @@ namespace webspec3.Controllers.Api.v1
 
                                 // German translation
                                 var descriptionShort = json["short_description"].Value<string>();
-                                var description = json.ContainsKey("article_decription") ? json["article_description"].Value<string>() : string.Empty;
+                                var description = json.ContainsKey("article_description") ? json["article_description"].Value<string>() : string.Empty;
                                 var title = json["title"].Value<string>();
 
                                 var translationEntity = new ProductTranslationEntity

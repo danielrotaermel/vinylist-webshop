@@ -21,7 +21,7 @@ namespace webspec3.Controllers.Api.v1
     /// J. Mauthe
     /// </summary>
     [Route("api/v1/orders")]
-    [AutoValidateAntiforgeryToken]
+    //[AutoValidateAntiforgeryToken]
     public class ApiV1OrderController : Controller
     {
         private readonly IProductService productService;
