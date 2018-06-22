@@ -4,7 +4,12 @@
   },
   "NAVIGATION_BAR": {
     "SIGN_IN": "Sign in",
-    "SEARCH": "Search"
+    "SEARCH": "Search",
+    "ARTIST": "Artist",
+    "LABEL": "Label",
+    "DESCRIPTION": "Description",
+    "TITLE": "Title",
+    "SEARCH_BY": "Search by"
   },
   "LANGUAGE_SWITCHER": {
     "LANG": "Language"
@@ -37,6 +42,13 @@
     "WISHLIST_TOOLTIP": "Add to wishlist",
     "BY": "by",
     "DESCRIPTION": "Description",
-    "RELEASE_DATE": "Release Date"
+    "RELEASE_DATE": "Release Date",
+    "ARTIST": "Artist",
+    "LABEL": "Label",
+    "PRICE": "Price",
+    "SORT_BY": "Sort by",
+    "ASC": "Ascending",
+    "DESC": "Descending",
+    "SELECT_ALL": "Select all"
   }
 }
