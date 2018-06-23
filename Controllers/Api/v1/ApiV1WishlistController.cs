@@ -18,6 +18,7 @@ namespace webspec3.Controllers.Api.v1
     /// </summary>
     [Route("api/v1/wishlist")]
     [AutoValidateAntiforgeryToken]
+    [ApiV1ExceptionFilter]
     public sealed class ApiV1WishlistController : Controller
     {
         private readonly IProductService productService;

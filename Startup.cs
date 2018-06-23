@@ -108,10 +108,6 @@ namespace webspec3
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
 
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
@@ -130,8 +126,8 @@ namespace webspec3
                         {
                             HttpOnly = false,
 
-                                // Should be considered for production mode !!!
-                                Secure = false
+                            // Should be considered for production mode !!!
+                            Secure = false
                         }
                     );
                 }
@@ -168,7 +164,6 @@ namespace webspec3
 
                 if (env.IsDevelopment())
                 {
-                    // spa.UseAngularCliServer(npmScript: "start");
                     spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
                 }
             });

@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using webspec3.Controllers.Api.v1.Requests;
 using webspec3.Controllers.Api.v1.Responses;
@@ -27,6 +26,7 @@ namespace webspec3.Controllers.Api.v1
     /// </summary>
     [Route("api/v1/products")]
     [AutoValidateAntiforgeryToken]
+    [ApiV1ExceptionFilter]
     public sealed class ApiV1ProductController : Controller
     {
         private readonly ICategoryService categoryService;

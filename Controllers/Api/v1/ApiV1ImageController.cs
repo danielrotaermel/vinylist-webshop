@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using webspec3.Controllers.Api.v1.Responses;
+using webspec3.Filters;
 using webspec3.Services;
 
 namespace webspec3.Controllers.Api.v1
@@ -14,6 +15,7 @@ namespace webspec3.Controllers.Api.v1
     /// </summary>
     [Route("api/v1/images")]
     [AutoValidateAntiforgeryToken]
+    [ApiV1ExceptionFilter]
     public sealed class ApiV1ImageController : Controller
     {
         private readonly ILogger logger;
