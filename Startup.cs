@@ -116,6 +116,7 @@ namespace webspec3
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
+
             // Add XSRF token to all non-api requests
             app.Use(async (context, next) =>
             {
@@ -129,21 +130,14 @@ namespace webspec3
                         {
                             HttpOnly = false,
 
-                            // Should be considered for production mode !!!
-                            Secure = false
+                                // Should be considered for production mode !!!
+                                Secure = false
                         }
                     );
                 }
 
                 await next();
             });
-
-            // Consider for production mode !!!
-            app.UseCors(builder => builder
-                .AllowAnyOrigin()
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowCredentials());
 
             app.UseSession();
 
