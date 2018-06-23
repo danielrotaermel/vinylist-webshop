@@ -3,7 +3,7 @@ Description=Webspec systemd service
 
 [Service]
 WorkingDirectory=/path/to-the-project
-ExecStart=/usr/bin/dotnet run
+ExecStart=/usr/bin/dotnet webspec3.dll
 Restart=always
 RestartSec=10
 SyslogIdentifier=webspec
