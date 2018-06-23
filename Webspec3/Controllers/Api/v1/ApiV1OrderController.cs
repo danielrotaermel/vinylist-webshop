@@ -49,7 +49,6 @@ namespace webspec3.Controllers.Api.v1
         /// <response code="500">An internal error occurred</response>
         /// <returns></returns>
         [HttpPost]
-        [AdminRightsRequired]
         [LoginRequired]
         [ProducesResponseType(typeof(ApiV1OrderResponseModel), 200)]
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 400)]
@@ -184,6 +183,39 @@ namespace webspec3.Controllers.Api.v1
                 return BadRequest(ModelState.ToApiV1ErrorResponseModel());
             }
         }
+        
+        /// <summary>
+        /// Gets a list of all Orders of the current logged in user.
+        /// </summary>
+        /// <response code="200">Orders returned successfully</response>
+        /// <response code="400">Invalid model</response>
+        /// <response code="500">An internal error occurred</response>
+        [HttpGet]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [LoginRequired]
+        [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
+        public async Task<IActionResult> GetAll()
+        {
+            if (ModelState.IsValid)
+            {
+                logger.LogDebug($"Attempting to retrieve all products from the wishlist.");
+
+                var userId = loginService.GetLoggedInUserId();
+
+                var orders = await orderService.GetAllAsync(userId);
+
+                logger.LogInformation($"Successfully retrieved all orders of the user with id {userId}.");
+
+                return Json(orders);
+            }
+            else
+            {
+                logger.LogWarning($"Erorr while getting orders. Validation failed");
+
+                return BadRequest(ModelState.ToApiV1ErrorResponseModel());
+            }
+        }
 
         /// <summary>
         /// Deletes all orders of the current logged in user.
@@ -195,7 +227,6 @@ namespace webspec3.Controllers.Api.v1
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [LoginRequired]
-        [AdminRightsRequired]
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
         public async Task<IActionResult> DeleteAll()
         {

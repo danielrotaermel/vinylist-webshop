@@ -60,6 +60,12 @@ namespace webspec3.Services.Impl
 		{
 			var orders = await dbContext.Orders
 				.Where(x => x.UserId == userId)
+				.Include(x => x.OrderProductEntities)
+				.ThenInclude(x => x.Product)
+				.ThenInclude(x => x.Prices)
+				.Include(x => x.OrderProductEntities)
+				.ThenInclude(x => x.Product)
+				.ThenInclude(x => x.Translations)
 				.ToListAsync();
 
 			return orders;
