@@ -16,6 +16,7 @@ import { CartService } from './../../cart/cart.service';
 })
 export class ProductDetailComponent implements OnInit {
   product: Product;
+  descriptionAvailable: boolean;
 
   constructor(
     private productService: ProductService,
@@ -26,6 +27,19 @@ export class ProductDetailComponent implements OnInit {
 
   ngOnInit() {
     this.product = this.route.snapshot.data['product'];
+    this.descriptionAvailable = this.checkIfAvailable('this.getTranslation().getDescription()');
+  }
+
+  /**
+   * Check if given string is empty or null
+   * Needed for our description field to keep it empty if no product description is available
+   * @param text the string to be checked
+   */
+  private checkIfAvailable(text: string): boolean {
+    if (text && text.length > 0) {
+      return true;
+    }
+    return false;
   }
 
   isGerman(): boolean {
