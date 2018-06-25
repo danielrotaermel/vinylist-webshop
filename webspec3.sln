@@ -3,12 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2027
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "webspec3", "webspec3.csproj", "{BAB5C82A-21B5-4163-9451-CA9FA1999370}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "webspec3", "Webspec3/webspec3.csproj", "{BAB5C82A-21B5-4163-9451-CA9FA1999370}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{10A5BDFE-3D0E-4AAC-B84D-08E304A8413A}"
 	ProjectSection(SolutionItems) = preProject
 		webspec.service = webspec.service
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "webspec3Tests", "webspec3Tests\webspec3Tests.csproj", "{938826C9-CE80-4AED-8829-D9AC41F44A84}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,6 +22,14 @@ Global
 		{BAB5C82A-21B5-4163-9451-CA9FA1999370}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BAB5C82A-21B5-4163-9451-CA9FA1999370}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BAB5C82A-21B5-4163-9451-CA9FA1999370}.Release|Any CPU.Build.0 = Release|Any CPU
+		{420964BA-12D0-410C-9768-127CEC1DF40D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{420964BA-12D0-410C-9768-127CEC1DF40D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{420964BA-12D0-410C-9768-127CEC1DF40D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{420964BA-12D0-410C-9768-127CEC1DF40D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{938826C9-CE80-4AED-8829-D9AC41F44A84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{938826C9-CE80-4AED-8829-D9AC41F44A84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{938826C9-CE80-4AED-8829-D9AC41F44A84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{938826C9-CE80-4AED-8829-D9AC41F44A84}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
