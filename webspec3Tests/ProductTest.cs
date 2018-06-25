@@ -96,12 +96,12 @@ namespace webspec3Tests
 				//Test Products
 				Assert.NotNull(await productService.GetByIdAsync(product.Id));
 				Assert.Null(await productService.GetByIdAsync(new Guid()));
-				Assert.Equal(1, productService.GetAllAsync().Result.Count);
+				Assert.Single(productService.GetAllAsync().Result);
 				Assert.True(await productService.DoesProductExistByIdAsync(product.Id));
 
 				Assert.NotNull(await imageService.GetByIdAsync(product.ImageId));
 				Assert.True(categoryService.DoesCategoryNameExist(category.Title));
-				Assert.Equal(1, categoryService.GetAllAsync().Result.Count);
+				Assert.Single(categoryService.GetAllAsync().Result);
 
 				// Add a second category
 				var secondCategory = new CategoryEntity
@@ -119,7 +119,7 @@ namespace webspec3Tests
 				//Test Updated Product
 				Assert.NotNull(await productService.GetByIdAsync(updatedProduct.Id));
 				Assert.Null(await productService.GetByIdAsync(new Guid()));
-				Assert.Equal(1, productService.GetAllAsync().Result.Count);
+				Assert.Single(productService.GetAllAsync().Result);
 				Assert.True(await productService.DoesProductExistByIdAsync(updatedProduct.Id));
 
 				Assert.True(categoryService.DoesCategoryNameExist(secondCategory.Title));
@@ -208,7 +208,7 @@ namespace webspec3Tests
 				//Test Products
 				Assert.NotNull(await productService.GetByIdAsync(product.Id));
 				Assert.Null(await productService.GetByIdAsync(new Guid()));
-				Assert.Equal(1, productService.GetAllAsync().Result.Count);
+				Assert.Single(productService.GetAllAsync().Result);
 				Assert.True(await productService.DoesProductExistByIdAsync(product.Id));
 
 				//Remove Product
@@ -216,7 +216,7 @@ namespace webspec3Tests
 				await productService.DeleteAsync(product);
 
 				Assert.Null(await productService.GetByIdAsync(product.Id));
-				Assert.Equal(0, productService.GetAllAsync().Result.Count);
+				Assert.Empty(productService.GetAllAsync().Result);
 				Assert.False(await productService.DoesProductExistByIdAsync(product.Id));
 			});
 		}
