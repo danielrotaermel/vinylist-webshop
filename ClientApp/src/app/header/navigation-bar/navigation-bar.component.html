@@ -64,7 +64,7 @@
           <h2>Favorites</h2>
           <content>
             <p>Favorites</p>
-            <button mat-button (click)="favorites.popover.close()">close</button>
+            <button mat-button id="wishlistOverlay" (click)="favorites.popover.close()">close</button>
           </content>
         </app-card-overlay>
 
@@ -74,7 +74,7 @@
           <content>
             <p>Products</p>
             <app-cart-list></app-cart-list>
-            <button mat-button (click)="cart.popover.close()">close</button>
+            <button mat-button id="cartOverlay" (click)="cart.popover.close()">close</button>
           </content>
         </app-card-overlay>
 

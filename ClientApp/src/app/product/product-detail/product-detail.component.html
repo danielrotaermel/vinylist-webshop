@@ -9,7 +9,7 @@
         <img src="{{product.image.getImageDataString()}}">
       </div>
       <div class="row">
-        <h1>{{getTranslation().getTitle()}}
+        <h1 id="productTitleField">{{getTranslation().getTitle()}}
           <span class="small"> {{'PRODUCT.BY' | translate }} </span>
           <span class="artist">{{product.artist}}</span>
         </h1>
@@ -36,13 +36,13 @@
           </div>
           <div class="row end-lg start-xs">
             <div class="col-lg-3 align-end">
-              <button mat-icon-button (click)="addToWishlist()" matTooltip="{{ 'PRODUCT.WISHLIST_TOOLTIP' | translate}}
-                " matTooltipPosition="below">
+              <button mat-icon-button id="addWishlistBtn" (click)="addToWishlist()" matTooltip="{{ 'PRODUCT.WISHLIST_TOOLTIP' | translate}}
+                " matTooltipPosition="before ">
                 <mat-icon mat-icon-button aria-label="likes ">favorite</mat-icon>
               </button>
             </div>
             <div class="col-lg-9 align-end ">
-              <button mat-stroked-button (click)="addToCart()">
+              <button mat-stroked-button id="addCartBtn" (click)="addToCart() ">
                 <mat-icon aria-label="shopping_cart ">shopping_cart</mat-icon>
                 {{'PRODUCT.TO_CART' | translate}}
               </button>

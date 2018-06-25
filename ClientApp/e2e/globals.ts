@@ -6,4 +6,7 @@ import {browser, element, by, By, $, $$, ExpectedConditions} from 'protractor';
 export class Globals{
     public g_login_email = "ptor_testuser@example.com";
     public g_login_pw = "ptor_testuser";
-}
+
+    public g_home_btn = element(By.id("home"));
+    
+};

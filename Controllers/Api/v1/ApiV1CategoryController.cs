@@ -19,6 +19,7 @@ namespace webspec3.Controllers.Api.v1
     /// </summary>
     [Route("api/v1/categories")]
     [AutoValidateAntiforgeryToken]
+    [ApiV1ExceptionFilter]
     public sealed class ApiV1CategoryController : Controller
     {
         private readonly ICategoryService categoryService;

@@ -108,13 +108,10 @@ namespace webspec3
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
 
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
 
             // Add XSRF token to all non-api requests
             app.Use(async (context, next) =>
@@ -137,13 +134,6 @@ namespace webspec3
 
                 await next();
             });
-
-            // Consider for production mode !!!
-            app.UseCors(builder => builder
-                .AllowAnyOrigin()
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowCredentials());
 
             app.UseSession();
 
@@ -174,7 +164,6 @@ namespace webspec3
 
                 if (env.IsDevelopment())
                 {
-                    // spa.UseAngularCliServer(npmScript: "start");
                     spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
                 }
             });
