@@ -27,7 +27,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   removable: boolean = true;
   selectedSortBy = this.productService.getSortBy();
   selectedSortDirection = this.productService.getSortDirection();
-  selectedView: string;
+  selectedView: string = 'normal';
   currentPage = this.productService.getCurrentPage();
   totalItems = this.productService.getTotalItems();
   subscription: Subscription;
@@ -36,12 +36,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
   pageEvent: PageEvent;
 
   private paginator: MatPaginator;
-
-  @ViewChild(MatPaginator)
-  set matPaginator(mp: MatPaginator) {
-    this.paginator = mp;
-    this.setPaginator();
-  }
 
   displayedColumns = ['artist', 'title', 'price', 'favorite', 'cart'];
 
@@ -62,7 +56,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.products = this.route.snapshot.data['products'];
     this.categories = this.route.snapshot.data['categories'];
-    this.selectedView = 'normal';
     this.subscription = this.productService.productsChanged.subscribe(prod => {
       this.products = prod;
       this.paginatorOptions.currentPage = this.productService.getCurrentPage();
@@ -75,10 +68,13 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.resetProducts();
   }
 
-  setPaginator() {
-    this.paginator.page.pipe(tap(() => this.changePagingSettings())).subscribe();
+  @ViewChild(MatPaginator)
+  set matPaginator(mp: MatPaginator) {
+    if (this) {
+      this.paginator = mp;
+      this.paginator.page.pipe(tap(() => this.changePagingSettings())).subscribe();
+    }
   }
-
   changePagingSettings() {
     this.paginatorOptions.totalItems = this.pageEvent.length;
     this.productService.setItemsPerPage(this.pageEvent.pageSize);
