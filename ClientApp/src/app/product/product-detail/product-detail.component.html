@@ -35,13 +35,13 @@
           </div>
           <div class="row end-lg start-xs">
             <div class="col-lg-3 align-end">
-              <button mat-icon-button (click)="addToWishlist()" matTooltip="{{ 'PRODUCT.WISHLIST_TOOLTIP' | translate}}
+              <button mat-icon-button (click)="this.cartService.addItem(product)" matTooltip="{{ 'PRODUCT.WISHLIST_TOOLTIP' | translate}}
                 " matTooltipPosition="before ">
                 <mat-icon mat-icon-button aria-label="likes ">favorite</mat-icon>
               </button>
             </div>
             <div class="col-lg-9 align-end ">
-              <button mat-stroked-button (click)="addToCart() ">
+              <button mat-stroked-button (click)="this.cartService.addItem(product)">
                 <mat-icon aria-label="shopping_cart ">shopping_cart</mat-icon>
                 {{'PRODUCT.TO_CART' | translate}}
               </button>

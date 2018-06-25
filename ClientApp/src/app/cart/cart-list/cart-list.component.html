@@ -1,5 +1,10 @@
-<ul>
-  <li *ngFor="let product of cart | async">
-    {{product.artist}}
-  </li>
-</ul>
+<div *ngIf="this.cartService.getItemsTotal() > 0; else emptyCardPlaceholder">
+  <div class="productList">
+    <app-cart-list-item *ngFor="let product of this.cartService.getItems();" [product]="product"></app-cart-list-item>
+  </div>
+  <button mat-raised-button color="primary" (click)="card.popover.close(); this.cartService.orderCart()">checkout</button>
+</div>
+
+<ng-template #emptyCardPlaceholder>
+  <button mat-raised-button color="primary" (click)="card.popover.close()">empty cart shop now!</button>
+</ng-template>

@@ -37,6 +37,7 @@ body {
 app-root {
 }
 /* global fix */
+
 // fix for border radius not beeing inherited on ripple effects (only works on chrome + firefox)
 ::ng-deep .mat-button-ripple {
   border-radius: inherit !important;

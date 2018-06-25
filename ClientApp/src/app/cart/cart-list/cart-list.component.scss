@@ -1,0 +1,33 @@
+@import '../../../sass/styles';
+
+@media only screen and (min-width: $xs) {
+  .productList {
+    max-height: 50vh !important;
+    max-width: 70vh !important;
+    // padding-right: 15px;
+    overflow-y: scroll !important;
+    overflow-x: hidden !important;
+    margin-bottom: 1em;
+    margin-top: 1em;
+  }
+}
+
+@media only screen and (min-width: $sm) {
+}
+@media only screen and (min-width: $md) {
+}
+@media only screen and (min-width: $lg) {
+  .productList {
+    max-height: 50vh !important;
+    max-width: 70vh !important;
+    // padding-right: 15px;
+    overflow-y: scroll !important;
+    overflow-x: hidden !important;
+    margin-bottom: 1em;
+    margin-top: 1em;
+  }
+}
+
+.productList {
+  padding-right: 15px;
+}

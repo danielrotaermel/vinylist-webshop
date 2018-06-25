@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AngularSvgIconModule } from 'angular-svg-icon';
+
 import { AppComponent } from './app.component';
 import { MaterialModule } from './core/material.module';
 import { FooterComponent } from './footer/footer.component';
@@ -46,10 +47,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     UserModule,
     ProductModule
   ],
-  providers: [
-    LocalStorageService,
-    { provide: StorageService, useClass: LocalStorageService }
-  ],
+  providers: [LocalStorageService, { provide: StorageService, useClass: LocalStorageService }],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

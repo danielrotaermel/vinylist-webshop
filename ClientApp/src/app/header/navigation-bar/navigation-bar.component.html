@@ -1,13 +1,13 @@
 <div class="navbar row between-xs">
 
-  <div class="col-lg-3 col-xs-12 start-lg center-xs">
+  <div class="col-lg-3 col-xs-12 start-lg center-sm start-xs">
     <a id="home" routerLink="/">
       <svg-icon id="logo" src="../assets/vinylist-logo.svg" [stretch]="true" [stretch]="true" [svgStyle]="{'width.px':170,'padding.px':1,'margin.px':3}">
       </svg-icon>
     </a>
   </div>
 
-  <div class="col-lg-2 col-xs-12 start-xs end-lg">
+  <div class="col-lg-2 col-xs-3 start-xs end-lg">
     <mat-form-field>
       <mat-select [(value)]="selectedFilterBy" placeholder="{{ 'NAVIGATION_BAR.SEARCH_BY' | translate}}">
         <mat-option value="Artist" (click)='filterBy("Artist")'>
@@ -29,7 +29,7 @@
     </mat-form-field>
   </div>
 
-  <div class="search-box col-lg-3 col-xs-10 end-xs start-lg">
+  <div class="search-box col-lg-3 col-xs end-xs start-lg">
     <input class="col-xs-12 col-sm-12 col-lg-10" style='width:100%' id="search-input" aria-label="search" type="search" placeholder="{{'NAVIGATION_BAR.SEARCH' | translate}}"
       #searchInput (keyup.enter)="setFilterQuery(searchInput.value)">
     <button class="hidden-xs hidden-sm hidden-md" mat-icon-button (click)="setFilterQuery(searchInput.value)">
@@ -39,27 +39,28 @@
 
   <div class="col-lg-4 col-xs-12 end-lg start-xs">
     <div class="row between-xs end-lg">
-      <div class="col-xs-6 col-sm-6 col-lg-6 end-lg">
+      <div class="col-xs-6 col-sm-6 col-lg-6 end-lg hidden-md">
         <a id="sign_in_btn" mat-button (click)="profile.popover.open()">{{'NAVIGATION_BAR.SIGN_IN' | translate}}</a>
       </div>
 
-      <div class="col-xs-6 col-sm-6 col-lg-6 end-xs end-lg">
-
+      <div class="buttons col-xs-6 col-sm-6 col-lg-6 end-xs end-lg">
         <app-card-overlay #profile anchorButton="account_circle" cornerButton="account_circle">
           <h2>Profile</h2>
           <sub-title>
-            <a *ngIf="loggedIn" routerLink="/profile" (click)="profile.popover.close()">{{'USER.EDIT' | translate}}</a>
+            <a *ngIf="this.session.isLoggedIn()" routerLink="/profile" (click)="profile.popover.close()">{{'USER.EDIT' | translate}}</a>
           </sub-title>
-          <content>
-            <div>
-              <app-register *ngIf="showRegister" [popover]="profile.popover"></app-register>
-              <a mat-button *ngIf="showRegister" (click)="toggleAuthView()">{{'USER.REGISTER_SWITCH' | translate}}</a>
+          <content class="login-wrapper">
+            <div *ngIf="!this.session.isLoggedIn()">
+              <div *ngIf="!showLogin">
+                <app-register [popover]="profile.popover"></app-register>
+                <a mat-button (click)="toggleAuthView()">{{'USER.REGISTER_SWITCH' | translate}}</a>
+              </div>
+              <div *ngIf="showLogin">
+                <app-login [popover]="profile.popover"></app-login>
+                <a mat-button (click)="toggleAuthView()">{{'USER.LOGIN_SWITCH' | translate}}</a>
+              </div>
             </div>
-            <div>
-              <app-login *ngIf="showLogin" [popover]="profile.popover"></app-login>
-              <a mat-button *ngIf="showLogin" (click)="toggleAuthView()">{{'USER.LOGIN_SWITCH' | translate}}</a>
-              <button *ngIf="loggedIn" (click)="signout()" mat-raised-button color="primary">signout</button>
-            </div>
+            <button *ngIf="this.session.isLoggedIn()" (click)="signout()" mat-raised-button color="primary">signout</button>
           </content>
         </app-card-overlay>
 
@@ -73,12 +74,11 @@
         </app-card-overlay>
 
 
-        <app-card-overlay #cart anchorButton="shopping_cart" cornerButton="shopping_cart">
-          <h2>Products</h2>
+        <app-card-overlay #cart [badgeCount]="this.cartService.getItemsTotal()" anchorButton="shopping_cart" cornerButton="shopping_cart">
+          <h2>Cart</h2>
           <content>
-            <p>Products</p>
-            <app-cart-list></app-cart-list>
-            <button mat-button (click)="cart.popover.close()">close</button>
+            <app-cart-list [card]="cart"></app-cart-list>
+            <!-- <button mat-button (click)="cart.popover.close()">close</button> -->
           </content>
         </app-card-overlay>
 
