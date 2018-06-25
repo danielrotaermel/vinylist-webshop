@@ -13,6 +13,7 @@ import {
   MatExpansionModule,
   MatIconModule,
   MatInputModule,
+  MatPaginatorModule,
   MatRadioModule,
   MatSelectModule,
   MatSnackBarModule,
@@ -43,7 +44,8 @@ import {
     MatChipsModule,
     MatButtonToggleModule,
     MatTableModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatPaginatorModule
   ],
   exports: [
     MatInputModule,
@@ -61,7 +63,8 @@ import {
     MatChipsModule,
     MatButtonToggleModule,
     MatTableModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatPaginatorModule
   ],
   declarations: []
 })

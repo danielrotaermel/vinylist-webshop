@@ -7,7 +7,7 @@ import { ProductListItemComponent } from './product-list-item/product-list-item.
 import { ProductFilterComponent } from './product-filter/product-filter.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import { RouterModule, Routes } from '@angular/router';
@@ -16,6 +16,8 @@ import { MaterialModule } from '../core/material.module';
 import { ProductDetailResolver } from './product-detail/product-detail-resolvers';
 
 import { ProductListResolver, CategoriesResolver } from './product-list/product-list-resolver';
+import { ProductPagination } from './product-pagination';
+import { MatPaginatorIntl } from '@angular/material';
 const routes: Routes = [
   {
     path: '',
@@ -50,6 +52,20 @@ const routes: Routes = [
     ProductListItemComponent,
     ProductFilterComponent
   ],
-  providers: [ProductDetailResolver, ProductListResolver, CategoriesResolver, ProductListComponent]
+  providers: [
+    ProductDetailResolver,
+    ProductListResolver,
+    CategoriesResolver,
+    ProductListComponent,
+    {
+      provide: MatPaginatorIntl,
+      useFactory: translate => {
+        const service = new ProductPagination();
+        service.injectTranslateService(translate);
+        return service;
+      },
+      deps: [TranslateService]
+    }
+  ]
 })
 export class ProductModule {}

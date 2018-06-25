@@ -1,6 +1,7 @@
 <!-- @author Janina Wachendorfer -->
 <div class="row v-line">
   <div class="col-lg-3 col-xs-12">
+    <button mat-stroked-button (click)="navigateBack()">{{ 'PRODUCT.BACK' | translate }}</button>
   </div>
   <div class="col-lg-7 col-sm-12 col-xs-12">
     <div class="detail-container">
@@ -18,7 +19,7 @@
       </div>
       <div class="row bottom-xs">
         <div class="col-lg-8 col-xs-12">
-          <div class="row">
+          <div *ngIf="descriptionAvailable" class="row">
             <h2>{{ 'PRODUCT.DESCRIPTION' | translate }}</h2>
           </div>
           <div class="row description">{{getTranslation().getDescription()}}</div>
