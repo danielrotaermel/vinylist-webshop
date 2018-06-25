@@ -17,7 +17,8 @@ namespace webspec3.Controllers.Api.v1
     /// M. Narr
     /// </summary>
     [Route("api/v1/users")]
-    //[AutoValidateAntiforgeryToken]
+    [AutoValidateAntiforgeryToken]
+    [ApiV1ExceptionFilter]
     public sealed class ApiV1UserController : Controller
     {
         private readonly IPasswordService passwordService;
