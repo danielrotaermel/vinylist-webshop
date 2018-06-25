@@ -73,7 +73,7 @@
     </div>
 
     <div class="col-lg-9 col-sm-12 col-xs-12 ">
-      <div [hidden]="selectedView==='table'">
+      <div *ngIf="selectedView==='normal'">
         <div class="products row">
           <div *ngFor="let item of products | paginate: paginatorOptions" class="col-lg-4 col-sm-6 col-xs-12 item ">
             <app-product-list-item [product]="item "></app-product-list-item>
@@ -86,8 +86,8 @@
         </div>
       </div>
 
-      <div class="row" [hidden]="selectedView==='normal'">
         <div class="col-md-12">
+      <div class="row" *ngIf="selectedView==='table'">
           <table mat-table [dataSource]="products">
             <ng-container matColumnDef="artist">
               <th mat-header-cell *matHeaderCellDef> {{ 'PRODUCT.ARTIST' | translate }} </th>
