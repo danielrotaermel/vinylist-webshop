@@ -10,6 +10,10 @@ using Xunit;
 
 namespace webspec3Tests
 {
+	
+	/// <summary>
+	/// J. Mauthe
+	/// </summary>
 	public class ProductTest : DatabaseTestBase
 	{
 		[Fact]

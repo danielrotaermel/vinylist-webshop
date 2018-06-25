@@ -6,6 +6,10 @@ using webspec3.Entities;
 
 namespace webspec3Tests
 {
+	
+	/// <summary>
+	/// J. Mauthe
+	/// </summary>
 	public abstract class DatabaseTestBase
 	{
 		protected WebSpecDbContext ProvideDbContext(SqliteConnection connection)
