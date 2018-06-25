@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
 import { Product } from '../product';
@@ -22,12 +22,17 @@ export class ProductDetailComponent implements OnInit {
     private productService: ProductService,
     private route: ActivatedRoute,
     private translateService: TranslateService,
-    private cartService: CartService
+    private cartService: CartService,
+    private router: Router
   ) {}
 
   ngOnInit() {
     this.product = this.route.snapshot.data['product'];
     this.descriptionAvailable = this.checkIfAvailable('this.getTranslation().getDescription()');
+  }
+
+  navigateBack(product: Product) {
+    this.router.navigate(['/']);
   }
 
   /**

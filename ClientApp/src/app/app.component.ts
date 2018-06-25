@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { StorageService } from './services/storage.service';
 
+/**
+ * @author Janina Wachendorfer
+ */
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
