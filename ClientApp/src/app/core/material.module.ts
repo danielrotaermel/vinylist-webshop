@@ -18,7 +18,8 @@ import {
   MatSnackBarModule,
   MatTableModule,
   MatToolbarModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatPaginatorModule
 } from '@angular/material';
 
 /**
@@ -43,7 +44,8 @@ import {
     MatChipsModule,
     MatButtonToggleModule,
     MatTableModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatPaginatorModule
   ],
   exports: [
     MatSelectModule,
@@ -61,7 +63,8 @@ import {
     MatChipsModule,
     MatButtonToggleModule,
     MatTableModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatPaginatorModule
   ],
   declarations: []
 })

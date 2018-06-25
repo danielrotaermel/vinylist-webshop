@@ -14,10 +14,58 @@
   height: 100%;
 }
 
+table {
+  width: 100%;
+}
+
+.mat-table,
+.mat-paginator {
+  background: none;
+  border-style: solid;
+  border-width: thin;
+  border-radius: 3px;
+  border-color: white;
+}
+
+.mat-paginator {
+  background-color: rgba(255, 255, 255, 0.15);
+  margin-top: 10px;
+  color: white;
+}
+
+.mat-header-cell {
+  color: #ccc;
+}
+
+.mat-column-artist {
+  font-weight: bold;
+}
+
+.mat-row:hover {
+  background-color: rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+}
+
+.mat-column-cart,
+.mat-column-favorite {
+  text-align: center;
+  max-width: 100px;
+}
+
+.mat-cell,
+.mat-footer-cell {
+  color: white;
+}
+
 @media only screen and (max-width: 1182px) {
   .v-line {
     border: none;
     padding: 0;
+  }
+
+  .genre-container {
+    padding-left: 0;
+    padding-bottom: 10px;
   }
 }
 
@@ -64,6 +112,7 @@ mat-panel-description {
   border-color: #ccc;
   border-style: solid;
   border-width: thin;
+  margin: 10px;
 }
 
 .radio-group {

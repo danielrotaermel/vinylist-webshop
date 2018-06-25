@@ -1,8 +1,21 @@
 <!-- @author Janina Wachendorfer, Alexander Merker -->
 <div class="product-list-container">
   <div class="row end-lg">
-    <div class="col-lg-7">
+    <div class="col-lg-3">
     </div>
+
+    <div class="col-lg-1">
+      <mat-button-toggle-group #group="matButtonToggleGroup" [(value)]="selectedView">
+        <mat-button-toggle value="normal" (click)='changeActiveView("normal")' aria-label="list" matTooltip="{{ 'PRODUCT.NORMAL_VIEW' | translate}}">
+          <mat-icon>dashboard</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle value="table" (click)='changeActiveView("table")' aria-label="table" matTooltip="{{ 'PRODUCT.TABLE_VIEW' | translate}}">
+          <mat-icon>view_list</mat-icon>
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+
+    <div class="col-lg-3"></div>
 
     <div class="col-lg-4">
       <mat-form-field>
@@ -37,7 +50,7 @@
     <div class="col-lg-3 col-xs-12 genre-container">
       <div class="border-box">
         <mat-accordion>
-          <mat-expansion-panel>
+          <mat-expansion-panel expanded="true">
             <mat-expansion-panel-header>
               <mat-panel-title>
                 Genre
@@ -60,47 +73,61 @@
     </div>
 
     <div class="col-lg-9 col-sm-12 col-xs-12 ">
-      <div class="products row">
-        <div *ngFor="let item of products | paginate: paginatorOptions" class="col-lg-4 col-sm-6 col-xs-12 item ">
-          <app-product-list-item [product]="item "></app-product-list-item>
-          <!--
-            <div>
-              <mat-table [dataSource]="dataSource">
-                <ng-container matColumnDef="artist">
-                  <mat-header-cell *matHeaderCellDef> {{ 'PRODUCT.ARTIST' | translate }} </mat-header-cell>
-                  <mat-cell *matCellDef="let product">
-                    <mat-form-field floatLabel="never">
-                      <input matInput placeholder=" {{ 'PRODUCT.ARTIST' | translate }}" [value]="product.artist" [(ngModel)]="product.artist">
-                    </mat-form-field>
-                  </mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="label">
-                  <mat-header-cell *matHeaderCellDef> {{ 'PRODUCT.LABEL' | translate }} </mat-header-cell>
-                  <mat-cell *matCellDef="let product">
-                    <mat-form-field floatLabel="never">
-                      <input matInput placeholder=" {{ 'PRODUCT.LABEL' | translate }}" [value]="product.label" [(ngModel)]="product.label">
-                    </mat-form-field>
-                  </mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="price">
-                  <mat-header-cell *matHeaderCellDef> {{ 'PRODUCT.PRICE' | translate }}</mat-header-cell>
-                  <mat-cell *matCellDef="let product">
-                    <mat-form-field floatLabel="never">
-                      <input matInput placeholder=" {{ 'PRODUCT.PRICE' | translate }}" [value]="product.price" [(ngModel)]="product.price">
-                    </mat-form-field>
-                  </mat-cell>
-                </ng-container>
-                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-              </mat-table>
-          </div>
-        -->
-        </div>
+      <div *ngIf="selectedView==='normal'">
+        <div class="products row">
+          <div *ngFor="let item of products | paginate: paginatorOptions" class="col-lg-4 col-sm-6 col-xs-12 item ">
+            <app-product-list-item [product]="item "></app-product-list-item>
 
+
+
+          </div>
+
+        </div>
+        <div class="row center-lg center-xs">
+          <div class="col-lg-12 col-xs-12">
+            <pagination-controls class="pagination" (pageChange)="pageChange($event)" previousLabel="" nextLabel=""></pagination-controls>
+          </div>
+        </div>
       </div>
-      <div class="row center-lg center-xs">
-        <div class="col-lg-12 col-xs-12">
-          <pagination-controls class="pagination" (pageChange)="pageChange($event)" previousLabel="" nextLabel=""></pagination-controls>
+
+      <div class="row" *ngIf="selectedView==='table'">
+        <div class="col-md-12">
+          <table mat-table [dataSource]="products">
+            <ng-container matColumnDef="artist">
+              <th mat-header-cell *matHeaderCellDef> {{ 'PRODUCT.ARTIST' | translate }} </th>
+              <td mat-cell *matCellDef="let element" (click)="navigateToDetails(element)"> {{element.artist}} </td>
+            </ng-container>
+            <ng-container matColumnDef="title">
+              <th mat-header-cell *matHeaderCellDef> {{ 'PRODUCT.TITLE' | translate }} </th>
+              <td mat-cell *matCellDef="let element" (click)="navigateToDetails(element)"> {{getTranslation(element).getTitle()}} </td>
+            </ng-container>
+            <ng-container matColumnDef="price">
+              <th mat-header-cell *matHeaderCellDef> {{ 'PRODUCT.PRICE' | translate }} </th>
+              <td mat-cell *matCellDef="let element" (click)="navigateToDetails(element)"> {{getPrice(element).getFormattedPrice()}} </td>
+            </ng-container>
+            <ng-container matColumnDef="favorite">
+              <th mat-header-cell *matHeaderCellDef> {{ 'PRODUCT.WISHLIST' | translate }} </th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-icon-button matTooltip="{{'PRODUCT.WISHLIST_TOOLTIP' | translate}}">
+                  <mat-icon mat-icon-button aria-label="likes">favorite</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="cart">
+              <th mat-header-cell *matHeaderCellDef> {{ 'PRODUCT.CART' | translate }} </th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-stroked-button matTooltip="{{'PRODUCT.TO_CART' | translate}}">
+                  <mat-icon aria-label="shopping_cart">shopping_cart</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+
+          <mat-paginator #tablePaginator [length]="paginatorOptions.totalItems" [pageSize]="paginatorOptions.itemsPerPage" [pageSizeOptions]="pageSizeOptions"
+            (page)="pageEvent = $event">
+          </mat-paginator>
         </div>
       </div>
     </div>
