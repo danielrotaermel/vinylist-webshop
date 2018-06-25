@@ -1,12 +1,4 @@
-import {
-  Component,
-  Input,
-  OnInit,
-  Directive,
-  ElementRef,
-  HostListener,
-  ViewChild
-} from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-card-overlay',
@@ -20,19 +12,11 @@ export class CardOverlayComponent implements OnInit {
 
   @ViewChild('popover') public popover;
 
-  hideBadge = true;
-
   constructor() {}
 
-  ngOnInit() {
-    if (this.badgeCount > 0) {
-      this.hideBadge = false;
-    }
-  }
+  ngOnInit() {}
 
-  // ngAfterViewInit() {
-  //   if (this.badgeCount > 0) {
-  //     this.popover.open();
-  //   }
-  // }
+  isBadgeHidden() {
+    return this.badgeCount === 0 ? true : false;
+  }
 }

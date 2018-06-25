@@ -27,7 +27,7 @@
       </button>
     </div>
     <div class="col-xs shopping-cart-button">
-      <button mat-stroked-button>
+      <button mat-stroked-button (click)="this.cartService.addItem(product)">
         <mat-icon aria-label="shopping_cart">shopping_cart</mat-icon>
         {{'PRODUCT.TO_CART' | translate}}
       </button>

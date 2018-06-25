@@ -1,11 +1,10 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, of, Subject } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
-import { Observable, of, Subscription, Subject } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
-
-import { Product } from './product';
 import { Category } from './category';
+import { Product } from './product';
 
 /** @author Janina Wachendorfer */
 @Injectable({
@@ -178,7 +177,6 @@ export class ProductService {
   deserializePagedProducts(productsPages: any): Product[] {
     this.pageCount = productsPages.pageCount;
     this.totalItems = productsPages.totalItems;
-    //console.log(this.totalItems);
     const products = new Array<Product>();
     productsPages.items.forEach(element => {
       products.push(new Product().deserialize(element));

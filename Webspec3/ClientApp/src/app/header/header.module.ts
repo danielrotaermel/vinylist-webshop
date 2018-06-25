@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { SatPopoverModule } from '@ncstate/sat-popover';
 import { TranslateModule } from '@ngx-translate/core';
@@ -14,6 +15,7 @@ import { NavigationBarComponent } from './navigation-bar/navigation-bar.componen
 
 @NgModule({
   imports: [
+    FormsModule,
     CommonModule,
     AngularSvgIconModule,
     MaterialModule,
@@ -23,12 +25,8 @@ import { NavigationBarComponent } from './navigation-bar/navigation-bar.componen
     UserModule,
     CartModule
   ],
-  declarations: [
-    CategoriesComponent,
-    NavigationBarComponent,
-    CardOverlayComponent
-  ],
+  declarations: [CategoriesComponent, NavigationBarComponent, CardOverlayComponent],
   exports: [NavigationBarComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA] // add this line
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class HeaderModule {}

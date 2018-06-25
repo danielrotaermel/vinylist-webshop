@@ -1,7 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, DoCheck, Input } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
+import { SessionService } from '../../services/session.service';
 import { Credentials } from './../../models/credentials.model';
 import { AuthService } from './../../services/auth.service';
 
@@ -14,17 +15,23 @@ import { AuthService } from './../../services/auth.service';
 /**
  * @author Alexander Merker, Janina Wachendorfer, Daniel Rotärmel
  */
-export class LoginComponent {
+export class LoginComponent implements DoCheck {
+  @Input() popover;
+
   email: string;
   password: string;
-
-  @Input() popover;
+  loggedIn = false;
 
   constructor(
     private snackBar: MatSnackBar,
     private authService: AuthService,
+    private session: SessionService,
     private router: Router
   ) {}
+
+  ngDoCheck() {
+    this.loggedIn = this.session.isLoggedIn();
+  }
 
   openSnackBar(message, time) {
     this.snackBar.open(message, '', {
@@ -50,9 +57,5 @@ export class LoginComponent {
         this.openSnackBar('Wrong username or password', 5000);
       }
     );
-  }
-
-  public signout() {
-    this.authService.logout();
   }
 }

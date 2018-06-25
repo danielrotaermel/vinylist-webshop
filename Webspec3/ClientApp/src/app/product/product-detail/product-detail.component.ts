@@ -21,7 +21,7 @@ export class ProductDetailComponent implements OnInit {
     private productService: ProductService,
     private route: ActivatedRoute,
     private translateService: TranslateService,
-    private cartService: CartService
+    public cartService: CartService
   ) {}
 
   ngOnInit() {
@@ -60,13 +60,5 @@ export class ProductDetailComponent implements OnInit {
 
   getProduct(id: string): void {
     this.productService.getProduct(id).subscribe(prod => (this.product = prod));
-  }
-
-  addToWishlist() {
-    this.cartService.addToWishlist(this.product.id);
-  }
-
-  addToCart() {
-    this.cartService.addItem(this.product);
   }
 }

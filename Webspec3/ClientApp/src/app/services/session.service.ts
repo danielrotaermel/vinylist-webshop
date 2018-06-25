@@ -6,28 +6,18 @@ import { UserService } from './user.service';
 /**
  * @author Daniel Rotärmel
  */
-const USER = 'session.user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SessionService {
-  private user: User;
+  private user: User = null;
 
-  constructor(
-    // private storageService: StorageService,
-    private userService: UserService
-  ) {
+  constructor(private userService: UserService) {
     this.init();
   }
 
   private init() {
-    // // Instantiate data when service
-    // // is loaded
-    // if (this.storageService.getItem(USER)) {
-    //   this.user = this.getUser();
-    // }
-
     // call backend and ensure login state is consistent
     this.userService.getCurrentUser().subscribe(user => {
       if (user === null) {

@@ -1,6 +1,6 @@
 <button mat-icon-button class="open-overlay-button" (click)="popover.open()">
-  <mat-icon [satPopoverAnchorFor]="popover" [matBadgeHidden]="hideBadge" [matBadge]="badgeCount" matBadgePosition="after" matBadgeColor="warn"
-    mat-icon-button mat-icon-button aria-label="{{ anchorButton }}">{{ anchorButton }}</mat-icon>
+  <mat-icon [satPopoverAnchorFor]="popover" [matBadgeHidden]="isBadgeHidden()" [matBadge]="badgeCount" matBadgePosition="after"
+    matBadgeColor="warn" mat-icon-button mat-icon-button aria-label="{{ anchorButton }}">{{ anchorButton }}</mat-icon>
 </button>
 
 <sat-popover #popover hasBackdrop lockAlignment verticalAlign="start" horizontalAlign="end">
@@ -20,6 +20,9 @@
       <mat-card-content class="start-xs">
         <ng-content select="content"></ng-content>
       </mat-card-content>
+      <mat-card-actions>
+        <ng-content select="actions"></ng-content>
+      </mat-card-actions>
     </mat-card>
   </div>
 </sat-popover>

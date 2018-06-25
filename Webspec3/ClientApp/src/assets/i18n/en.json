@@ -21,6 +21,8 @@
     "REGISTER_SWITCH": "Already have an account? Login",
     "LOGIN_SWITCH": "Don't have an account? Register",
     "LOGIN": "Login",
+    "LOGOUT": "Logout",
+    "EDIT": "edit",
     "REGISTER": "Register",
     "PASSWORD": "Password",
     "EMAIL": "E-Mail",
