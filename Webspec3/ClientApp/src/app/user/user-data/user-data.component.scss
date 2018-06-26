@@ -28,3 +28,14 @@
 .mat-form-field-infix {
   width: 200px !important;
 }
+
+::ng-deep .user-data .mat-form-field-flex {
+  min-width: 80px !important;
+  max-width: 400px !important;
+  width: 50vw !important;
+}
+
+::ng-deep .user-data .mat-form-field-infix {
+  min-width: 80px !important;
+  max-width: 600px !important;
+}
