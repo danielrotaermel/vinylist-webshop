@@ -1,8 +1,30 @@
 // Author: Alexander Merker + Janina Wachendorfer
 
-.bordered{
-    border-style: 2px solid #000;
+.bordered {
+  border-style: 2px solid #000;
 }
 .base-icon {
-    margin: 20px 10px 0px 0px;
-  }
+  margin: 20px 10px 0px 0px;
+}
+
+.user-data {
+  margin-top: 3em;
+}
+
+.border {
+  border-radius: 5px;
+  border: solid 1px white;
+}
+
+.add-margin {
+  margin: 1em;
+}
+
+.buttons {
+  margin-top: 3em;
+  margin-bottom: 1em;
+}
+
+.mat-form-field-infix {
+  width: 200px !important;
+}
