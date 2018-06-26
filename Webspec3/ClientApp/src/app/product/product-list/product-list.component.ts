@@ -71,7 +71,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatPaginator)
   set matPaginator(mp: MatPaginator) {
-    if (this) {
+    if (this && mp !== undefined) {
       this.paginator = mp;
       this.paginator.page.pipe(tap(() => this.changePagingSettings())).subscribe();
     }
