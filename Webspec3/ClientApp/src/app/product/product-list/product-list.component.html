@@ -90,19 +90,19 @@
           <table mat-table [dataSource]="products">
             <ng-container matColumnDef="artist">
               <th mat-header-cell *matHeaderCellDef> {{ 'PRODUCT.ARTIST' | translate }} </th>
-              <td mat-cell *matCellDef="let element" (click)="navigateToDetails(element)"> {{element.artist}} </td>
+              <td mat-cell *matCellDef="let product" (click)="navigateToDetails(product)"> {{product.artist}} </td>
             </ng-container>
             <ng-container matColumnDef="title">
               <th mat-header-cell *matHeaderCellDef> {{ 'PRODUCT.TITLE' | translate }} </th>
-              <td mat-cell *matCellDef="let element" (click)="navigateToDetails(element)"> {{getTranslation(element).getTitle()}} </td>
+              <td mat-cell *matCellDef="let product" (click)="navigateToDetails(product)"> {{getTranslation(product).getTitle()}} </td>
             </ng-container>
             <ng-container matColumnDef="price">
               <th mat-header-cell *matHeaderCellDef> {{ 'PRODUCT.PRICE' | translate }} </th>
-              <td mat-cell *matCellDef="let element" (click)="navigateToDetails(element)"> {{getPrice(element).getFormattedPrice()}} </td>
+              <td mat-cell *matCellDef="let product" (click)="navigateToDetails(product)"> {{getPrice(product).getFormattedPrice()}} </td>
             </ng-container>
             <ng-container matColumnDef="favorite">
               <th mat-header-cell *matHeaderCellDef> {{ 'PRODUCT.WISHLIST' | translate }} </th>
-              <td mat-cell *matCellDef="let element">
+              <td mat-cell *matCellDef="let product">
                 <button mat-icon-button matTooltip="{{'PRODUCT.WISHLIST_TOOLTIP' | translate}}">
                   <mat-icon mat-icon-button aria-label="likes">favorite</mat-icon>
                 </button>
@@ -110,9 +110,9 @@
             </ng-container>
             <ng-container matColumnDef="cart">
               <th mat-header-cell *matHeaderCellDef> {{ 'PRODUCT.CART' | translate }} </th>
-              <td mat-cell *matCellDef="let element">
+              <td mat-cell *matCellDef="let product">
                 <button mat-stroked-button matTooltip="{{'PRODUCT.TO_CART' | translate}}">
-                  <mat-icon aria-label="shopping_cart">shopping_cart</mat-icon>
+                  <mat-icon aria-label="shopping_cart" (click)="this.cartService.addItem(product)">shopping_cart</mat-icon>
                 </button>
               </td>
             </ng-container>

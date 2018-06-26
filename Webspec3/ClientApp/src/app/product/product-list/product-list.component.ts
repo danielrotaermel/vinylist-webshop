@@ -1,17 +1,17 @@
-import { Component, OnInit, OnDestroy, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator, PageEvent } from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { ProductPrice } from '../product-price';
-import { ProductTranslation } from '../product-translation';
+import { Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
-import { Product } from '../product';
-import { ProductService } from '../product.service';
+import { CartService } from '../../cart/cart.service';
 import { Category } from '../category';
 import { CategoriesService } from '../category.service';
-
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { PageEvent, MatPaginator } from '@angular/material';
-import { tap } from 'rxjs/operators';
+import { Product } from '../product';
+import { ProductPrice } from '../product-price';
+import { ProductTranslation } from '../product-translation';
+import { ProductService } from '../product.service';
 
 /** @author Janina Wachendorfer, Alexander Merker */
 @Component({
@@ -50,7 +50,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
     private categoriesService: CategoriesService,
     private route: ActivatedRoute,
     private translateService: TranslateService,
-    private router: Router
+    private router: Router,
+    public cartService: CartService
   ) {}
 
   ngOnInit() {
