@@ -33,7 +33,7 @@ export class ProductDetailComponent implements OnInit {
     this.descriptionAvailable = this.checkIfAvailable('this.getTranslation().getDescription()');
   }
 
-  navigateBack(product: Product) {
+  navigateBack() {
     this.router.navigate(['/']);
   }
 
