@@ -22,7 +22,7 @@ import { User } from './../../models/user.model';
  */
 export class AdminDataComponent {
   dataSource = new AdminDataSource(this.userService);
-  displayedColumns = ['firstName', 'lastName', 'email', 'save'];
+  displayedColumns = ['firstName', 'lastName', 'email', 'save', 'delete'];
 
   constructor(
     private snackBar: MatSnackBar,
@@ -54,6 +54,24 @@ export class AdminDataComponent {
       (error: any) => {
         this.i18nService
           .get('USER.ERRORS.ERR_SAVE')
+          .subscribe((res: string) => {
+            this.openSnackBar(res, 5000);
+          });
+      }
+    );
+  }
+
+  perform_delete(id) {
+
+    this.userService.deleteUser(id).subscribe(
+      (data: any) => {
+        this.i18nService.get('USER.PROFILE_DELETED').subscribe((res: string) => {
+          this.openSnackBar(res, 5000);
+        });
+      },
+      (error: any) => {
+        this.i18nService
+          .get('USER.ERRORS.ERR_DELETE')
           .subscribe((res: string) => {
             this.openSnackBar(res, 5000);
           });
