@@ -1,5 +1,5 @@
 import {browser, element, by, By, $, $$, ExpectedConditions, ProtractorExpectedConditions} from 'protractor';
-import { UserPage } from './user.page';
+import { UserPage } from './login.page';
 import { Globals } from '../globals';
 
 /**

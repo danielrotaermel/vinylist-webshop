@@ -9,7 +9,7 @@
     "build:ssr": "npm run build -- --app=ssr --output-hashing=media",
     "test": "ng test",
     "lint": "ng lint",
-    "ng:e2e": "ng e2e",
+    "ng:e2e": "ng e2e --devServerTarget=\"\"",
     "e2e": "npm-run-all -p -r webdriver:start ng:e2e",
     "clean:dist": "rm -rf dist",
     "clean:tmp": "rm -rf tmp",

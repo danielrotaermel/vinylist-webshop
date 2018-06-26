@@ -5,7 +5,7 @@ import { Globals } from '../globals';
 /**
  * @author Alexander Merker
  */
-describe('User Testcases', () => {
+xdescribe('Product Testcases', () => {
     
     let productPage : ProductPage;
     let globals : Globals;
