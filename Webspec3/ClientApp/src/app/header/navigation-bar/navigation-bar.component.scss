@@ -193,11 +193,46 @@ h2 {
 //   // }
 // }
 
-// @media only screen and (min-width: $sm) {
-//   // .buttons {
-//   //   order: -1;
-//   // }
-// }
+.filter {
+  margin-right: 1em;
+}
+
+@media only screen and (max-width: $xs) {
+  .logo {
+    order: 1;
+  }
+  .buttons {
+    order: 2;
+  }
+  .search-box {
+    order: 3;
+  }
+}
+
+@media only screen and (min-width: $xs) {
+  .logo {
+    order: 1;
+  }
+  .buttons {
+    order: 2;
+  }
+  .search-box {
+    order: 3;
+  }
+}
+
+@media only screen and (min-width: $sm) {
+  .logo {
+    order: 1;
+  }
+  .search-box {
+    order: 2;
+  }
+  .buttons {
+    order: 3;
+  }
+}
+
 // @media only screen and (min-width: $md) {
 // }
 // @media only screen and (min-width: $lg) {
