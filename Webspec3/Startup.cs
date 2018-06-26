@@ -109,15 +109,15 @@ namespace webspec3
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseStaticFiles();
-            app.UseSpaStaticFiles();
-
             // Add X-Frame-Options header
             app.Use(async (context, next) =>
             {
                 context.Response.Headers.Add("X-Frame-Options", "DENY");
                 await next();
             });
+
+            app.UseStaticFiles();
+            app.UseSpaStaticFiles();
 
             // Add XSRF token to all non-api requests
             app.Use(async (context, next) =>
