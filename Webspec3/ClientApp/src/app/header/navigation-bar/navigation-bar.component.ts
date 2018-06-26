@@ -1,11 +1,14 @@
-import { Router, RouterModule } from '@angular/router';
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+
 import { ProductService } from '../../product/product.service';
-import { ProductListComponent } from '../../product/product-list/product-list.component';
+import { CartService } from './../../cart/cart.service';
+import { AuthService } from './../../services/auth.service';
+import { SessionService } from './../../services/session.service';
 
 /**
- * @author J. Wachendorfer
+ * @author J. Wachendorfer, Daniel Rotärmel
  */
 @Component({
   selector: 'app-navigation-bar',
@@ -14,27 +17,30 @@ import { ProductListComponent } from '../../product/product-list/product-list.co
 })
 export class NavigationBarComponent implements OnInit {
   @ViewChild('profile') profile;
+  @ViewChild('cart') cart;
 
-  showRegister = false;
   showLogin = true;
+
+  constructor(
+    private translate: TranslateService,
+    private router: Router,
+    public session: SessionService,
+    private authService: AuthService,
+    private productService: ProductService,
+    public cartService: CartService
+  ) {}
+
+  ngOnInit() {}
 
   selectedFilterBy = this.productService.getFilterBy();
 
   toggleAuthView() {
     this.showLogin = !this.showLogin;
-    this.showRegister = !this.showRegister;
   }
 
-  constructor(
-    private translate: TranslateService,
-    private router: Router,
-    private productService: ProductService
-  ) {}
-
-  ngOnInit() {}
-
-  test() {
-    alert('Callback Test');
+  public signout() {
+    this.router.navigate(['/']);
+    this.authService.logout().subscribe();
   }
 
   filterBy(filter: string) {

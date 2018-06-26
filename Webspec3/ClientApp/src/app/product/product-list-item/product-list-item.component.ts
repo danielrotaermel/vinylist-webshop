@@ -1,10 +1,12 @@
-/** @author Janina Wachendorfer */
-import { Component, OnInit, Input } from '@angular/core';
-import { Product } from '../product';
-import { ProductTranslation } from '../product-translation';
-import { ProductPrice } from '../product-price';
+import { Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
+import { Product } from '../product';
+import { ProductPrice } from '../product-price';
+import { ProductTranslation } from '../product-translation';
+import { CartService } from './../../cart/cart.service';
+
+/** @author Janina Wachendorfer */
 @Component({
   selector: 'app-product-list-item',
   templateUrl: './product-list-item.component.html',
@@ -13,7 +15,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class ProductListItemComponent implements OnInit {
   @Input() product: Product;
 
-  constructor(private translateService: TranslateService) {}
+  constructor(public cartService: CartService, private translateService: TranslateService) {}
 
   ngOnInit() {}
 

@@ -37,12 +37,12 @@ export class AuthService {
   }
 
   // GET: /api/v1/logout
-  public logout(): Observable<void> {
+  public logout(): Observable<any> {
     return this.http
       .get(this.apiUrl + '/logout')
       .map(response => {
         this.sessionService.destroy();
-        return response.json();
+        return response;
       })
       .catch(this.handleError);
   }

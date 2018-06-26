@@ -141,6 +141,14 @@ mat-icon.mat-badge {
   margin-right: 0px !important;
 }
 
+// ::ng-deep .mat-card > .mat-card-content {
+//   max-height: 50vh !important;
+//   // max-width: 70vh !important;
+//   padding-right: 15px;
+//   overflow-y: scroll !important;
+//   overflow-x: hidden !important;
+// }
+
 h2 {
   margin-top: 0px;
   margin-bottom: 0.4em;
@@ -160,3 +168,72 @@ h2 {
   height: 18px !important;
   line-height: 18px !important;
 }
+
+// fix material input width
+::ng-deep .mat-form-field-infix {
+  // min-width: 80px !important;
+  max-width: 100px !important;
+  width: auto !important;
+}
+
+// fix material input width for login
+::ng-deep .login-wrapper .mat-form-field-infix {
+  // min-width: 80px !important;
+  max-width: 180px !important;
+  width: auto !important;
+}
+
+// .buttons {
+//   order: -1;
+// }
+
+// @media only screen and (min-width: $xs) {
+//   // .buttons {
+//   //   order: -1;
+//   // }
+// }
+
+.filter {
+  margin-right: 1em;
+}
+
+@media only screen and (max-width: $xs) {
+  .logo {
+    order: 1;
+  }
+  .buttons {
+    order: 2;
+  }
+  .search-box {
+    order: 3;
+  }
+}
+
+@media only screen and (min-width: $xs) {
+  .logo {
+    order: 1;
+  }
+  .buttons {
+    order: 2;
+  }
+  .search-box {
+    order: 3;
+  }
+}
+
+@media only screen and (min-width: $sm) {
+  .logo {
+    order: 1;
+  }
+  .search-box {
+    order: 2;
+  }
+  .buttons {
+    order: 3;
+  }
+}
+
+// @media only screen and (min-width: $md) {
+// }
+// @media only screen and (min-width: $lg) {
+// }

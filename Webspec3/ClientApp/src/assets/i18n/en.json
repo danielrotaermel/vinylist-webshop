@@ -21,6 +21,8 @@
     "REGISTER_SWITCH": "Already have an account? Login",
     "LOGIN_SWITCH": "Don't have an account? Register",
     "LOGIN": "Login",
+    "LOGOUT": "Logout",
+    "EDIT": "edit",
     "REGISTER": "Register",
     "PASSWORD": "Password",
     "EMAIL": "E-Mail",
@@ -40,15 +42,25 @@
   "PRODUCT": {
     "TO_CART": "Add to cart",
     "WISHLIST_TOOLTIP": "Add to wishlist",
+    "CART": "Cart",
+    "WISHLIST": "Wishlist",
     "BY": "by",
     "DESCRIPTION": "Description",
     "RELEASE_DATE": "Release Date",
     "ARTIST": "Artist",
     "LABEL": "Label",
+    "TITLE": "Title",
     "PRICE": "Price",
     "SORT_BY": "Sort by",
     "ASC": "Ascending",
     "DESC": "Descending",
-    "SELECT_ALL": "Select all"
+    "SELECT_ALL": "Select all",
+    "BACK": "Back to overview",
+    "TABLE_VIEW": "Table View",
+    "NORMAL_VIEW": "NormalView",
+    "ITEMS_PER_PAGE": "Products per page",
+    "NEXT_PAGE": "Next page",
+    "PREV_PAGE": "Previous page",
+    "OF": "of"
   }
 }

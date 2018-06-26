@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
 import { Product } from '../product';
@@ -16,16 +16,35 @@ import { CartService } from './../../cart/cart.service';
 })
 export class ProductDetailComponent implements OnInit {
   product: Product;
+  descriptionAvailable: boolean;
 
   constructor(
     private productService: ProductService,
     private route: ActivatedRoute,
     private translateService: TranslateService,
-    private cartService: CartService
+    private cartService: CartService,
+    private router: Router
   ) {}
 
   ngOnInit() {
     this.product = this.route.snapshot.data['product'];
+    this.descriptionAvailable = this.checkIfAvailable('this.getTranslation().getDescription()');
+  }
+
+  navigateBack(product: Product) {
+    this.router.navigate(['/']);
+  }
+
+  /**
+   * Check if given string is empty or null
+   * Needed for our description field to keep it empty if no product description is available
+   * @param text the string to be checked
+   */
+  private checkIfAvailable(text: string): boolean {
+    if (text && text.length > 0) {
+      return true;
+    }
+    return false;
   }
 
   isGerman(): boolean {
@@ -60,13 +79,5 @@ export class ProductDetailComponent implements OnInit {
 
   getProduct(id: string): void {
     this.productService.getProduct(id).subscribe(prod => (this.product = prod));
-  }
-
-  addToWishlist() {
-    this.cartService.addToWishlist(this.product.id);
-  }
-
-  addToCart() {
-    this.cartService.addItem(this.product);
   }
 }

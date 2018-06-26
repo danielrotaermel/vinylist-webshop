@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using webspec3.Controllers.Api.v1.Requests;
 using webspec3.Controllers.Api.v1.Responses;
 using webspec3.Core.HelperClasses;
@@ -21,7 +21,7 @@ namespace webspec3.Controllers.Api.v1
 {
     /// <summary>
     /// Controller providing api access to products
-    /// 
+    ///
     /// M. Narr, J. Mauthe
     /// </summary>
     [Route("api/v1/products")]
@@ -38,7 +38,7 @@ namespace webspec3.Controllers.Api.v1
         private readonly ILogger logger;
 
         public ApiV1ProductController(ICategoryService categoryService, IImageService imageService, IProductService productService, IWishlistService wishlistService, II18nService i18nService,
-             ILogger<ApiV1ProductController> logger)
+            ILogger<ApiV1ProductController> logger)
         {
             this.categoryService = categoryService;
             this.imageService = imageService;
@@ -83,7 +83,7 @@ namespace webspec3.Controllers.Api.v1
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 400)]
         [ProducesResponseType(403)]
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
-        public async Task<IActionResult> GetPaged([FromQuery]ApiV1ProductPagingSortingFilteringRequestModel model)
+        public async Task<IActionResult> GetPaged([FromQuery] ApiV1ProductPagingSortingFilteringRequestModel model)
         {
             logger.LogDebug($"Attempting to get paged products: Page: {model.Page}, items per page: {model.ItemsPerPage}.");
 
@@ -253,8 +253,7 @@ namespace webspec3.Controllers.Api.v1
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 400)]
         [ProducesResponseType(403)]
         [ProducesResponseType(typeof(ApiV1ErrorResponseModel), 500)]
-        public async Task<IActionResult> Update([FromRoute] Guid productId,
-            [FromBody] ApiV1ProductUpdateRequestModel model)
+        public async Task<IActionResult> Update([FromRoute] Guid productId, [FromBody] ApiV1ProductUpdateRequestModel model)
         {
             // Check if model is valid
             if (model != null && ModelState.IsValid && productId == model.Id)
@@ -278,9 +277,9 @@ namespace webspec3.Controllers.Api.v1
                 var oldImageId = product.ImageId;
 
                 // If the image got updated
-                if (product.Image.Base64String != model.Image.Base64String
-                    || product.Image.Description != model.Image.Description
-                    || product.Image.ImageType != model.Image.ImageType)
+                if (product.Image.Base64String != model.Image.Base64String ||
+                    product.Image.Description != model.Image.Description ||
+                    product.Image.ImageType != model.Image.ImageType)
                 {
                     var newImage = new ImageEntity
                     {
@@ -391,14 +390,14 @@ namespace webspec3.Controllers.Api.v1
         /// Imports all products from the supplied zip file creatd by the data-crawler
         /// This route is considered EXPERIMENTAL and supports only de_DE and en_US language codes and EUR and USD as currencies.
         /// All other data will be omitted.
-        /// 
+        ///
         /// For later usage, import of existing data will be handled otherwise.
-        /// 
+        ///
         /// Please note that ALL EXISTING DATA of the following categories will be REMOVED during importing the new data:
-        /// 
+        ///
         /// - Products, including images, translations and prices
         /// - Categories
-        /// 
+        ///
         /// </summary>
         /// <param name="file"></param>
         /// <response code="200">Products successfully imported</response>
@@ -408,7 +407,7 @@ namespace webspec3.Controllers.Api.v1
         [HttpPost("import")]
         [AdminRightsRequired]
         [DisableRequestSizeLimit]
-        public async Task<IActionResult> Import([FromForm]IFormFile file)
+        public async Task<IActionResult> Import([FromForm] IFormFile file)
         {
             if (file == null || file.Length == 0 || (file.ContentType != "application/zip" && file.ContentType != "application/x-zip-compressed"))
             {
@@ -416,15 +415,15 @@ namespace webspec3.Controllers.Api.v1
                 return BadRequest(new ApiV1ErrorResponseModel("No file is supplied, the supplied file is empty or the supplied file is not a zip file."));
             }
 
-            var productsDe = new List<(ProductEntity productEntity, ImageEntity image, ProductTranslationEntity translation, ProductPriceEntity price, string category)>();
-            var prodcutsEn = new List<(ProductEntity productEntity, ImageEntity image, ProductTranslationEntity translation, ProductPriceEntity price, string category)>();
+            var productsDe = new List<(ProductEntity productEntity, ImageEntity image, List<ProductTranslationEntity> translations, List<ProductPriceEntity> prices, string category)>();
+            var prodcutsEn = new List<(ProductEntity productEntity, ImageEntity image, List<ProductTranslationEntity> translations, List<ProductPriceEntity> prices, string category)>();
 
             var jsonSerializer = new JsonSerializer();
 
             using (var stream = file.OpenReadStream())
             using (var zip = new ZipArchive(stream))
             {
-                // Process german entries
+                // Process german entries and fake english entries
                 foreach (var entry in zip.Entries.Where(x => x.FullName.StartsWith("crawled-data/de/")))
                 {
                     if (!string.IsNullOrEmpty(entry.Name))
@@ -459,7 +458,6 @@ namespace webspec3.Controllers.Api.v1
                                     ReleaseDate = releaseDate
                                 };
 
-
                                 // Euro price
                                 var priceEuros = json["price"].Value<decimal>();
 
@@ -469,17 +467,32 @@ namespace webspec3.Controllers.Api.v1
                                     Price = priceEuros
                                 };
 
+                                var priceUsdEntity = new ProductPriceEntity
+                                {
+                                    CurrencyId = "USD",
+                                    Price = priceEuros * 0.856850m
+                                };
+
                                 // German translation
                                 var descriptionShort = json["short_description"].Value<string>();
                                 var description = json.ContainsKey("article_description") ? json["article_description"].Value<string>() : string.Empty;
                                 var title = json["title"].Value<string>();
 
-                                var translationEntity = new ProductTranslationEntity
+                                var translationDeEntity = new ProductTranslationEntity
                                 {
                                     DescriptionShort = descriptionShort,
                                     Description = description,
                                     Title = title,
                                     LanguageId = isGermanEntry ? "de_DE" : "en_US"
+                                };
+
+                                // Fake english translation
+                                var translationEnEntity = new ProductTranslationEntity
+                                {
+                                    DescriptionShort = descriptionShort + " English",
+                                    Description = description + " English",
+                                    Title = title + " English",
+                                    LanguageId = "en_US"
                                 };
 
                                 // Try to get image
@@ -511,13 +524,25 @@ namespace webspec3.Controllers.Api.v1
                                     Base64String = Convert.ToBase64String(imageBytes)
                                 };
 
+                                var translationEntities = new List<ProductTranslationEntity>
+                                {
+                                    translationDeEntity,
+                                    translationEnEntity
+                                };
+
+                                var priceEntities = new List<ProductPriceEntity>
+                                {
+                                    priceEurosEntity,
+                                    priceUsdEntity
+                                };
+
                                 if (isGermanEntry)
                                 {
-                                    productsDe.Add((productEntity, imageEntity, translationEntity, priceEurosEntity, genre));
+                                    productsDe.Add((productEntity, imageEntity, translationEntities, priceEntities, genre));
                                 }
                                 else
                                 {
-                                    prodcutsEn.Add((productEntity, imageEntity, translationEntity, priceEurosEntity, genre));
+                                    prodcutsEn.Add((productEntity, imageEntity, translationEntities, priceEntities, genre));
                                 }
                             }
                         }
@@ -535,7 +560,7 @@ namespace webspec3.Controllers.Api.v1
                 var addedCategories = new List<CategoryEntity>();
 
                 // Add all new products
-                foreach (var (productEntity, image, translation, price, genre) in productsDe)
+                foreach (var (productEntity, image, translations, prices, genre) in productsDe)
                 {
                     // Check if category was added, else add id
                     var categoryEntity = addedCategories.FirstOrDefault(x => x.Title == genre);
@@ -552,7 +577,6 @@ namespace webspec3.Controllers.Api.v1
                         addedCategories.Add(categoryEntity);
                     }
 
-
                     // Set category id
                     productEntity.CategoryId = categoryEntity.Id;
 
@@ -560,10 +584,9 @@ namespace webspec3.Controllers.Api.v1
 
                     productEntity.ImageId = image.Id;
 
-                    await productService.AddAsync(productEntity, new List<ProductPriceEntity>() { price }, new List<ProductTranslationEntity>() { translation });
+                    await productService.AddAsync(productEntity, prices, translations);
                 }
             }
-
 
             return Ok();
         }

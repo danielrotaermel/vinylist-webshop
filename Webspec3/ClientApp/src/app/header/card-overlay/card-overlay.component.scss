@@ -21,6 +21,7 @@ $overlay-button-offset: 5px;
 .overlay {
   margin-right: calc(-8px - #{$overlay-button-offset});
   margin-top: calc(-9px - #{$overlay-button-offset});
+  margin-left: 3em;
 }
 
 .close-overlay-button {
