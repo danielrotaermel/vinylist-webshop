@@ -1,3 +1,4 @@
+import { WishlistService } from './../../wishlist/wishlist.service';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -51,7 +52,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private translateService: TranslateService,
     private router: Router,
-    public cartService: CartService
+    public cartService: CartService,
+    public wishlistService: WishlistService
   ) {}
 
   ngOnInit() {

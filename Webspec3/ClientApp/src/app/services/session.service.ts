@@ -1,11 +1,12 @@
+/**
+ * @author Daniel Rotärmel
+ */
+
 import { Injectable } from '@angular/core';
 
 import { User } from './../models/user.model';
 import { UserService } from './user.service';
 
-/**
- * @author Daniel Rotärmel
- */
 
 @Injectable({
   providedIn: 'root'

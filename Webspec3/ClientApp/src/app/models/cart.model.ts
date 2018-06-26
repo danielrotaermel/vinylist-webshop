@@ -7,24 +7,12 @@ import { IDeserializable } from './deserializable.model';
 export class Cart implements IDeserializable {
   public items: Product[] = [];
   public grossTotal: number = 0;
-  public currencyId: string;
 
   init() {
     this.items = [];
     this.grossTotal = 0;
     this.calculateGross();
   }
-
-  // fromJson(jsonCart) {
-  //   this.items = jsonCart.items;
-  //   this.grossTotal = jsonCart.grossTotal;
-  //   return this;
-  // }
-
-  // public updateFrom(src: Cart) {
-  //   this.items = src.items;
-  //   this.grossTotal = src.grossTotal;
-  // }
 
   public mergeProducts(products: Product[]) {
     this.items = Array.from(new Set(this.items.concat(products)));

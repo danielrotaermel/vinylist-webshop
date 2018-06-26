@@ -5,6 +5,7 @@ import { Product } from '../product';
 import { ProductPrice } from '../product-price';
 import { ProductTranslation } from '../product-translation';
 import { CartService } from './../../cart/cart.service';
+import { WishlistService } from './../../wishlist/wishlist.service';
 
 /** @author Janina Wachendorfer */
 @Component({
@@ -15,7 +16,11 @@ import { CartService } from './../../cart/cart.service';
 export class ProductListItemComponent implements OnInit {
   @Input() product: Product;
 
-  constructor(public cartService: CartService, private translateService: TranslateService) {}
+  constructor(
+    public wishlistService: WishlistService,
+    public cartService: CartService,
+    private translateService: TranslateService
+  ) {}
 
   ngOnInit() {}
 

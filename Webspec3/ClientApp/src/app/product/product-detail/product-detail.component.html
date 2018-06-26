@@ -38,7 +38,7 @@
             <div class="col-lg-3 align-end">
               <button mat-icon-button (click)="this.cartService.addItem(product)" matTooltip="{{ 'PRODUCT.WISHLIST_TOOLTIP' | translate}}
                 " matTooltipPosition="before ">
-                <mat-icon mat-icon-button aria-label="likes ">favorite</mat-icon>
+                <mat-icon mat-icon-button aria-label="likes" (click)="this.wishlistService.addItem(product)">favorite</mat-icon>
               </button>
             </div>
             <div class="col-lg-9 align-end ">

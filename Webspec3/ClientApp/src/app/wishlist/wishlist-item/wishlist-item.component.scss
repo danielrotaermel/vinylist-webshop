@@ -1,0 +1,26 @@
+// @author Daniel Rotärmel
+
+@import '../../../sass/styles';
+
+@media only screen and (min-width: $xs) {
+}
+@media only screen and (min-width: $sm) {
+}
+@media only screen and (min-width: $md) {
+}
+@media only screen and (min-width: $lg) {
+  .wishlist-item {
+    max-height: 20vh !important;
+    max-width: 30vw !important;
+  }
+}
+
+// fix material input width for cart
+mat-form-field {
+  width: 100px !important;
+}
+
+img {
+  max-width: 100%;
+  max-height: 100%;
+}

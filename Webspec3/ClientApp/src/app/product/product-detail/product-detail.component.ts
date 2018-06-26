@@ -1,3 +1,4 @@
+import { WishlistService } from './../../wishlist/wishlist.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -22,7 +23,8 @@ export class ProductDetailComponent implements OnInit {
     private productService: ProductService,
     private route: ActivatedRoute,
     private translateService: TranslateService,
-    private cartService: CartService,
+    public cartService: CartService,
+    public wishlistService: WishlistService,
     private router: Router
   ) {}
 

@@ -9,6 +9,7 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
 import { CartModule } from '../cart/cart.module';
 import { MaterialModule } from '../core/material.module';
 import { UserModule } from '../user/user.module';
+import { WishlistModule } from './../wishlist/wishlist.module';
 import { CardOverlayComponent } from './card-overlay/card-overlay.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
@@ -23,7 +24,8 @@ import { NavigationBarComponent } from './navigation-bar/navigation-bar.componen
     RouterModule,
     SatPopoverModule,
     UserModule,
-    CartModule
+    CartModule,
+    WishlistModule
   ],
   declarations: [CategoriesComponent, NavigationBarComponent, CardOverlayComponent],
   exports: [NavigationBarComponent],

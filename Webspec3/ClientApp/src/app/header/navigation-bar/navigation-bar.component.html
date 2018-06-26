@@ -1,3 +1,5 @@
+<!-- @author Daniel Rotärmel, Janina Wachenhofer -->
+
 <div class="navbar row between-xs">
 
   <div class="logo col-xs-6 col-sm-3 col-lg-2 start-lg start-sm start-xs">
@@ -43,7 +45,7 @@
 
   <div class="buttons col-xs-6 col-sm-4 col-lg-2 end-xs end-lg">
     <app-card-overlay #profile anchorButton="account_circle" cornerButton="account_circle">
-      <h2>Profile</h2>
+      <h2>{{'USER.HEADLINE' | translate}}</h2>
       <sub-title>
         <a *ngIf="this.session.isLoggedIn()" routerLink="/profile" (click)="profile.popover.close()">{{'USER.EDIT' | translate}}</a>
       </sub-title>
@@ -63,20 +65,18 @@
     </app-card-overlay>
 
 
-    <app-card-overlay #favorites anchorButton="favorite" cornerButton="favorite">
-      <h2>Favorites</h2>
+    <app-card-overlay #wishlist anchorButton="favorite" cornerButton="favorite">
+      <h2>{{'WISHLIST.HEADLINE' | translate}}</h2>
       <content>
-        <p>Favorites</p>
-        <button mat-button (click)="favorites.popover.close()">close</button>
+        <app-wishlist-list [card]="wishlist"></app-wishlist-list>
       </content>
     </app-card-overlay>
 
 
     <app-card-overlay #cart [badgeCount]="this.cartService.getItemsTotal()" anchorButton="shopping_cart" cornerButton="shopping_cart">
-      <h2>Cart</h2>
+      <h2>{{'CART.HEADLINE' | translate}}</h2>
       <content>
         <app-cart-list [card]="cart"></app-cart-list>
-        <!-- <button mat-button (click)="cart.popover.close()">close</button> -->
       </content>
     </app-card-overlay>
 

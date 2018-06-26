@@ -3,7 +3,7 @@
 @import '../../../sass/styles';
 
 @media only screen and (min-width: $xs) {
-  .productList {
+  .wishlist {
     max-height: 50vh !important;
     max-width: 70vh !important;
     // padding-right: 15px;
@@ -30,6 +30,6 @@
   }
 }
 
-.productList {
+.wishlist {
   padding-right: 15px;
 }

@@ -1,0 +1,31 @@
+<!-- @author Daniel Rotärmel -->
+
+<div class="wishlist-item row">
+  <div class="col-xs-4">
+    <a [routerLink]="['/product', product.id]">
+      <img class="xs-start" src="{{product.image.getImageDataString()}}" class="image">
+    </a>
+  </div>
+  <div class="col-xs-4">
+    <div class="start-xs title">{{getTranslation().getTitle()}}</div>
+    <div class="start-xs artist">{{product.artist}}</div>
+    <div class="price">{{getPrice().getFormattedPrice()}}</div>
+  </div>
+  <div class="col-xs-4">
+    <div class="row">
+      <div class="col-xs-12 end-xs">
+        <button mat-icon-button matTooltip="{{'PRODUCT.WISHLIST_TOOLTIP' | translate}}" (click)="this.cartService.addItem(product)"
+          matTooltipPosition="before">
+          <mat-icon mat-icon-button aria-label="likes">shopping_cart</mat-icon>
+        </button>
+        <button mat-icon-button matTooltip="remove from cart" matTooltipPosition="before" (click)="this.wishlistService.removeItem(product)">
+          <mat-icon aria-label="shopping_cart">close</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 end-xs">
+      </div>
+    </div>
+  </div>
+</div>
