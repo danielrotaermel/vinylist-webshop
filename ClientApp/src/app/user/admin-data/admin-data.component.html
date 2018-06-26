@@ -3,7 +3,7 @@
 <div>
     <mat-table [dataSource]="dataSource">
       <ng-container matColumnDef="firstName">
-        <mat-header-cell *matHeaderCellDef> First Name </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef> {{'USER.FIRST_NAME' | translate}} </mat-header-cell>
         <mat-cell *matCellDef="let user">
           <mat-form-field floatLabel="never">
             <input matInput placeholder="First Name" [value]="user.firstName" [(ngModel)]="user.firstName">
@@ -11,7 +11,7 @@
         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="lastName">
-        <mat-header-cell *matHeaderCellDef> Last Name </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef> {{'USER.LAST_NAME' | translate}} </mat-header-cell>
         <mat-cell *matCellDef="let user">
           <mat-form-field floatLabel="never">
             <input matInput placeholder="Last Name" [value]="user.lastName" [(ngModel)]="user.lastName">
@@ -19,7 +19,7 @@
         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="email">
-        <mat-header-cell *matHeaderCellDef> E-Mail </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef> {{'USER.EMAIL' | translate}} </mat-header-cell>
         <mat-cell *matCellDef="let user">
           <mat-form-field floatLabel="never">
             <input matInput placeholder="E-Mail" [value]="user.email" [(ngModel)]="user.email">
@@ -27,10 +27,18 @@
         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="save">
-        <mat-header-cell *matHeaderCellDef></mat-header-cell>
-        <mat-cell *matCellDef="let user" class="end-sm start-xs">
+        <mat-header-cell style="width:40px; flex:inherit" *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let user" class="end-sm start-xs flex-inherit">
           <button class="hidden-xs hidden-sm hidden-md" (click)="perform_save(user.id, user.firstName, user.lastName, user.email)" mat-icon-button>
             <i class="material-icons white">save</i>
+          </button>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="delete">
+        <mat-header-cell style="width:40px; flex:inherit" *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let user" class="end-sm start-xs flex-inherit">
+          <button class="hidden-xs hidden-sm hidden-md" (click)="perform_delete(user.id)" mat-icon-button>
+            <i class="material-icons white">delete</i>
           </button>
         </mat-cell>
       </ng-container>
