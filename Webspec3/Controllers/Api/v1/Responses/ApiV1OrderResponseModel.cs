@@ -11,13 +11,40 @@ namespace webspec3.Controllers.Api.v1.Responses
 	public class ApiV1OrderResponseModel
 	{
 		/// <summary>
-		/// Product id
+		/// Order id
 		/// </summary>
 		public Guid Id { get; set; }
 
 		/// <summary>
+		/// User id
+		/// </summary>
+		public Guid UserId { get; set; }
+
+		public string CurrencyId { get; set; }
+
+		public decimal TotalPrice { get; set; }
+
+		/// <summary>
 		/// A Map representing the product as a key and the amount as Value
 		/// </summary>
-		public Dictionary<ProductEntity, int> OrderProducts = new Dictionary<ProductEntity, int>();
+		public List<ApiV1OrderProductResponseModel> OrderProducts { get; set; } =
+			new List<ApiV1OrderProductResponseModel>();
+
+
+		/// <summary>
+		/// M. Narr
+		/// </summary>
+		public sealed class ApiV1OrderProductResponseModel
+		{
+			/// <summary>
+			/// Product
+			/// </summary>
+			public ApiV1ProductReponseModel product { get; set; }
+
+			/// <summary>
+			/// Amount
+			/// </summary>
+			public int Amount { get; set; }
+		}
 	}
 }

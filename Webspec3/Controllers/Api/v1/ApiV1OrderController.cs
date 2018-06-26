@@ -103,7 +103,7 @@ namespace webspec3.Controllers.Api.v1
                 await orderService.AddAllOrderProductsAsync(orderProductList);
 
                 logger.LogInformation($"Successfully added new orderProductEntity.");
-                return Ok(orderEntity);
+                return Ok(orderEntity.ToApiV1OrderResponseModel());
             }
             else
             {
