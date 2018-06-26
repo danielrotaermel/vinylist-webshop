@@ -60,9 +60,11 @@ export class Product implements IDeserializable {
     Object.assign(this, input);
     this.languages = [];
 
-    input.languages.forEach(element => {
-      this.languages.push(new ProductTranslation().deserialize(element));
-    });
+    if (input.languages) {
+      input.languages.forEach(element => {
+        this.languages.push(new ProductTranslation().deserialize(element));
+      });
+    }
 
     this.image = new ProductImage().deserialize(input.image);
     this.prices = [];

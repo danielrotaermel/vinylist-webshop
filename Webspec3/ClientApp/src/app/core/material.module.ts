@@ -1,6 +1,3 @@
-/**
- * @author J. Wachendorfer
- */
 import { NgModule } from '@angular/core';
 import {
   MatBadgeModule,
@@ -9,10 +6,12 @@ import {
   MatCardModule,
   MatCheckboxModule,
   MatChipsModule,
+  MatDialogModule,
   MatDividerModule,
   MatExpansionModule,
   MatIconModule,
   MatInputModule,
+  MatListModule,
   MatPaginatorModule,
   MatRadioModule,
   MatSelectModule,
@@ -29,6 +28,7 @@ import {
 // please put all your necessary modules from angular material in here!
 @NgModule({
   imports: [
+    MatDialogModule,
     MatInputModule,
     MatSelectModule,
     MatToolbarModule,
@@ -45,9 +45,11 @@ import {
     MatButtonToggleModule,
     MatTableModule,
     MatSnackBarModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatListModule
   ],
   exports: [
+    MatDialogModule,
     MatInputModule,
     MatSelectModule,
     MatToolbarModule,
@@ -64,7 +66,8 @@ import {
     MatButtonToggleModule,
     MatTableModule,
     MatSnackBarModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatListModule
   ],
   declarations: []
 })

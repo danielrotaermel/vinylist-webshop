@@ -18,6 +18,7 @@
     "IMPRINT": "Imprint"
   },
   "USER": {
+    "HEADLINE": "Profile",
     "REGISTER_SWITCH": "Already have an account? Login",
     "LOGIN_SWITCH": "Don't have an account? Register",
     "LOGIN": "Login",
@@ -62,5 +63,19 @@
     "NEXT_PAGE": "Next page",
     "PREV_PAGE": "Previous page",
     "OF": "of"
+  },
+  "WISHLIST": {
+    "HEADLINE": "Wishlist"
+  },
+  "CART": {
+    "HEADLINE": "Cart",
+    "CHECKOUT": "Checkout",
+    "CALL_TO_ACTION": "shop now!",
+    "EMPTY": "empty"
+  },
+  "ORDER": {
+    "TOTAL": "Total",
+    "OVERVIEW": "Order Overview",
+    "PODUCTS": "Products"
   }
 }

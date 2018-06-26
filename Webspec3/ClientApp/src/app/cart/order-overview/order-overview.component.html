@@ -1,0 +1,21 @@
+<!--  @author Daniel Rotärmel -->
+
+<div class="row order-overview">
+  <div class="col-xs-12">
+    <mat-list>
+      <h1 mat-header>{{'ORDER.OVERVIEW' | translate}}</h1>
+      <h3 mat-subheader>{{'ORDER.PODUCTS' | translate}}</h3>
+      <mat-list-item *ngFor="let orderItem of data.orderProductEntities;">
+        <h4 mat-line>{{orderItem.product.getTranslationByKey(this.getTranslationKey()).getTitle()}}</h4>
+        <p mat-line>{{orderItem.product.artist}}</p>
+        <span class="end-xs">{{orderItem.amount + ' x'}}</span>
+        <span class="end-xs">{{orderItem.product.getPriceByKey(data.currencyId).price}} {{data.currencyId === 'EUR' ? '€': '$'}}</span>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <h3 mat-subheader>{{'ORDER.TOTAL' | translate}}</h3>
+      <mat-list-item>
+        {{data.totalPrice}} {{data.currencyId === 'EUR' ? '€': '$'}}
+      </mat-list-item>
+    </mat-list>
+  </div>
+</div>

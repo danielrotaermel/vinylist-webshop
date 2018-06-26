@@ -1,22 +1,23 @@
 /**
- *  @author Daniel Rotärmel
+ * @author Daniel Rotärmel
  */
+
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { Product } from '../../product/product';
+import { CartService } from './../../cart/cart.service';
 import { ProductPrice } from './../../product/product-price';
 import { ProductTranslation } from './../../product/product-translation';
-import { WishlistService } from './../../wishlist/wishlist.service';
-import { CartService } from './../cart.service';
+import { WishlistService } from './../wishlist.service';
 
 
 @Component({
-  selector: 'app-cart-list-item',
-  templateUrl: './cart-list-item.component.html',
-  styleUrls: ['./cart-list-item.component.scss']
+  selector: 'app-wishlist-item',
+  templateUrl: './wishlist-item.component.html',
+  styleUrls: ['./wishlist-item.component.scss']
 })
-export class CartListItemComponent implements OnInit {
+export class WishlistItemComponent implements OnInit {
   @Input() product: Product;
   @ViewChild('itemCount') itemCount;
 
@@ -27,10 +28,6 @@ export class CartListItemComponent implements OnInit {
   ) {}
 
   ngOnInit() {}
-
-  updateLocalStorage() {
-    this.cartService.saveToLocalStorage();
-  }
 
   getTranslationKey(): string {
     if (this.translateService.currentLang.toString() === 'de') {

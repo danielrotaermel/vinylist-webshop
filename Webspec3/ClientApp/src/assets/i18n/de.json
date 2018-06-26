@@ -42,6 +42,7 @@
     "OF": "von"
   },
   "USER": {
+    "HEADLINE": "Profil",
     "REGISTER_SWITCH": "Bereits einen Account? Einloggen",
     "LOGIN_SWITCH": "Noch keinen Account? Registrieren",
     "LOGIN": "Anmelden",
@@ -62,5 +63,19 @@
       "ERR_SAVE": "Fehler beim Speichern der Nutzerdaten",
       "ERR_DELETE": "Fehler beim Löschen des Accounts"
     }
+  },
+  "WISHLIST": {
+    "HEADLINE": "Wunschliste"
+  },
+  "CART": {
+    "HEADLINE": "Warenkorb",
+    "CHECKOUT": "Jetzt Kaufen",
+    "CALL_TO_ACTION": "Jetzt erkunden",
+    "EMPTY": "leer"
+  },
+  "ORDER": {
+    "TOTAL": "Gesamt",
+    "OVERVIEW": "Bestellübersicht",
+    "PODUCTS": "Artikel"
   }
 }

@@ -1,10 +1,13 @@
+<!-- @author Daniel Rotärmel -->
+
 <div *ngIf="this.cartService.getItemsTotal() > 0; else emptyCardPlaceholder">
   <div class="productList">
     <app-cart-list-item *ngFor="let product of this.cartService.getItems();" [product]="product"></app-cart-list-item>
   </div>
-  <button mat-raised-button color="primary" (click)="card.popover.close(); this.cartService.orderCart()">checkout</button>
+  <button mat-raised-button color="primary" (click)="card.popover.close(); doOrder()">{{'CART.CHECKOUT' | translate}}</button>
 </div>
 
 <ng-template #emptyCardPlaceholder>
-  <button mat-raised-button color="primary" (click)="card.popover.close()">empty cart shop now!</button>
+  <div>{{'CART.EMPTY' | translate}}</div>
+  <button mat-raised-button color="primary" (click)="card.popover.close()">{{'CART.CALL_TO_ACTION' | translate}}</button>
 </ng-template>

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SplashscreenComponent } from './splashscreen.component';
+import { WishlistListComponent } from './wishlist-list.component';
 
-describe('SplashscreenComponent', () => {
-  let component: SplashscreenComponent;
-  let fixture: ComponentFixture<SplashscreenComponent>;
+describe('WishlistListComponent', () => {
+  let component: WishlistListComponent;
+  let fixture: ComponentFixture<WishlistListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SplashscreenComponent ]
+      declarations: [ WishlistListComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SplashscreenComponent);
+    fixture = TestBed.createComponent(WishlistListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

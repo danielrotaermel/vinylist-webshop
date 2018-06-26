@@ -1,8 +1,6 @@
 <!-- @author Janina Wachendorfer, Alexander Merker -->
 <div class="product-list-container">
   <div class="row">
-    <!-- <div class="col-lg-3">
-    </div> -->
 
     <div class="col-xs-5 col-sm-4 col-lg-2 start-xs ">
       <mat-button-toggle-group #group="matButtonToggleGroup" [(value)]="selectedView">
@@ -32,6 +30,7 @@
         </mat-select>
       </mat-form-field>
     </div>
+
     <div class="col-xs-12 col-sm-3 col-lg-2 end-xs">
       <mat-button-toggle-group #group="matButtonToggleGroup" [(value)]="selectedSortDirection">
         <mat-button-toggle value="ASC" (click)='changeSortDirection("ASC")' aria-label="ascending" matTooltip="{{ 'PRODUCT.ASC' | translate}}">
@@ -43,7 +42,6 @@
       </mat-button-toggle-group>
     </div>
   </div>
-
 
   <div class="row v-line">
     <div class="col-lg-3 col-xs-12 genre-container">
@@ -104,7 +102,7 @@
               <th mat-header-cell *matHeaderCellDef> {{ 'PRODUCT.WISHLIST' | translate }} </th>
               <td mat-cell *matCellDef="let product">
                 <button mat-icon-button matTooltip="{{'PRODUCT.WISHLIST_TOOLTIP' | translate}}">
-                  <mat-icon mat-icon-button aria-label="likes">favorite</mat-icon>
+                  <mat-icon mat-icon-button aria-label="likes" (click)="this.wishListService.addItem(product)">favorite</mat-icon>
                 </button>
               </td>
             </ng-container>

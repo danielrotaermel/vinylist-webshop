@@ -1,6 +1,11 @@
+/**
+ *  @author Daniel Rotärmel
+ */
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { throwError } from 'rxjs';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { Observable, throwError } from 'rxjs';
 
 import { Product } from '../product/product';
 import { StorageService } from '../services/storage.service';
@@ -9,6 +14,8 @@ import { SessionService } from './../services/session.service';
 import { UserService } from './../services/user.service';
 
 const CART_KEY = 'cart';
+const ORDERABLE_CART_KEY = 'orderableCart';
+const ORDER_URL = '/api/v1/orders';
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +23,7 @@ const CART_KEY = 'cart';
 export class CartService {
   public cart: Cart = new Cart();
   public orderableCart = {};
-
-  // private wishlistUrl = 'api/v1/wishlist';
-  private orderUrl = '/api/v1/orders';
+  public lastOrder = {};
 
   private products: Product[];
 
@@ -26,21 +31,19 @@ export class CartService {
     private http: HttpClient,
     private userService: UserService,
     private sessionService: SessionService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private translateService: TranslateService,
+    private router: Router
   ) {}
 
   public saveToLocalStorage() {
     this.storageService.setItem(CART_KEY, this.cart);
-    this.storageService.setItem('orderableCart', this.orderableCart);
+    this.storageService.setItem(ORDERABLE_CART_KEY, this.orderableCart);
   }
   public getFromLocalStorage() {
     this.cart = new Cart().deserialize(this.storageService.getItem(CART_KEY));
-    this.orderableCart = this.storageService.getItem('orderableCart');
+    this.orderableCart = this.storageService.getItem(ORDERABLE_CART_KEY);
   }
-
-  // public getProductCount(productid): number {
-  //   return this.orderableCart[productid];
-  // }
 
   /**
    * initWishlist()
@@ -53,39 +56,22 @@ export class CartService {
     }
   }
 
+  /**
+   * resetCart()
+   * resets cart and orderableCart and saves to localStorage
+   */
+  public resetCart() {
+    this.cart = new Cart();
+    this.orderableCart = {};
+    this.saveToLocalStorage();
+  }
+
   public setProductCount(product, count) {
     if (this.cart.items.includes(product)) {
       this.orderableCart[product.id] += 1;
       this.saveToLocalStorage();
     }
   }
-
-  public getProductCount(product) {
-    if (this.cart.items.includes(product)) {
-      return this.orderableCart[product.id];
-    }
-  }
-
-  // public mergeRemoteWishlist() {
-  //   // if loggedin get remote wishlist and merge with localstorage
-  //   this.getWishlist().subscribe(products => {
-  //     this.cart.mergeProducts(products);
-  //     console.log(products);
-
-  //     this.saveToLocalStorage();
-  //   });
-  // }
-
-  // public getWishlist(): Observable<Product[]> {
-  //   return this.http.get<Product[]>(this.wishlistUrl).map(res => {
-  //     const products = res.map(item => {
-  //       const p = new Product().deserialize(item);
-  //       console.log(p.image.getId());
-  //       return p;
-  //     });
-  //     return products;
-  //   });
-  // }
 
   public addItem(product: Product): void {
     if (this.orderableCart.hasOwnProperty(product.id)) {
@@ -115,52 +101,37 @@ export class CartService {
     return this.cart.items;
   }
 
-  public orderCart() {
-    const url = this.orderUrl;
-    const order = {
-      productList: this.orderableCart
-    };
-    console.log(order);
-
-    this.http
-      .post<any>(url, order)
-      .subscribe(res => console.log(res), (error: any) => this.handleError(error));
+  public getCurrencyId(): string {
+    return this.translateService.currentLang.toString() === 'de' ? 'EUR' : 'USD';
   }
 
-  // public addToWishlist(id: string) {
-  //   const url = this.wishlistUrl + '/' + id;
-  //   this.http
-  //     .post<any>(url, null)
-  //     .subscribe(res => console.log(res), (error: any) => this.handleError(error));
-  // }
+  public orderCart(): Observable<any> {
+    const url = ORDER_URL;
+    const order = {
+      productList: this.orderableCart,
+      currencyId: this.getCurrencyId()
+    };
 
-  // public removeFromWishlist(id: string) {
-  //   const url = this.wishlistUrl + '/' + id;
-  //   this.http
-  //     .delete<any>(url, null)
-  //     .subscribe(res => console.log(res), (error: any) => this.handleError(error));
-  // }
+    return this.http.post<any>(url, order).map(
+      res => {
+        console.log('response', res);
+        res.orderProductEntities = res.orderProducts.map(item => {
+          item.product = new Product().deserialize(item.product);
+          return item;
+        });
+        this.lastOrder = res;
+        this.resetCart();
+        return res;
+      },
+      (error: any) => this.handleError(error)
+    );
+  }
 
-  // public deleteWishlist() {
-  //   const url = this.wishlistUrl;
-  //   this.http
-  //     .delete<any>(url, null)
-  //     .subscribe(res => console.log(res), (error: any) => this.handleError(error));
-  // }
-
-  // addToWishlist(product: Product): Observable<any> {
-  //   console.log('posting:', product.id);
-  //   const url = this.wishlistUrl + '/' + product.id;
-  //   // return this.http.post<any>(url, null).pipe(
-  //   //   tap(res => console.log('response', res)),
-  //   //   catchError(e => this.handleError(e))
-  //   // );
-  //   let body = 'empty';
-  //   return this.http
-  //     .post(url, body) // ...using post request
-  //     // .map((res: Response) => res.json())
-  //     .catch((error: any) => this.handleError(error));
-  // }
+  public getProductCount(product) {
+    if (this.cart.items.includes(product)) {
+      return this.orderableCart[product.id];
+    }
+  }
 
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {

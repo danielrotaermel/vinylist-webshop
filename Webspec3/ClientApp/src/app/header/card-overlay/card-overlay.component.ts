@@ -1,3 +1,7 @@
+/**
+ * @author Daniel Rotärmel
+ */
+
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 
 @Component({
