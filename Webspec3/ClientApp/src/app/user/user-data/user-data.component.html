@@ -1,56 +1,59 @@
 <!-- Author: Alexander Merker -->
-
-<div>
-  <form #userProfileForm="ngForm">
-    <div class="row">
-        <div class="col-md-6">
+<div class="user-data row center-xs">
+  <div class="col-xs-10 col-md-8">
+    <form #userProfileForm="ngForm">
+      <div class="row center-xs">
+        <div class="col-xs-12 col-md-8 border">
+          <div class="add-margin">
             <div class="row">
-                <span>
-                    {{'USER.PROFILE_HEADING' | translate}}
-                </span>
+              <h1>
+                {{'USER.PROFILE_HEADING' | translate}}
+              </h1>
             </div>
             <div class="row">
-                <span class="base-icon">
-                    <i class="material-icons md-light">account_circle</i>
-                </span>
-                <mat-form-field>
-                    <input matInput type="text" name="firstName" [(ngModel)]="firstName" placeholder="{{'USER.FIRST_NAME' | translate}}" required>
-                </mat-form-field>
+              <span class="base-icon">
+                <i class="material-icons md-light">account_circle</i>
+              </span>
+              <mat-form-field>
+                <input matInput type="text" name="firstName" [(ngModel)]="firstName" placeholder="{{'USER.FIRST_NAME' | translate}}" required>
+              </mat-form-field>
             </div>
             <div class="row">
-                <span class="base-icon">
-                    <i class="material-icons md-light">perm_identity</i>
-                </span>
-                <mat-form-field>
-                    <input matInput type="text" name="lastName" [(ngModel)]="lastName" placeholder="{{'USER.LAST_NAME' | translate}}" required>
-                </mat-form-field>
+              <span class="base-icon">
+                <i class="material-icons md-light">perm_identity</i>
+              </span>
+              <mat-form-field>
+                <input matInput type="text" name="lastName" [(ngModel)]="lastName" placeholder="{{'USER.LAST_NAME' | translate}}" required>
+              </mat-form-field>
             </div>
             <div class="row">
-                <span class="base-icon">
-                    <i class="material-icons md-light">email</i>
-                </span>
-                <mat-form-field>
-                    <input matInput type="email" name="email" [(ngModel)]="email" placeholder="{{'USER.EMAIL' | translate}}" required>
-                </mat-form-field>
+              <span class="base-icon">
+                <i class="material-icons md-light">email</i>
+              </span>
+              <mat-form-field>
+                <input matInput type="email" name="email" [(ngModel)]="email" placeholder="{{'USER.EMAIL' | translate}}" required>
+              </mat-form-field>
             </div>
             <div class="row">
-                <span class="base-icon">
-                    <i class="material-icons md-light">vpn_key</i>
-                </span>
-                <mat-form-field>
-                    <input matInput type="password" name="password" [(ngModel)]="password" placeholder="{{'USER.PASSWORD' | translate}}"
-                        ng-maxlength="255" ng-minlength="4">
-                </mat-form-field>
+              <span class="base-icon">
+                <i class="material-icons md-light">vpn_key</i>
+              </span>
+              <mat-form-field>
+                <input matInput type="password" name="password" [(ngModel)]="password" placeholder="{{'USER.PASSWORD' | translate}}" ng-maxlength="255"
+                  ng-minlength="4">
+              </mat-form-field>
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <button mat-button (click)="performSave()">{{'USER.SAVE_ACC' | translate}}</button>
-                </div>
-                <div class="col-md-6">
-                    <button mat-button (click)="performDelete()">{{'USER.DELETE_ACC' | translate}}</button>
-                </div>
+            <div class="buttons row between-xs">
+              <div class="col-xs-6 start-xs">
+                <button mat-raised-button (click)="performSave()">{{'USER.SAVE_ACC' | translate}}</button>
+              </div>
+              <div class="col-xs-6 end-xs">
+                <button mat-raised-button (click)="performDelete()">{{'USER.DELETE_ACC' | translate}}</button>
+              </div>
             </div>
+          </div>
         </div>
-    </div>
-  </form>
-</div>
+      </div>
+    </form>
+  </div>
+  <div>
