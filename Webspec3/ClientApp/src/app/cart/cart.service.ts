@@ -114,8 +114,8 @@ export class CartService {
 
     return this.http.post<any>(url, order).map(
       res => {
-        console.log(res);
-        res.orderProductEntities = res.orderProductEntities.map(item => {
+        console.log('response', res);
+        res.orderProductEntities = res.orderProducts.map(item => {
           item.product = new Product().deserialize(item.product);
           return item;
         });
