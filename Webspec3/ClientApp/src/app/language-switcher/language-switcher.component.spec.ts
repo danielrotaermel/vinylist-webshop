@@ -5,6 +5,7 @@ import { TranslateService, TranslateLoader, TranslateModule } from '@ngx-transla
 import { MatSelectModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Observable } from 'rxjs/Observable';
+import { StorageService } from '../services/storage.service';
 
 const translations: any = { TESTING: 'Ich teste die Komponente' };
 
@@ -14,9 +15,14 @@ class FakeLoader implements TranslateLoader {
   }
 }
 
+class MockStorageService {
+  public setItem(key: string, value: any) {}
+}
+
 describe('LanguageSwitcherComponent', () => {
   let component: LanguageSwitcherComponent;
   let translate: TranslateService;
+
   let fixture: ComponentFixture<LanguageSwitcherComponent>;
 
   beforeEach(() => {
@@ -29,7 +35,10 @@ describe('LanguageSwitcherComponent', () => {
         MatSelectModule,
         BrowserAnimationsModule
       ],
-      providers: [LanguageSwitcherComponent]
+      providers: [
+        LanguageSwitcherComponent,
+        { provide: StorageService, useClass: MockStorageService }
+      ]
     });
     // inject both the component and the dependent service.
     component = TestBed.get(LanguageSwitcherComponent);

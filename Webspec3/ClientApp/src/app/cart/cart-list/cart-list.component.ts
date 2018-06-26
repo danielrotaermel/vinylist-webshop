@@ -1,7 +1,6 @@
 /**
  *  @author Daniel Rotärmel
  */
-
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Observable } from 'rxjs';
@@ -34,7 +33,10 @@ export class CartListComponent implements OnInit {
   doOrder(): void {
     if (this.cartService.orderableCart !== {}) {
       this.order$ = this.cartService.orderCart();
-      this.order$.subscribe(res => this.openDialog(res));
+      this.order$.subscribe(res => {
+        this.card.popover.close();
+        this.openDialog(res);
+      });
     }
   }
 

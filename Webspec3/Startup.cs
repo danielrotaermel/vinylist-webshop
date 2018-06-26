@@ -55,7 +55,7 @@ namespace webspec3
                 options.Cookie.SecurePolicy = CookieSecurePolicy.None;
 
                 options.HeaderName = "X-XSRF-TOKEN";
-                options.SuppressXFrameOptionsHeader = false;
+                options.SuppressXFrameOptionsHeader = true;
             });
 
             services.AddSwaggerGen(c =>
@@ -112,6 +112,12 @@ namespace webspec3
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
+            // Add X-Frame-Options header
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Add("X-Frame-Options", "DENY");
+                await next();
+            });
 
             // Add XSRF token to all non-api requests
             app.Use(async (context, next) =>
