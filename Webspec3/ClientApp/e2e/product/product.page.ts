@@ -23,10 +23,10 @@ export class ProductPage{
     public cartBtn = element(By.id("addCartBtn"));
 
     //Wishlist / Cart Overlays, to check if product has been added
-    public wishlistOverlay = element(By.id("wishlistOverlay"));
-    public cartOverlay = element(By.id("cartOverlay"));
+    public wishlistOverlay = element(By.id("wishlistOverlay")).element(By.tagName("button"));
+    public cartOverlay = element(By.id("cartOverlay")).element(By.tagName("button"));
 
     public openedOverlay = $(".cart-overlay.mat-card");
-    public cartList = this.openedOverlay.element(by.tagName("app-cart-list")).all(by.tagName("li"));
+    public cartList = this.openedOverlay.element(by.tagName("app-cart-list")).all(by.tagName("app-cart-list-item"));
     //wishListList
 }

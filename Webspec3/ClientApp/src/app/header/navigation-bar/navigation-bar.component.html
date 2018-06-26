@@ -65,7 +65,7 @@
     </app-card-overlay>
 
 
-    <app-card-overlay #wishlist anchorButton="favorite" cornerButton="favorite">
+    <app-card-overlay id="wishlistOverlay" #wishlist anchorButton="favorite" cornerButton="favorite">
       <h2>{{'WISHLIST.HEADLINE' | translate}}</h2>
       <content>
         <app-wishlist-list [card]="wishlist"></app-wishlist-list>
@@ -73,7 +73,7 @@
     </app-card-overlay>
 
 
-    <app-card-overlay #cart [badgeCount]="this.cartService.getItemsTotal()" anchorButton="shopping_cart" cornerButton="shopping_cart">
+    <app-card-overlay id="cartOverlay" #cart [badgeCount]="this.cartService.getItemsTotal()" anchorButton="shopping_cart" cornerButton="shopping_cart">
       <h2>{{'CART.HEADLINE' | translate}}</h2>
       <content>
         <app-cart-list [card]="cart"></app-cart-list>

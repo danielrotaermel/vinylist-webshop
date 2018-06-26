@@ -42,7 +42,7 @@
               </button>
             </div>
             <div class="col-lg-9 align-end ">
-              <button mat-stroked-button (click)="this.cartService.addItem(product)">
+              <button id="addCartBtn" mat-stroked-button (click)="this.cartService.addItem(product)">
                 <mat-icon aria-label="shopping_cart ">shopping_cart</mat-icon>
                 {{'PRODUCT.TO_CART' | translate}}
               </button>
