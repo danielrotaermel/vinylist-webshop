@@ -34,7 +34,7 @@ Tests can be found within the project/folder `webspec3Tests`. Run them with `dot
 
 ##### Unit- and Integrationtests
 
-Tests can be found within the folder `Webspec3/ClientApp`. Run them with `npm run test`. To start the execution, click on `debug` in the opened browser. An example Unittest can be found in `Webspec3/ClientApp/src/app/services/storage.service.spec.ts`, an example Integrationtest can be found in `Webspec3/ClientApp/src/app/language-switcher/language-switcher.component.spec.ts`
+Tests can be found within the folder `Webspec3/ClientApp`. Run them with `npm run test`. To start the execution, click on `debug` in the opened browser. Two example Unittest can be found in `Webspec3/ClientApp/src/app/services/storage.service.spec.ts` and `Webspec3/ClientApp/src/app/product/product-image.spec.ts`, an example Integrationtest can be found in `Webspec3/ClientApp/src/app/language-switcher/language-switcher.component.spec.ts`.
 
 ##### Use Automated UI Testing
 
