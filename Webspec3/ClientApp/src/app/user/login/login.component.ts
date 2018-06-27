@@ -1,3 +1,4 @@
+import { WishlistService } from './../../wishlist/wishlist.service';
 import { Component, DoCheck, Input } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -23,6 +24,7 @@ export class LoginComponent implements DoCheck {
   loggedIn = false;
 
   constructor(
+    private wishlistService: WishlistService,
     private snackBar: MatSnackBar,
     private authService: AuthService,
     private session: SessionService,
@@ -52,6 +54,7 @@ export class LoginComponent implements DoCheck {
         this.popover.close();
         this.router.navigate(['/']);
         this.openSnackBar('Login successful', 1500);
+        this.wishlistService.getWishlist()
       },
       (error: any) => {
         this.openSnackBar('Wrong username or password', 5000);

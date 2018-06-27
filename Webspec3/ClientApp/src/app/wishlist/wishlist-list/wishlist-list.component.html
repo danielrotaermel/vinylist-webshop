@@ -2,5 +2,5 @@
 
 <div class="wishlist">
   <app-wishlist-item *ngFor="let product of this.wishlistService.wishlist | async" [product]="product"></app-wishlist-item>
-  <div *ngIf="!this.sessionService.isLoggedIn()">login first to use the whishlist</div>
+  <div *ngIf="!this.sessionService.isLoggedIn()">{{'WISHLIST.LOGIN_FIRST' | translate}}</div>
 </div>

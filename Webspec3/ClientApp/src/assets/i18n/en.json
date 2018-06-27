@@ -65,7 +65,8 @@
     "OF": "of"
   },
   "WISHLIST": {
-    "HEADLINE": "Wishlist"
+    "HEADLINE": "Wishlist",
+    "LOGIN_FIRST": "login first to use the whishlist"
   },
   "CART": {
     "HEADLINE": "Cart",

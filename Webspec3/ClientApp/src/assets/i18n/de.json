@@ -65,7 +65,8 @@
     }
   },
   "WISHLIST": {
-    "HEADLINE": "Wunschliste"
+    "HEADLINE": "Wunschliste",
+    "LOGIN_FIRST": "Bitte log dich erst ein"
   },
   "CART": {
     "HEADLINE": "Warenkorb",
