@@ -7,7 +7,7 @@ Install the following:
 - [node](https://nodejs.org/en/download/)
 - [ASP.Net Core SDK 2.1](https://www.microsoft.com/net/download)
 - [Postgres](https://www.postgresql.org)  
-  Mac: `brew cask install postgres`  
+  Mac: `brew cask install postgres`
 
 ## Database setup
 
@@ -28,9 +28,13 @@ Tests can be found within the project/folder `webspec3Tests`. Run them with `dot
 
 #### Frontend
 
-- The client app can be found in the folder *ClientApp* within the folder *webspec3*
+- The client app can be found in the folder _ClientApp_ within the folder _webspec3_
 - First run `npm install`
 - Build the app with `ng build` and `ng serve`
+
+##### Unit- and Integrationtests
+
+Tests can be found within the folder `Webspec3/ClientApp`. Run them with `npm run test`. To start the execution, click on `debug` in the opened browser. An example Unittest can be found in `Webspec3/ClientApp/src/app/services/storage.service.spec.ts`, an example Integrationtest can be found in `Webspec3/ClientApp/src/app/language-switcher/language-switcher.component.spec.ts`
 
 ##### Use Automated UI Testing
 
@@ -49,15 +53,15 @@ Tests can be found within the project/folder `webspec3Tests`. Run them with `dot
 
 ## Development
 
-Johnny: `webspec61.mi.hdm-stuttgart.de` 
+Johnny: `webspec61.mi.hdm-stuttgart.de`
 
-Alex: `webspec62.mi.hdm-stuttgart.de` 
+Alex: `webspec62.mi.hdm-stuttgart.de`
 
-Janina: `webspec63.mi.hdm-stuttgart.de` 
+Janina: `webspec63.mi.hdm-stuttgart.de`
 
-Daniel: `webspec64.mi.hdm-stuttgart.de` 
+Daniel: `webspec64.mi.hdm-stuttgart.de`
 
-Maxi: `webspec65.mi.hdm-stuttgart.de` 
+Maxi: `webspec65.mi.hdm-stuttgart.de`
 
 ## Production
 
