@@ -1,4 +1,3 @@
-import { WishlistService } from './../../wishlist/wishlist.service';
 import { Component, DoCheck, Input } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -6,6 +5,7 @@ import { Router } from '@angular/router';
 import { SessionService } from '../../services/session.service';
 import { Credentials } from './../../models/credentials.model';
 import { AuthService } from './../../services/auth.service';
+import { WishlistService } from './../../wishlist/wishlist.service';
 
 @Component({
   selector: 'app-login',
@@ -54,7 +54,7 @@ export class LoginComponent implements DoCheck {
         this.popover.close();
         this.router.navigate(['/']);
         this.openSnackBar('Login successful', 1500);
-        this.wishlistService.getWishlist()
+        this.wishlistService.updateWishlist();
       },
       (error: any) => {
         this.openSnackBar('Wrong username or password', 5000);

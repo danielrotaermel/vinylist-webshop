@@ -1,7 +1,6 @@
 /**
  * @author Daniel Rotärmel
  */
-
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -12,7 +11,6 @@ import { Product } from '../product/product';
 import { StorageService } from '../services/storage.service';
 import { SessionService } from './../services/session.service';
 import { UserService } from './../services/user.service';
-
 
 @Injectable({
   providedIn: 'root'
@@ -47,6 +45,10 @@ export class WishlistService {
         res => this.getWishlist().subscribe(res => (this.wishlist = Observable.of(res))),
         (error: any) => this.handleError(error)
       );
+  }
+
+  public updateWishlist() {
+    this.getWishlist().subscribe(res => (this.wishlist = Observable.of(res)));
   }
 
   public getWishlist(): Observable<Product[]> {
