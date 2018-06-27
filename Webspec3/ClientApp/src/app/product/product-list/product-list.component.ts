@@ -14,7 +14,7 @@ import { ProductPrice } from '../product-price';
 import { ProductTranslation } from '../product-translation';
 import { ProductService } from '../product.service';
 
-/** @author Janina Wachendorfer, Alexander Merker */
+/** @author Janina Wachendorfer */
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
@@ -78,6 +78,11 @@ export class ProductListComponent implements OnInit, OnDestroy {
       this.paginator.page.pipe(tap(() => this.changePagingSettings())).subscribe();
     }
   }
+
+  /**
+   * changes paging settings (total items shown per page and the current page)
+   * Afterwards refreshes products
+   */
   changePagingSettings() {
     this.paginatorOptions.totalItems = this.pageEvent.length;
     this.productService.setItemsPerPage(this.pageEvent.pageSize);
@@ -105,7 +110,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   /**
-   *
+   * returns product translation for given product
    * @param product
    */
   getTranslation(product: Product): ProductTranslation {
@@ -137,7 +142,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * selects products of given category - not implemented yet, but soon will be :-)
+   * selects products of given category
    * @param category category after which products should be filtered
    */
   switchCategory(category: Category) {

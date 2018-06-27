@@ -1,5 +1,6 @@
 import { ProductImage } from './product-image';
 
+/** @author Janina Wachendorfer */
 describe('ProductImage', () => {
   it('should construct base64 image url', () => {
     let image = new ProductImage();

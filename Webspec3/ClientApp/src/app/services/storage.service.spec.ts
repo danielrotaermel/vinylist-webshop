@@ -2,6 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { StorageService, LocalStorageService } from './storage.service';
 
+/** @author Janina Wachendorfer */
 describe('StorageService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({

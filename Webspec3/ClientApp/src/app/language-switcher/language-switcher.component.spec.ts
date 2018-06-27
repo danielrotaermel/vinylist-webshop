@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Observable } from 'rxjs/Observable';
 import { StorageService } from '../services/storage.service';
 
+/** @author Janina Wachendorfer */
 const translations: any = { TESTING: 'Ich teste die Komponente' };
 
 class FakeLoader implements TranslateLoader {
